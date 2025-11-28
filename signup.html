@@ -1,80 +1,113 @@
-<html><head>
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
-<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
-<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Space+Grotesk%3Awght%40400%3B500%3B700" onload="this.rel='stylesheet'" rel="stylesheet"/>
-<title>Stitch Design</title>
-<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AIWallet Sign Up</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<style type="text/tailwindcss">
-      @layer utilities {
-        .glow-button {
-          box-shadow: 0 0 5px #a7c69f, 0 0 10px #a7c69f, 0 0 15px #a7c69f;
-        }
-        .glow-input:focus {
-          outline: none;
-          box-shadow: 0 0 5px #a7c69f;
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#a7c69f",
+              "background-light": "#f7f7f6",
+              "background-dark": "#171c16",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            boxShadow: {
+              'glow': '0 0 15px 2px rgba(167, 198, 159, 0.4)',
+              'glow-lg': '0 0 25px 5px rgba(167, 198, 159, 0.5)',
+            }
+          },
         }
       }
+    </script>
+    <style>
       /* Light mode styles */
-      html:not(.dark) {
-        background-color: #ffffff !important;
-        color: #1a1a1a !important;
+      html:not(.dark) { background-color: #ffffff !important;
+        color: #1a1a1a;
       }
-      html:not(.dark) body {
-        background-color: #ffffff !important;
-        color: #1a1a1a !important;
-      }
-      html:not(.dark) * {
-        color: #1a1a1a !important;
+      html:not(.dark) body { background-color: #ffffff !important;
+        color: #1a1a1a;
       }
       html:not(.dark) header {
         background-color: #ffffff !important;
         border-color: #e0e0e0 !important;
-        color: #1a1a1a !important;
+        color: #1a1a1a;
       }
       html:not(.dark) footer {
         background-color: #f5f5f5 !important;
-        color: #1a1a1a !important;
+        color: #1a1a1a;
         border-color: #e0e0e0 !important;
       }
-      html:not(.dark) [class*="text-white"] {
+      html:not(.dark) [class*="text-white"],
+      html:not(.dark) [class*="text-primary"] {
         color: #1a1a1a !important;
       }
-      html:not(.dark) [class*="bg-[#"] {
+      html:not(.dark) [class*="text-white/"],
+      html:not(.dark) [class*="text-primary/"] {
+        color: rgba(26, 26, 26, 0.8) !important;
+      }
+      html:not(.dark) [class*="bg-[#"],
+      html:not(.dark) [class*="bg-custom"] {
         background-color: #f5f5f5 !important;
       }
       html:not(.dark) [class*="border-"] {
         border-color: #e0e0e0 !important;
       }
-      html:not(.dark) [class*="text-[#A7C69F]"],
-      html:not(.dark) [class*="text-custom-accent"] {
-        color: #5a7a4f !important;
-      }
-      html:not(.dark) div {
-        background-color: #ffffff !important;
-      }
-      html:not(.dark) button {
-        background-color: #f5f5f5 !important;
-        color: #1a1a1a !important;
-        border-color: #e0e0e0 !important;
-      }
-      html:not(.dark) input {
-        background-color: #f5f5f5 !important;
-        color: #1a1a1a !important;
-        border-color: #e0e0e0 !important;
-      }
-      html:not(.dark) h1, html:not(.dark) h2, html:not(.dark) h3 {
-        color: #1a1a1a !important;
-      }
+    
+        html:not(.dark) [class*="text-[#A7C69F]"], html:not(.dark) [class*="text-custom-accent"] { color: #5a7a4f !important; }
+        html:not(.dark) svg { color: #1a1a1a !important; }
+        html:not(.dark) * { color: #1a1a1a !important; }
+        html:not(.dark) div { background-color: #ffffff !important; }
+        html:not(.dark) button { background-color: #f5f5f5 !important; color: #1a1a1a !important; }
+        html:not(.dark) input { background-color: #f5f5f5 !important; color: #1a1a1a !important; border-color: #e0e0e0 !important; }
+        html:not(.dark) h1, html:not(.dark) h2, html:not(.dark) h3 { color: #1a1a1a !important; }
+        html:not(.dark) #profileModal > div {
+          background-color: #ffffff !important;
+          border-color: #5a7a4f !important;
+        }
+        html:not(.dark) #profileModal button {
+          color: #1a1a1a !important;
+        }
+        html:not(.dark) #profileModal button:last-child {
+          color: #ef4444 !important;
+        }
+        html:not(.dark) #profileModal button:hover {
+          background-color: #f0f0f0 !important;
+        }
+        html:not(.dark) #profileAvatar {
+          border-color: #5a7a4f !important;
+        }
+    </style>
+<style>.circuit-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(51, 51, 51, 0.95), rgba(51, 51, 51, 0.95)), url(https://lh3.googleusercontent.com/aida-public/AB6AXuCpFh7OSUzEj0XKLJfBIIV04v-GovLLGjGnzDoQbT0ps0Df9oU8HHpWzi4FU3EgN14NBNziFl4HZcvrKRIUfrB1wovmysIFaTBEbmc8R-7C8ndna4mgfw2eBXQcnnGJmYoAv3r98aJO0Nn8M4fCw14NBF3PWea5A4IR7yc2kkzNdVtZh8_iOgzDSH1Tvn6i9pRDZszXGg4L7kGCz_NRI0F8qoAkp4S5JrV2-3XpTR15xeC-kj1YhQ82SbMUKY4K9_ngc4YGUunxrFQL)
+    }
+        html:not(.dark) [class*="text-[#A7C69F]"], html:not(.dark) [class*="text-custom-accent"] { color: #5a7a4f !important; }
+        html:not(.dark) svg { color: #1a1a1a !important; }
     </style>
 <script src="../script.js" defer></script>
 </head>
-<body>
-<div class="relative flex h-auto min-h-screen w-full flex-col bg-[#0a0a0a] dark group/design-root overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif; background-image: radial-gradient(circle at top right, rgba(167, 198, 159, 0.1) 0%, transparent 30%), radial-gradient(circle at bottom left, rgba(167, 198, 159, 0.1) 0%, transparent 40%);'>
-<div class="layout-container flex h-full grow flex-col">
-<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#333333] px-10 py-4">
-<a href="main.html" class="flex items-center gap-4 text-white cursor-pointer hover:opacity-80 transition-opacity">
-<div class="size-5 text-[#A7C69F]">
+<body class="font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-[#333333] group/design-root overflow-hidden">
+<div class="circuit-bg" data-alt="abstract technological pattern"></div>
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/20 px-10 py-4 backdrop-blur-sm relative z-10">
+<a href="main.html" class="flex items-center gap-4 text-primary cursor-pointer hover:opacity-80 transition-opacity">
+<div class="size-5">
 <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
 <path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
 </svg>
@@ -83,48 +116,249 @@
 </a>
 <div class="flex flex-1 justify-end gap-8">
 <div class="flex items-center gap-9">
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="overview.html">Overview</a>
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="features.html">Features</a>
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="resources.html">Resources</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="overview.html">Overview</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="features.html">Features</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="pricing.html">Pricing</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="resources.html">Resources</a>
 </div>
 <div class="flex gap-2">
-<button id="themeToggle" class="flex min-w-[40px] w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent border border-[#A7C69F]/50 text-[#A7C69F] font-bold transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]" title="Toggle theme">
+<button id="themeToggle" class="flex min-w-[40px] w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent border border-primary/50 text-primary font-bold transition-all hover:bg-primary/10 hover:border-primary hover:shadow-[0_0_8px_primary_inset]" title="Toggle theme">
 <span id="themeIcon">🌙</span>
 </button>
-<a href="signin.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-[#A7C69F]/50 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]">
-<span class="truncate">Login</span>
+<div id="authButtons" class="flex gap-2">
+<a href="signin.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-white hover:shadow-[0_0_15px_primary]">
+<span class="truncate">Sign In</span>
 </a>
 </div>
+<div id="profileAvatar" class="hidden flex items-center justify-center w-10 h-10 rounded-lg bg-primary text-[#333333] font-bold text-lg cursor-pointer hover:shadow-[0_0_15px_primary] transition-all border border-primary" title="Profile" onclick="toggleProfileMenu()">
+<span id="avatarInitial">U</span>
+</div>
+</div>
+</div>
 </header>
-<div class="px-10 flex flex-1 justify-center items-center py-10">
-<div class="layout-content-container flex flex-col w-[480px] max-w-[480px] border border-[#333333] rounded-xl bg-[rgba(51,51,51,0.2)] backdrop-blur-sm p-8">
-<h2 class="text-white tracking-light text-3xl font-bold leading-tight text-center pb-6">Create Your Account</h2>
-<div class="flex flex-col gap-5">
-<label class="flex flex-col flex-1">
-<p class="text-[#A7C69F] text-sm font-medium leading-normal pb-2">Email Address</p>
-<input class="form-input glow-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-md text-white border border-[#333333] bg-[#333333] h-12 placeholder:text-[#a9b6a5]/50 p-4 text-base font-normal leading-normal transition-shadow" placeholder="Enter your email" value=""/>
-</label>
-<label class="flex flex-col flex-1">
-<p class="text-[#A7C69F] text-sm font-medium leading-normal pb-2">Full Name</p>
-<input class="form-input glow-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-md text-white border border-[#333333] bg-[#333333] h-12 placeholder:text-[#a9b6a5]/50 p-4 text-base font-normal leading-normal transition-shadow" placeholder="Enter your full name" value=""/>
-</label>
-<label class="flex flex-col flex-1">
-<p class="text-[#A7C69F] text-sm font-medium leading-normal pb-2">Password</p>
-<input class="form-input glow-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-md text-white border border-[#333333] bg-[#333333] h-12 placeholder:text-[#a9b6a5]/50 p-4 text-base font-normal leading-normal transition-shadow" placeholder="Create a secure password" type="password" value=""/>
+
+<!-- Profile Menu Modal -->
+<div id="profileModal" class="hidden fixed inset-0 z-50 flex items-start justify-end pt-20 pr-10">
+<div class="bg-black/90 border border-primary/30 rounded-lg shadow-lg min-w-[200px] backdrop-blur-sm">
+<div class="p-4 space-y-3">
+<div class="text-white text-sm px-4 py-2 border-b border-primary/20">
+<p class="font-semibold"><span id="profileUsername">User</span></p>
+<p class="text-xs text-gray-400"><span id="profileEmail">email@example.com</span></p>
+</div>
+<button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-white hover:bg-primary/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">logout</span> Logout</button>
+<button onclick="handleDeleteAccount()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-500/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">delete</span> Delete Account</button>
+</div>
+</div>
+</div>
+<div class="layout-container flex h-full grow flex-col justify-center items-center relative z-10 p-4">
+<a href="main.html" class="absolute left-4 top-4 text-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-4xl">
+                        arrow_back
+                    </span>
+</a>
+<div class="layout-content-container flex flex-col max-w-md w-full items-center p-8 rounded-xl bg-black/30 backdrop-blur-sm border border-primary/20">
+<a href="main.html" class="flex flex-col items-center justify-center pb-6 cursor-pointer hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-primary text-5xl">
+                        shield
+                    </span>
+<h1 class="text-white tracking-light text-[32px] font-bold leading-tight text-center pt-2 font-display">AIWallet</h1>
+</a>
+<h1 class="text-white tracking-light text-2xl font-bold leading-tight px-4 text-center pb-8 font-display">Create Account</h1>
+<form id="signupForm" class="w-full flex flex-col gap-6">
+<div class="flex w-full flex-wrap items-end">
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-white text-base font-medium leading-normal pb-2 font-display">Email Address</p>
+<input id="signupEmail" type="email" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-[#485445] bg-[#242a22] h-14 placeholder:text-[#a9b6a5] p-[15px] text-base font-normal leading-normal font-display shadow-glow focus:shadow-glow-lg transition-shadow duration-300" placeholder="Enter your email" value=""/>
 </label>
 </div>
-<div class="flex pt-6 pb-4">
-<button class="glow-button flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-md h-12 px-4 flex-1 bg-[#a7c69f] text-[#333333] text-base font-bold leading-normal tracking-[0.015em] transition-all hover:bg-white">
-<span class="truncate">Create Account</span>
+<div class="flex w-full flex-wrap items-end">
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-white text-base font-medium leading-normal pb-2 font-display">Username</p>
+<input id="signupUsername" type="text" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-[#485445] bg-[#242a22] h-14 placeholder:text-[#a9b6a5] p-[15px] text-base font-normal leading-normal font-display shadow-glow focus:shadow-glow-lg transition-shadow duration-300" placeholder="Enter your username" value=""/>
+</label>
+</div>
+<div class="flex w-full flex-wrap items-end">
+<label class="flex flex-col min-w-40 flex-1">
+<p class="text-white text-base font-medium leading-normal pb-2 font-display">Password</p>
+<div class="flex w-full flex-1 items-stretch rounded-lg shadow-glow focus-within:shadow-glow-lg focus-within:ring-2 focus-within:ring-primary transition-shadow duration-300">
+<input id="signupPassword" type="password" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-l-lg text-white focus:outline-0 focus:ring-0 border border-r-0 border-[#485445] bg-[#242a22] h-14 placeholder:text-[#a9b6a5] p-[15px] text-base font-normal leading-normal font-display" placeholder="Create a secure password" value=""/>
+<div class="text-[#a9b6a5] flex border border-l-0 border-[#485445] bg-[#242a22] items-center justify-center pr-[15px] rounded-r-lg cursor-pointer" onclick="toggleSignupPassword()">
+<span class="material-symbols-outlined" id="signupPasswordToggle">visibility_off</span>
+</div>
+</div>
+</label>
+</div>
+</form>
+<div class="w-full text-left mt-2">
+<p class="text-[#a9b6a5] text-sm font-normal leading-normal pt-1 px-0 text-xs">Password must be at least 8 characters</p>
+</div>
+<div id="signupMessage" class="w-full text-center mt-2"></div>
+<div class="flex w-full px-0 py-6 justify-center">
+<button id="signupBtn" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 flex-1 bg-primary text-[#333333] text-base font-bold leading-normal tracking-[0.015em] font-display shadow-glow-lg hover:shadow-glow transition-shadow duration-300">
+<span class="truncate">CREATE ACCOUNT</span>
 </button>
 </div>
-<p class="text-[#ffffff]/60 text-xs font-normal leading-normal text-center">By continuing, you agree to our Terms of Service and Privacy Policy.</p>
 </div>
 </div>
 </div>
-</div>
+<script>
+// Initialize on page load
+window.addEventListener('load', function() {
+  checkUserStatus();
+});
+
+// Check if user is already logged in
+function checkUserStatus() {
+  const userId = localStorage.getItem('userId');
+  const username = localStorage.getItem('username');
+  const authButtons = document.getElementById('authButtons');
+  const profileAvatar = document.getElementById('profileAvatar');
+  const avatarInitial = document.getElementById('avatarInitial');
+  
+  if (userId && username) {
+    // User is logged in
+    authButtons.classList.add('hidden');
+    profileAvatar.classList.remove('hidden');
+    avatarInitial.textContent = username.charAt(0).toUpperCase();
+  } else {
+    // User is not logged in
+    authButtons.classList.remove('hidden');
+    profileAvatar.classList.add('hidden');
+  }
+}
+
+function toggleProfileMenu() {
+  const profileModal = document.getElementById('profileModal');
+  const username = localStorage.getItem('username');
+  const email = localStorage.getItem('email');
+  
+  // Update profile info
+  document.getElementById('profileUsername').textContent = username || 'User';
+  document.getElementById('profileEmail').textContent = email || 'email@example.com';
+  
+  // Toggle modal
+  if (profileModal.classList.contains('hidden')) {
+    profileModal.classList.remove('hidden');
+  } else {
+    profileModal.classList.add('hidden');
+  }
+}
+
+function handleLogout() {
+  if (confirm('Are you sure you want to logout?')) {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
+    localStorage.removeItem('email');
+    document.getElementById('profileModal').classList.add('hidden');
+    setTimeout(function() {
+      checkUserStatus();
+      window.location.href = 'signup.html';
+    }, 100);
+  }
+}
+
+function handleDeleteAccount() {
+  if (confirm('Are you sure you want to delete your account? This action cannot be undone!')) {
+    const userId = localStorage.getItem('userId');
+    
+    // Remove user from database
+    let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
+    users = users.filter(u => u.id !== userId);
+    localStorage.setItem('aiwallet_users', JSON.stringify(users));
+    
+    // Clear session
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
+    localStorage.removeItem('email');
+    
+    alert('Account deleted successfully');
+    document.getElementById('profileModal').classList.add('hidden');
+    setTimeout(function() {
+      checkUserStatus();
+      window.location.href = 'signup.html';
+    }, 100);
+  }
+}
+
+// Close modal when clicking outside
+document.addEventListener('click', function(e) {
+  const profileModal = document.getElementById('profileModal');
+  const profileAvatar = document.getElementById('profileAvatar');
+  
+  if (!profileModal.contains(e.target) && !profileAvatar.contains(e.target)) {
+    profileModal.classList.add('hidden');
+  }
+});
+
+function toggleSignupPassword() {
+  const passwordInput = document.getElementById('signupPassword');
+  const toggleIcon = document.getElementById('signupPasswordToggle');
+  
+  if (passwordInput.type === 'password') {
+    passwordInput.type = 'text';
+    toggleIcon.textContent = 'visibility';
+  } else {
+    passwordInput.type = 'password';
+    toggleIcon.textContent = 'visibility_off';
+  }
+}
+
+document.getElementById('signupBtn').addEventListener('click', async function(e) {
+  e.preventDefault();
+  
+  const email = document.getElementById('signupEmail').value;
+  const username = document.getElementById('signupUsername').value;
+  const password = document.getElementById('signupPassword').value;
+  const messageDiv = document.getElementById('signupMessage');
+  
+  // Валидация
+  if (!email || !username || !password) {
+    messageDiv.innerHTML = '<p class="text-red-500 text-sm">All fields are required</p>';
+    return;
+  }
+  
+  if (password.length < 8) {
+    messageDiv.innerHTML = '<p class="text-red-500 text-sm">Password must be at least 8 characters</p>';
+    return;
+  }
+  
+  // Get existing users from localStorage
+  let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
+  
+  // Check if user already exists
+  if (users.find(u => u.email === email || u.username === username)) {
+    messageDiv.innerHTML = '<p class="text-red-500 text-sm">Email or username already exists</p>';
+    return;
+  }
+  
+  // Create new user
+  const newUser = {
+    id: Date.now().toString(),
+    email,
+    username,
+    password: btoa(password), // Simple encoding for demo
+    createdAt: new Date().toISOString()
+  };
+  
+  users.push(newUser);
+  localStorage.setItem('aiwallet_users', JSON.stringify(users));
+  
+  messageDiv.innerHTML = '<p class="text-green-500 text-sm">Registration successful! Redirecting...</p>';
+  localStorage.setItem('userId', newUser.id);
+  localStorage.setItem('username', username);
+  localStorage.setItem('email', email);
+  
+  setTimeout(() => {
+    checkUserStatus();
+    window.location.href = 'main.html';
+  }, 1500);
+});
+</script>
 </body></html>
+</div>
+</div>
+</div>
+
 
 
 

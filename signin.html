@@ -72,6 +72,22 @@
         html:not(.dark) button { background-color: #f5f5f5 !important; color: #1a1a1a !important; }
         html:not(.dark) input { background-color: #f5f5f5 !important; color: #1a1a1a !important; border-color: #e0e0e0 !important; }
         html:not(.dark) h1, html:not(.dark) h2, html:not(.dark) h3 { color: #1a1a1a !important; }
+        html:not(.dark) #profileModal > div {
+          background-color: #ffffff !important;
+          border-color: #5a7a4f !important;
+        }
+        html:not(.dark) #profileModal button {
+          color: #1a1a1a !important;
+        }
+        html:not(.dark) #profileModal button:last-child {
+          color: #ef4444 !important;
+        }
+        html:not(.dark) #profileModal button:hover {
+          background-color: #f0f0f0 !important;
+        }
+        html:not(.dark) #profileAvatar {
+          border-color: #5a7a4f !important;
+        }
     </style>
 <style>.circuit-bg {
     position: absolute;
@@ -109,12 +125,31 @@
 <button id="themeToggle" class="flex min-w-[40px] w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent border border-primary/50 text-primary font-bold transition-all hover:bg-primary/10 hover:border-primary hover:shadow-[0_0_8px_primary_inset]" title="Toggle theme">
 <span id="themeIcon">🌙</span>
 </button>
-<a href="signup.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-white hover:shadow-[0_0_15px_primary]">
+<div id="authButtons" class="flex gap-2">
+<a href="signup.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-white hover:shadow-[0_0_15px_primary] border border-primary">
 <span class="truncate">Get Started</span>
 </a>
 </div>
+<div id="profileAvatar" class="hidden flex items-center justify-center w-10 h-10 rounded-lg bg-primary text-[#333333] font-bold text-lg cursor-pointer hover:shadow-[0_0_15px_primary] transition-all border border-primary" title="Profile" onclick="toggleProfileMenu()">
+<span id="avatarInitial">U</span>
+</div>
+</div>
 </div>
 </header>
+
+<!-- Profile Menu Modal -->
+<div id="profileModal" class="hidden fixed inset-0 z-50 flex items-start justify-end pt-20 pr-10">
+<div class="bg-black/90 border border-primary/30 rounded-lg shadow-lg min-w-[200px] backdrop-blur-sm">
+<div class="p-4 space-y-3">
+<div class="text-white text-sm px-4 py-2 border-b border-primary/20">
+<p class="font-semibold"><span id="profileUsername">User</span></p>
+<p class="text-xs text-gray-400"><span id="profileEmail">email@example.com</span></p>
+</div>
+<button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-white hover:bg-primary/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">logout</span> Logout</button>
+<button onclick="handleDeleteAccount()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-500/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">delete</span> Delete Account</button>
+</div>
+</div>
+</div>
 <div class="layout-container flex h-full grow flex-col justify-center items-center relative z-10 p-4">
 <a href="main.html" class="absolute left-4 top-4 text-primary hover:text-white transition-colors">
 <span class="material-symbols-outlined text-4xl">
@@ -128,21 +163,21 @@
                     </span>
 <h1 class="text-white tracking-light text-[32px] font-bold leading-tight text-center pt-2 font-display">AIWallet</h1>
 </a>
-<h1 class="text-white tracking-light text-2xl font-bold leading-tight px-4 text-center pb-8 font-display">Secure Sign In</h1>
+<h1 class="text-white tracking-light text-2xl font-bold leading-tight px-4 text-center pb-8 font-display">Sign In</h1>
 <div class="w-full flex flex-col gap-6">
 <div class="flex w-full flex-wrap items-end">
 <label class="flex flex-col min-w-40 flex-1">
 <p class="text-white text-base font-medium leading-normal pb-2 font-display">Email / Username</p>
-<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-[#485445] bg-[#242a22] h-14 placeholder:text-[#a9b6a5] p-[15px] text-base font-normal leading-normal font-display shadow-glow focus:shadow-glow-lg transition-shadow duration-300" placeholder="Enter your email or username" value=""/>
+<input id="signinEmailOrUsername" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-[#485445] bg-[#242a22] h-14 placeholder:text-[#a9b6a5] p-[15px] text-base font-normal leading-normal font-display shadow-glow focus:shadow-glow-lg transition-shadow duration-300" placeholder="Enter your email or username" value=""/>
 </label>
 </div>
 <div class="flex w-full flex-wrap items-end">
 <label class="flex flex-col min-w-40 flex-1">
 <p class="text-white text-base font-medium leading-normal pb-2 font-display">Password</p>
 <div class="flex w-full flex-1 items-stretch rounded-lg shadow-glow focus-within:shadow-glow-lg focus-within:ring-2 focus-within:ring-primary transition-shadow duration-300">
-<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-l-lg text-white focus:outline-0 focus:ring-0 border border-r-0 border-[#485445] bg-[#242a22] h-14 placeholder:text-[#a9b6a5] p-[15px] text-base font-normal leading-normal font-display" placeholder="Enter your password" type="password" value=""/>
-<div class="text-[#a9b6a5] flex border border-l-0 border-[#485445] bg-[#242a22] items-center justify-center pr-[15px] rounded-r-lg">
-<span class="material-symbols-outlined cursor-pointer">
+<input id="signinPassword" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-l-lg text-white focus:outline-0 focus:ring-0 border border-r-0 border-[#485445] bg-[#242a22] h-14 placeholder:text-[#a9b6a5] p-[15px] text-base font-normal leading-normal font-display" placeholder="Enter your password" type="password" value=""/>
+<div class="text-[#a9b6a5] flex border border-l-0 border-[#485445] bg-[#242a22] items-center justify-center pr-[15px] rounded-r-lg cursor-pointer" id="signinPasswordToggle">
+<span class="material-symbols-outlined" id="signinPasswordIcon">
                                         visibility_off
                                     </span>
 </div>
@@ -153,15 +188,167 @@
 <div class="w-full text-right mt-2">
 <p class="text-[#a9b6a5] text-sm font-normal leading-normal pt-1 px-0 underline hover:text-primary cursor-pointer font-display">Forgot Password?</p>
 </div>
+<div id="signinMessage" class="w-full mb-4 text-center"></div>
 <div class="flex w-full px-0 py-6 justify-center">
-<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 flex-1 bg-primary text-[#333333] text-base font-bold leading-normal tracking-[0.015em] font-display shadow-glow-lg hover:shadow-glow transition-shadow duration-300">
+<button id="signinBtn" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 flex-1 bg-primary text-[#333333] text-base font-bold leading-normal tracking-[0.015em] font-display shadow-glow-lg hover:shadow-glow transition-shadow duration-300">
 <span class="truncate">LOGIN</span>
 </button>
 </div>
 </div>
 </div>
 </div>
-</body></html>
+</body>
+<script>
+// Initialize on page load
+window.addEventListener('load', function() {
+  checkUserStatus();
+});
+
+// Check if user is already logged in
+function checkUserStatus() {
+  const userId = localStorage.getItem('userId');
+  const username = localStorage.getItem('username');
+  const authButtons = document.getElementById('authButtons');
+  const profileAvatar = document.getElementById('profileAvatar');
+  const avatarInitial = document.getElementById('avatarInitial');
+  
+  if (userId && username) {
+    // User is logged in
+    authButtons.classList.add('hidden');
+    profileAvatar.classList.remove('hidden');
+    avatarInitial.textContent = username.charAt(0).toUpperCase();
+  } else {
+    // User is not logged in
+    authButtons.classList.remove('hidden');
+    profileAvatar.classList.add('hidden');
+  }
+}
+
+function toggleProfileMenu() {
+  const profileModal = document.getElementById('profileModal');
+  const username = localStorage.getItem('username');
+  const email = localStorage.getItem('email');
+  
+  // Update profile info
+  document.getElementById('profileUsername').textContent = username || 'User';
+  document.getElementById('profileEmail').textContent = email || 'email@example.com';
+  
+  // Toggle modal
+  if (profileModal.classList.contains('hidden')) {
+    profileModal.classList.remove('hidden');
+  } else {
+    profileModal.classList.add('hidden');
+  }
+}
+
+function handleLogout() {
+  if (confirm('Are you sure you want to logout?')) {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
+    localStorage.removeItem('email');
+    document.getElementById('profileModal').classList.add('hidden');
+    setTimeout(function() {
+      checkUserStatus();
+      window.location.href = 'signin.html';
+    }, 100);
+  }
+}
+
+function handleDeleteAccount() {
+  if (confirm('Are you sure you want to delete your account? This action cannot be undone!')) {
+    const userId = localStorage.getItem('userId');
+    
+    // Remove user from database
+    let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
+    users = users.filter(u => u.id !== userId);
+    localStorage.setItem('aiwallet_users', JSON.stringify(users));
+    
+    // Clear session
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
+    localStorage.removeItem('email');
+    
+    alert('Account deleted successfully');
+    document.getElementById('profileModal').classList.add('hidden');
+    setTimeout(function() {
+      checkUserStatus();
+      window.location.href = 'signin.html';
+    }, 100);
+  }
+}
+
+// Close modal when clicking outside
+document.addEventListener('click', function(e) {
+  const profileModal = document.getElementById('profileModal');
+  const profileAvatar = document.getElementById('profileAvatar');
+  
+  if (!profileModal.contains(e.target) && !profileAvatar.contains(e.target)) {
+    profileModal.classList.add('hidden');
+  }
+});
+
+// Password visibility toggle for signin
+document.getElementById('signinPasswordToggle')?.addEventListener('click', function() {
+  const passwordInput = document.getElementById('signinPassword');
+  const icon = document.getElementById('signinPasswordIcon');
+  
+  if (passwordInput.type === 'password') {
+    passwordInput.type = 'text';
+    icon.textContent = 'visibility';
+  } else {
+    passwordInput.type = 'password';
+    icon.textContent = 'visibility_off';
+  }
+});
+
+// Form submission for signin
+document.getElementById('signinBtn').addEventListener('click', async function(e) {
+  e.preventDefault();
+  
+  const emailOrUsername = document.getElementById('signinEmailOrUsername').value;
+  const password = document.getElementById('signinPassword').value;
+  const messageDiv = document.getElementById('signinMessage');
+  
+  // Clear previous messages
+  messageDiv.innerHTML = '';
+  
+  // Validation
+  if (!emailOrUsername || !password) {
+    messageDiv.innerHTML = '<p class="text-red-500 text-sm">All fields are required</p>';
+    return;
+  }
+  
+  // Get users from localStorage
+  let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
+  
+  // Find user
+  const user = users.find(u => u.email === emailOrUsername || u.username === emailOrUsername);
+  
+  if (!user) {
+    messageDiv.innerHTML = '<p class="text-red-500 text-sm">User not found</p>';
+    return;
+  }
+  
+  // Verify password
+  const storedPassword = atob(user.password); // Decode password
+  if (storedPassword !== password) {
+    messageDiv.innerHTML = '<p class="text-red-500 text-sm">Invalid password</p>';
+    return;
+  }
+  
+  // Login successful
+  messageDiv.innerHTML = '<p class="text-green-500 text-sm">Login successful! Redirecting...</p>';
+  localStorage.setItem('userId', user.id);
+  localStorage.setItem('username', user.username);
+  localStorage.setItem('email', user.email);
+  
+  setTimeout(() => {
+    checkUserStatus();
+    window.location.href = 'main.html';
+  }, 1500);
+});
+</script>
+</html>
 
 
 

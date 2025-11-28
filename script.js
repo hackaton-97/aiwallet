@@ -63,6 +63,11 @@ document.addEventListener('DOMContentLoaded', function() {
       // Skip script and style tags
       if (el.tagName === 'SCRIPT' || el.tagName === 'STYLE') return;
       
+      // === FIX INPUT PLACEHOLDERS ===
+      if (el.tagName === 'INPUT') {
+        el.style.color = '#1a1a1a !important';
+      }
+      
       // Get computed styles
       const computed = window.getComputedStyle(el);
       const textColor = computed.color;

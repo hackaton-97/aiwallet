@@ -85,6 +85,22 @@
         html:not(.dark) h1, html:not(.dark) h2, html:not(.dark) h3, html:not(.dark) h4, html:not(.dark) h5 {
             color: #1a1a1a !important;
         }
+        html:not(.dark) #profileModal > div {
+            background-color: #ffffff !important;
+            border-color: #5a7a4f !important;
+        }
+        html:not(.dark) #profileModal button {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) #profileModal button:last-child {
+            color: #ef4444 !important;
+        }
+        html:not(.dark) #profileModal button:hover {
+            background-color: #f0f0f0 !important;
+        }
+        html:not(.dark) #profileAvatar {
+            border-color: #5a7a4f !important;
+        }
     </style>
 <script id="tailwind-config">
       tailwind.config = {
@@ -135,15 +151,34 @@
 <button id="themeToggle" class="flex min-w-[40px] w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent border border-[#A7C69F]/50 text-custom-accent font-bold transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]" title="Toggle theme">
 <span id="themeIcon">🌙</span>
 </button>
-<a href="signup.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#A7C69F] text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-white hover:shadow-[0_0_15px_#A7C69F]">
+<div id="authButtons" class="flex gap-2">
+<a href="signup.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#A7C69F] text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-white hover:shadow-[0_0_15px_#A7C69F] border border-[#A7C69F]">
 <span class="truncate">Get Started</span>
 </a>
 <a href="signin.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-[#A7C69F]/50 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]">
 <span class="truncate">Login</span>
 </a>
 </div>
+<div id="profileAvatar" class="hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#A7C69F] text-[#333333] font-bold text-lg cursor-pointer hover:shadow-[0_0_15px_#A7C69F] transition-all border border-[#A7C69F]" title="Profile" onclick="toggleProfileMenu()">
+<span id="avatarInitial">U</span>
+</div>
+</div>
 </div>
 </header>
+
+<!-- Profile Menu Modal -->
+<div id="profileModal" class="hidden fixed inset-0 z-50 flex items-start justify-end pt-20 pr-10">
+<div class="bg-black/90 border border-[#A7C69F]/30 rounded-lg shadow-lg min-w-[200px] backdrop-blur-sm">
+<div class="p-4 space-y-3">
+<div class="text-white text-sm px-4 py-2 border-b border-[#A7C69F]/20">
+<p class="font-semibold"><span id="profileUsername">User</span></p>
+<p class="text-xs text-gray-400"><span id="profileEmail">email@example.com</span></p>
+</div>
+<button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">logout</span> Logout</button>
+<button onclick="handleDeleteAccount()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-500/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">delete</span> Delete Account</button>
+</div>
+</div>
+</div>
 <main class="flex-grow">
 <!-- HeroSection -->
 <div class="p-4">
@@ -236,11 +271,103 @@
 </a>
 </div>
 </div>
+<!-- Footer -->
+<footer class="flex flex-col items-center justify-between gap-6 border-t border-white/10 py-8 px-4 text-center md:flex-row md:text-left">
+<div class="flex items-center gap-3">
+<div class="size-4">
+<svg class="text-primary" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<p class="text-sm text-white/60">© 2024 AIWallet. All rights reserved.</p>
+</div>
+<div class="flex items-center gap-6">
+<a class="text-sm text-white/60 hover:text-white transition-colors" href="#">Privacy Policy</a>
+<a class="text-sm text-white/60 hover:text-white transition-colors" href="#">Terms of Service</a>
+<a class="text-sm text-white/60 hover:text-white transition-colors" href="#">Contact</a>
+</div>
+</footer>
 </main>
 </div>
 </div>
 </div>
 </div>
+<script>
+window.addEventListener('load', function() {
+  checkUserStatus();
+});
+
+function checkUserStatus() {
+  const userId = localStorage.getItem('userId');
+  const username = localStorage.getItem('username');
+  const authButtons = document.getElementById('authButtons');
+  const profileAvatar = document.getElementById('profileAvatar');
+  const avatarInitial = document.getElementById('avatarInitial');
+  
+  if (userId && username) {
+    authButtons.classList.add('hidden');
+    profileAvatar.classList.remove('hidden');
+    avatarInitial.textContent = username.charAt(0).toUpperCase();
+  } else {
+    authButtons.classList.remove('hidden');
+    profileAvatar.classList.add('hidden');
+  }
+}
+
+function toggleProfileMenu() {
+  const profileModal = document.getElementById('profileModal');
+  const username = localStorage.getItem('username');
+  const email = localStorage.getItem('email');
+  
+  document.getElementById('profileUsername').textContent = username || 'User';
+  document.getElementById('profileEmail').textContent = email || 'email@example.com';
+  
+  if (profileModal.classList.contains('hidden')) {
+    profileModal.classList.remove('hidden');
+  } else {
+    profileModal.classList.add('hidden');
+  }
+}
+
+function handleLogout() {
+  if (confirm('Are you sure you want to logout?')) {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
+    localStorage.removeItem('email');
+    document.getElementById('profileModal').classList.add('hidden');
+    setTimeout(function() {
+      checkUserStatus();
+      window.location.href = 'overview.html';
+    }, 100);
+  }
+}
+
+function handleDeleteAccount() {
+  if (confirm('Are you sure you want to delete your account? This action cannot be undone!')) {
+    const userId = localStorage.getItem('userId');
+    let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
+    users = users.filter(u => u.id !== userId);
+    localStorage.setItem('aiwallet_users', JSON.stringify(users));
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
+    localStorage.removeItem('email');
+    alert('Account deleted successfully');
+    document.getElementById('profileModal').classList.add('hidden');
+    setTimeout(function() {
+      checkUserStatus();
+      window.location.href = 'overview.html';
+    }, 100);
+  }
+}
+
+document.addEventListener('click', function(e) {
+  const profileModal = document.getElementById('profileModal');
+  const profileAvatar = document.getElementById('profileAvatar');
+  if (!profileModal.contains(e.target) && !profileAvatar.contains(e.target)) {
+    profileModal.classList.add('hidden');
+  }
+});
+</script>
 </body></html>
 
 

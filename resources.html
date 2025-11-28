@@ -54,6 +54,22 @@
         html:not(.dark) div { background-color: #ffffff !important; }
         html:not(.dark) [class*="bg-"] { background-color: #ffffff !important; }
         html:not(.dark) h1, html:not(.dark) h2, html:not(.dark) h3 { color: #1a1a1a !important; }
+        html:not(.dark) #profileModal > div {
+            background-color: #ffffff !important;
+            border-color: #5a7a4f !important;
+        }
+        html:not(.dark) #profileModal button {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) #profileModal button:last-child {
+            color: #ef4444 !important;
+        }
+        html:not(.dark) #profileModal button:hover {
+            background-color: #f0f0f0 !important;
+        }
+        html:not(.dark) #profileAvatar {
+            border-color: #5a7a4f !important;
+        }
     </style>
 <script id="tailwind-config">
       tailwind.config = {
@@ -103,15 +119,34 @@
 <button id="themeToggle" class="flex min-w-[40px] w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent border border-[#A7C69F]/50 text-white font-bold transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]" title="Toggle theme">
 <span id="themeIcon">🌙</span>
 </button>
-<a href="signup.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#A7C69F] text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-white hover:shadow-[0_0_15px_#A7C69F]">
+<div id="authButtons" class="flex gap-2">
+<a href="signup.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#A7C69F] text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-white hover:shadow-[0_0_15px_#A7C69F] border border-[#A7C69F]">
 <span class="truncate">Get Started</span>
 </a>
 <a href="signin.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-[#A7C69F]/50 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]">
 <span class="truncate">Login</span>
 </a>
 </div>
+<div id="profileAvatar" class="hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#A7C69F] text-[#333333] font-bold text-lg cursor-pointer hover:shadow-[0_0_15px_#A7C69F] transition-all border border-[#A7C69F]" title="Profile" onclick="toggleProfileMenu()">
+<span id="avatarInitial">U</span>
+</div>
+</div>
 </div>
 </header>
+
+<!-- Profile Menu Modal -->
+<div id="profileModal" class="hidden fixed inset-0 z-50 flex items-start justify-end pt-20 pr-10">
+<div class="bg-black/90 border border-[#A7C69F]/30 rounded-lg shadow-lg min-w-[200px] backdrop-blur-sm">
+<div class="p-4 space-y-3">
+<div class="text-white text-sm px-4 py-2 border-b border-[#A7C69F]/20">
+<p class="font-semibold"><span id="profileUsername">User</span></p>
+<p class="text-xs text-gray-400"><span id="profileEmail">email@example.com</span></p>
+</div>
+<button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">logout</span> Logout</button>
+<button onclick="handleDeleteAccount()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-500/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">delete</span> Delete Account</button>
+</div>
+</div>
+</div>
 <!-- HeroSection -->
 <div class="@container mt-10">
 <div class="@[480px]:p-4">
@@ -125,9 +160,18 @@
 <div class="text-[#A7C69F] flex items-center justify-center pl-[15px]">
 <span class="material-symbols-outlined">search</span>
 </div>
-<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-0 bg-transparent h-full placeholder:text-white/50 px-3 text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal" placeholder="Search for a resource..." value=""/>
+<input id="searchInput" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-0 bg-transparent h-full placeholder:text-white/50 px-3 text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal" placeholder="Search for a resource..." value=""/>
+<style>
+  html:not(.dark) input::placeholder {
+    color: #999999 !important;
+    opacity: 1;
+  }
+  html:not(.dark) input {
+    color: #1a1a1a !important;
+  }
+</style>
 <div class="flex items-center justify-center pr-[7px]">
-<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#A7C69F] text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em] hover:shadow-[0_0_12px_rgba(167,198,159,0.7)] transition-shadow">
+<button id="searchBtn" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#A7C69F] text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em] hover:shadow-[0_0_12px_rgba(167,198,159,0.7)] transition-shadow">
 <span class="truncate">Search</span>
 </button>
 </div>
@@ -137,29 +181,43 @@
 </div>
 </div>
 <!-- Chips -->
-<div class="flex flex-wrap justify-center gap-3 p-3 overflow-x-auto mt-6">
-<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#A7C69F] px-4">
+<div class="flex flex-wrap justify-center gap-3 p-3 overflow-x-auto mt-6" id="categoryButtons">
+<button class="category-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#A7C69F] px-4" data-category="all">
 <p class="text-[#333333] text-sm font-bold leading-normal">All Resources</p>
 </button>
-<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#ffffff]/10 hover:bg-[#ffffff]/20 px-4 transition-colors">
+<button class="category-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#ffffff]/10 hover:bg-[#ffffff]/20 px-4 transition-colors" data-category="getting-started">
 <p class="text-white text-sm font-medium leading-normal">Getting Started</p>
 </button>
-<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#ffffff]/10 hover:bg-[#ffffff]/20 px-4 transition-colors">
+<button class="category-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#ffffff]/10 hover:bg-[#ffffff]/20 px-4 transition-colors" data-category="security-guides">
 <p class="text-white text-sm font-medium leading-normal">Security Guides</p>
 </button>
-<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#ffffff]/10 hover:bg-[#ffffff]/20 px-4 transition-colors">
+<button class="category-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#ffffff]/10 hover:bg-[#ffffff]/20 px-4 transition-colors" data-category="feature-tutorials">
 <p class="text-white text-sm font-medium leading-normal">Feature Tutorials</p>
 </button>
-<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#ffffff]/10 hover:bg-[#ffffff]/20 px-4 transition-colors">
+<button class="category-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#ffffff]/10 hover:bg-[#ffffff]/20 px-4 transition-colors" data-category="market-insights">
 <p class="text-white text-sm font-medium leading-normal">Market Insights</p>
 </button>
-<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#ffffff]/10 hover:bg-[#ffffff]/20 px-4 transition-colors">
+<button class="category-btn flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#ffffff]/10 hover:bg-[#ffffff]/20 px-4 transition-colors" data-category="faq">
 <p class="text-white text-sm font-medium leading-normal">FAQ</p>
 </button>
+<style>
+  html:not(.dark) .flex.h-8.rounded-full {
+    background-color: #f0f0f0 !important;
+  }
+  html:not(.dark) .flex.h-8.rounded-full p {
+    color: #1a1a1a !important;
+  }
+  html:not(.dark) .flex.h-8.rounded-full:first-child {
+    background-color: #5a7a4f !important;
+  }
+  html:not(.dark) .flex.h-8.rounded-full:first-child p {
+    color: #ffffff !important;
+  }
+</style>
 </div>
 <!-- ImageGrid -->
-<div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 p-4 mt-6">
-<div class="flex flex-col gap-4 p-5 rounded-lg border border-solid border-white/10 hover:border-[#A7C69F]/80 hover:shadow-[0_0_20px_rgba(167,198,159,0.3)] transition-all cursor-pointer">
+<div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 p-4 mt-6" id="resourcesGrid">
+<div class="resource-card flex flex-col gap-4 p-5 rounded-lg border border-solid border-white/10 hover:border-[#A7C69F]/80 hover:shadow-[0_0_20px_rgba(167,198,159,0.3)] transition-all cursor-pointer" data-category="security-guides" data-title="Securing Your Digital Assets" data-description="An overview of best practices for wallet security.">
 <div class="flex justify-between items-center">
 <span class="text-xs font-bold tracking-widest text-[#A7C69F]">GUIDE</span>
 </div>
@@ -169,7 +227,7 @@
 </div>
 <p class="text-[#A7C69F] text-sm font-bold leading-normal mt-auto">Read More</p>
 </div>
-<div class="flex flex-col gap-4 p-5 rounded-lg border border-solid border-white/10 hover:border-[#A7C69F]/80 hover:shadow-[0_0_20px_rgba(167,198,159,0.3)] transition-all cursor-pointer">
+<div class="resource-card flex flex-col gap-4 p-5 rounded-lg border border-solid border-white/10 hover:border-[#A7C69F]/80 hover:shadow-[0_0_20px_rgba(167,198,159,0.3)] transition-all cursor-pointer" data-category="faq" data-title="Frequently Asked Questions" data-description="Quick answers to the most common user inquiries.">
 <div class="flex justify-between items-center">
 <span class="text-xs font-bold tracking-widest text-[#A7C69F]">FAQ</span>
 </div>
@@ -179,7 +237,7 @@
 </div>
 <p class="text-[#A7C69F] text-sm font-bold leading-normal mt-auto">View</p>
 </div>
-<div class="flex flex-col gap-4 p-5 rounded-lg border border-solid border-white/10 hover:border-[#A7C69F]/80 hover:shadow-[0_0_20px_rgba(167,198,159,0.3)] transition-all cursor-pointer">
+<div class="resource-card flex flex-col gap-4 p-5 rounded-lg border border-solid border-white/10 hover:border-[#A7C69F]/80 hover:shadow-[0_0_20px_rgba(167,198,159,0.3)] transition-all cursor-pointer" data-category="market-insights" data-title="The Future of AI in Personal Finance" data-description="An analysis of upcoming trends and their impact.">
 <div class="flex justify-between items-center">
 <span class="text-xs font-bold tracking-widest text-[#A7C69F]">ARTICLE</span>
 </div>
@@ -189,7 +247,7 @@
 </div>
 <p class="text-[#A7C69F] text-sm font-bold leading-normal mt-auto">Read More</p>
 </div>
-<div class="flex flex-col gap-4 p-5 rounded-lg border border-solid border-white/10 hover:border-[#A7C69F]/80 hover:shadow-[0_0_20px_rgba(167,198,159,0.3)] transition-all cursor-pointer">
+<div class="resource-card flex flex-col gap-4 p-5 rounded-lg border border-solid border-white/10 hover:border-[#A7C69F]/80 hover:shadow-[0_0_20px_rgba(167,198,159,0.3)] transition-all cursor-pointer" data-category="feature-tutorials" data-title="Setting Up Your First Automated Investment" data-description="A step-by-step video guide to get you started.">
 <div class="flex justify-between items-center">
 <span class="text-xs font-bold tracking-widest text-[#A7C69F]">TUTORIAL</span>
 </div>
@@ -200,30 +258,189 @@
 <p class="text-[#A7C69F] text-sm font-bold leading-normal mt-auto">View</p>
 </div>
 </div>
+<div id="noResults" class="hidden flex flex-col items-center justify-center gap-4 p-8 text-center">
+<p class="text-white text-lg font-bold leading-normal">No available resource :(</p>
+<p class="text-white/60 text-sm font-normal leading-normal">Try adjusting your search or filter criteria</p>
+</div>
 <!-- Footer -->
-<footer class="flex flex-col gap-8 px-5 py-10 text-center @container mt-12 border-t border-solid border-white/10">
-<div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 @[480px]:flex-row @[480px]:justify-center">
-<a class="text-white/60 hover:text-[#A7C69F] text-base font-normal leading-normal min-w-40 transition-colors" href="#">Contact</a>
-<a class="text-white/60 hover:text-[#A7C69F] text-base font-normal leading-normal min-w-40 transition-colors" href="#">Privacy Policy</a>
-<a class="text-white/60 hover:text-[#A7C69F] text-base font-normal leading-normal min-w-40 transition-colors" href="#">Terms of Service</a>
+<footer class="flex flex-col items-center justify-between gap-6 border-t border-white/10 py-8 px-4 text-center md:flex-row md:text-left">
+<div class="flex items-center gap-3">
+<div class="size-4">
+<svg class="text-primary" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
 </div>
-<div class="flex flex-wrap justify-center gap-6">
-<a href="#">
-<img class="text-white/60 hover:text-[#A7C69F] h-6 w-6 transition-colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpFh7OSUzEj0XKLJfBIIV04v-GovLLGjGnzDoQbT0ps0Df9oU8HHpWzi4FU3EgN14NBNziFl4HZcvrKRIUfrB1wovmysIFaTBEbmc8R-7C8ndna4mgfw2eBXQcnnGJmYoAv3r98aJO0Nn8M4fCw14NBF3PWea5A4IR7yc2kkzNdVtZh8_iOgzDSH1Tvn6i9pRDZszXGg4L7kGCz_NRI0F8qoAkp4S5JrV2-3XpTR15xeC-kj1YhQ82SbMUKY4K9_ngc4YGUunxrFQL"/>
-</a>
-<a href="#">
-<img class="text-white/60 hover:text-[#A7C69F] h-6 w-6 transition-colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpFh7OSUzEj0XKLJfBIIV04v-GovLLGjGnzDoQbT0ps0Df9oU8HHpWzi4FU3EgN14NBNziFl4HZcvrKRIUfrB1wovmysIFaTBEbmc8R-7C8ndna4mgfw2eBXQcnnGJmYoAv3r98aJO0Nn8M4fCw14NBF3PWea5A4IR7yc2kkzNdVtZh8_iOgzDSH1Tvn6i9pRDZszXGg4L7kGCz_NRI0F8qoAkp4S5JrV2-3XpTR15xeC-kj1YhQ82SbMUKY4K9_ngc4YGUunxrFQL"/>
-</a>
-<a href="#">
-<img class="text-white/60 hover:text-[#A7C69F] h-6 w-6 transition-colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpFh7OSUzEj0XKLJfBIIV04v-GovLLGjGnzDoQbT0ps0Df9oU8HHpWzi4FU3EgN14NBNziFl4HZcvrKRIUfrB1wovmysIFaTBEbmc8R-7C8ndna4mgfw2eBXQcnnGJmYoAv3r98aJO0Nn8M4fCw14NBF3PWea5A4IR7yc2kkzNdVtZh8_iOgzDSH1Tvn6i9pRDZszXGg4L7kGCz_NRI0F8qoAkp4S5JrV2-3XpTR15xeC-kj1YhQ82SbMUKY4K9_ngc4YGUunxrFQL"/>
-</a>
+<p class="text-sm text-white/60">© 2024 AIWallet. All rights reserved.</p>
 </div>
-<p class="text-white/60 text-sm font-normal leading-normal">© 2024 AIWallet. All Rights Reserved.</p>
+<div class="flex items-center gap-6">
+<a class="text-sm text-white/60 hover:text-white transition-colors" href="#">Privacy Policy</a>
+<a class="text-sm text-white/60 hover:text-white transition-colors" href="#">Terms of Service</a>
+<a class="text-sm text-white/60 hover:text-white transition-colors" href="#">Contact</a>
+</div>
 </footer>
 </div>
 </div>
 </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('searchInput');
+  const searchBtn = document.getElementById('searchBtn');
+  const categoryButtons = document.querySelectorAll('.category-btn');
+  const resourceCards = document.querySelectorAll('.resource-card');
+  const noResults = document.getElementById('noResults');
+  const resourcesGrid = document.getElementById('resourcesGrid');
+  
+  let currentCategory = 'all';
+  let currentSearch = '';
+
+  // Функция фильтрации и поиска
+  function filterResources() {
+    let visibleCount = 0;
+
+    resourceCards.forEach(card => {
+      const cardCategory = card.getAttribute('data-category');
+      const cardTitle = card.getAttribute('data-title').toLowerCase();
+      const cardDescription = card.getAttribute('data-description').toLowerCase();
+      
+      // Проверка категории
+      const categoryMatch = currentCategory === 'all' || cardCategory === currentCategory;
+      
+      // Проверка поиска
+      const searchTerm = currentSearch.toLowerCase();
+      const searchMatch = cardTitle.includes(searchTerm) || cardDescription.includes(searchTerm);
+      
+      // Показать карточку если совпадают оба условия
+      if (categoryMatch && searchMatch) {
+        card.style.display = 'flex';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    // Показать/скрыть сообщение об отсутствии результатов
+    if (visibleCount === 0) {
+      noResults.classList.remove('hidden');
+      resourcesGrid.style.display = 'none';
+    } else {
+      noResults.classList.add('hidden');
+      resourcesGrid.style.display = 'grid';
+    }
+  }
+
+  // Обработчик клика по категориям
+  categoryButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+      // Обновить активную кнопку
+      categoryButtons.forEach(b => {
+        b.classList.remove('bg-[#A7C69F]');
+        b.classList.add('bg-[#ffffff]/10', 'hover:bg-[#ffffff]/20');
+        b.querySelector('p').classList.remove('text-[#333333]', 'font-bold');
+        b.querySelector('p').classList.add('text-white', 'font-medium');
+      });
+      
+      this.classList.remove('bg-[#ffffff]/10', 'hover:bg-[#ffffff]/20');
+      this.classList.add('bg-[#A7C69F]');
+      this.querySelector('p').classList.remove('text-white', 'font-medium');
+      this.querySelector('p').classList.add('text-[#333333]', 'font-bold');
+      
+      currentCategory = this.getAttribute('data-category');
+      filterResources();
+    });
+  });
+
+  // Обработчик кнопки поиска - ТОЛЬКО при нажатии кнопки
+  searchBtn.addEventListener('click', function() {
+    currentSearch = searchInput.value;
+    filterResources();
+  });
+
+  // Обработчик Enter в поле поиска
+  searchInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      currentSearch = searchInput.value;
+      filterResources();
+    }
+  });
+});
+
+// Check user status on page load
+window.addEventListener('load', function() {
+  checkUserStatus();
+});
+
+function checkUserStatus() {
+  const userId = localStorage.getItem('userId');
+  const username = localStorage.getItem('username');
+  const authButtons = document.getElementById('authButtons');
+  const profileAvatar = document.getElementById('profileAvatar');
+  const avatarInitial = document.getElementById('avatarInitial');
+  
+  if (userId && username) {
+    authButtons.classList.add('hidden');
+    profileAvatar.classList.remove('hidden');
+    avatarInitial.textContent = username.charAt(0).toUpperCase();
+  } else {
+    authButtons.classList.remove('hidden');
+    profileAvatar.classList.add('hidden');
+  }
+}
+
+function toggleProfileMenu() {
+  const profileModal = document.getElementById('profileModal');
+  const username = localStorage.getItem('username');
+  const email = localStorage.getItem('email');
+  
+  document.getElementById('profileUsername').textContent = username || 'User';
+  document.getElementById('profileEmail').textContent = email || 'email@example.com';
+  
+  if (profileModal.classList.contains('hidden')) {
+    profileModal.classList.remove('hidden');
+  } else {
+    profileModal.classList.add('hidden');
+  }
+}
+
+function handleLogout() {
+  if (confirm('Are you sure you want to logout?')) {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
+    localStorage.removeItem('email');
+    document.getElementById('profileModal').classList.add('hidden');
+    setTimeout(function() {
+      checkUserStatus();
+      window.location.href = 'resources.html';
+    }, 100);
+  }
+}
+
+function handleDeleteAccount() {
+  if (confirm('Are you sure you want to delete your account? This action cannot be undone!')) {
+    const userId = localStorage.getItem('userId');
+    let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
+    users = users.filter(u => u.id !== userId);
+    localStorage.setItem('aiwallet_users', JSON.stringify(users));
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
+    localStorage.removeItem('email');
+    alert('Account deleted successfully');
+    document.getElementById('profileModal').classList.add('hidden');
+    setTimeout(function() {
+      checkUserStatus();
+      window.location.href = 'resources.html';
+    }, 100);
+  }
+}
+
+document.addEventListener('click', function(e) {
+  const profileModal = document.getElementById('profileModal');
+  const profileAvatar = document.getElementById('profileAvatar');
+  if (!profileModal.contains(e.target) && !profileAvatar.contains(e.target)) {
+    profileModal.classList.add('hidden');
+  }
+});
+</script>
 </body></html>
 
 
