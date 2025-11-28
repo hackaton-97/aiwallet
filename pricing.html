@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AIWallet Pricing Page - Ultra Futuristic</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .glow-border {
+            box-shadow: 0 0 2px #A7C69F, 0 0 5px #A7C69F, 0 0 10px #A7C69F;
+        }
+        .glow-button {
+            box-shadow: 0 0 5px #A7C69F, 0 0 10px #A7C69F, 0 0 15px #A7C69F;
+        }
+        .glow-text {
+            text-shadow: 0 0 5px #A7C69F;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        /* Light mode styles */
+        html:not(.dark) { background-color: #ffffff !important;
+            color: #1a1a1a;
+        }
+        html:not(.dark) body { background-color: #ffffff !important;
+            color: #1a1a1a;
+        }
+        html:not(.dark) header {
+            background-color: #ffffff !important;
+            border-color: #e0e0e0 !important;
+            color: #1a1a1a;
+        }
+        html:not(.dark) footer {
+            background-color: #f5f5f5 !important;
+            color: #1a1a1a;
+            border-color: #e0e0e0 !important;
+        }
+        html:not(.dark) [class*="text-white"] {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) [class*="text-white/"] {
+            color: rgba(26, 26, 26, 0.8) !important;
+        }
+        html:not(.dark) [class*="bg-[#"] {
+            background-color: #f5f5f5 !important;
+        }
+        html:not(.dark) [class*="border-"] {
+            border-color: #e0e0e0 !important;
+        }
+    
+        html:not(.dark) [class*="text-[#A7C69F]"], html:not(.dark) [class*="text-custom-accent"] { color: #5a7a4f !important; }
+        html:not(.dark) svg { color: #1a1a1a !important; }
+    </style>
+<script src="../script.js" defer></script>
+</head>
+<body class="bg-[#333333] font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden text-white">
+<div class="layout-container flex h-full grow flex-col">
+<div class="flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col w-full max-w-[1100px] flex-1 px-4 sm:px-10">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-white/20 px-4 py-3">
+<a href="main.html" class="flex items-center gap-4 text-white cursor-pointer hover:opacity-80 transition-opacity">
+    <div class="size-5 text-[#A7C69F] glow-text">
+        <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+        </svg>
+    </div>
+    <h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">AIWallet</h2>
+</a>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="overview.html">Overview</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="features.html">Features</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="resources.html">Resources</a>
+</div>
+<div class="flex gap-2">
+<button id="themeToggle" class="flex min-w-[40px] w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent border border-[#A7C69F]/50 text-white font-bold transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]" title="Toggle theme">
+<span id="themeIcon">🌙</span>
+</button>
+<a href="signup.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#A7C69F] text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-white hover:shadow-[0_0_15px_#A7C69F]">
+<span class="truncate">Get Started</span>
+</a>
+<a href="signin.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-[#A7C69F]/50 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]">
+<span class="truncate">Login</span>
+</a>
+</div>
+</div>
+</header>
+<!-- HeroSection -->
+<div class="py-16 sm:py-24">
+<div class="flex min-h-[380px] flex-col gap-6 items-center justify-center p-4" data-alt="abstract futuristic background graphic">
+<div class="flex flex-col gap-4 text-center max-w-3xl">
+<h1 class="text-white text-4xl sm:text-6xl font-black leading-tight tracking-tighter">
+                                The Future of Your Finances. Priced for Today.
+                            </h1>
+<h2 class="text-white/80 text-base sm:text-lg font-normal leading-normal">
+                                Unlock the power of AI to manage your financial portfolio with precision and foresight. Choose the plan that fits your future.
+                            </h2>
+</div>
+</div>
+</div>
+<!-- PricingCards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 py-3">
+<div class="flex flex-1 flex-col gap-6 rounded-lg border border-solid border-white/20 bg-[#333333] p-6">
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-xl font-bold leading-tight">Basic</h1>
+<p class="flex items-baseline gap-2 text-white">
+<span class="text-white text-5xl font-black leading-tight tracking-[-0.033em]">$9</span>
+<span class="text-white/80 text-base font-bold leading-tight">/ month</span>
+</p>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-white/10 text-white text-sm font-bold leading-normal tracking-[0.015em] border border-white/20 hover:bg-white/20 transition-colors">
+<span class="truncate">Select Basic</span>
+</button>
+<div class="flex flex-col gap-3">
+<div class="flex gap-3 text-sm font-normal leading-normal text-white/90">
+<span class="material-symbols-outlined text-[#A7C69F] text-xl">check</span>AI-powered budgeting
+                            </div>
+<div class="flex gap-3 text-sm font-normal leading-normal text-white/90">
+<span class="material-symbols-outlined text-[#A7C69F] text-xl">check</span>Expense tracking
+                            </div>
+<div class="flex gap-3 text-sm font-normal leading-normal text-white/90">
+<span class="material-symbols-outlined text-[#A7C69F] text-xl">check</span>Automated Savings
+                            </div>
+<div class="flex gap-3 text-sm font-normal leading-normal text-white/90">
+<span class="material-symbols-outlined text-[#A7C69F] text-xl">check</span>Standard Support
+                            </div>
+</div>
+</div>
+<div class="flex flex-1 flex-col gap-6 rounded-lg border-2 border-solid border-[#A7C69F] bg-[#333333] p-6 glow-border relative">
+<div class="absolute -top-3 right-6 text-xs font-medium leading-normal tracking-[0.015em] rounded-full bg-[#A7C69F] px-3 py-1 text-center text-[#333333]">Most Popular</div>
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-xl font-bold leading-tight">Pro</h1>
+<p class="flex items-baseline gap-2 text-white">
+<span class="text-white text-5xl font-black leading-tight tracking-[-0.033em]">$29</span>
+<span class="text-white/80 text-base font-bold leading-tight">/ month</span>
+</p>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-[#A7C69F] text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] glow-button transition-shadow hover:shadow-lg">
+<span class="truncate">Select Pro</span>
+</button>
+<div class="flex flex-col gap-3">
+<div class="flex gap-3 text-sm font-normal leading-normal text-white/90">
+<span class="material-symbols-outlined text-[#A7C69F] text-xl">check</span>All Basic features
+                            </div>
+<div class="flex gap-3 text-sm font-normal leading-normal text-white/90">
+<span class="material-symbols-outlined text-[#A7C69F] text-xl">check</span>Investment tracking
+                            </div>
+<div class="flex gap-3 text-sm font-normal leading-normal text-white/90">
+<span class="material-symbols-outlined text-[#A7C69F] text-xl">check</span>Portfolio analysis
+                            </div>
+<div class="flex gap-3 text-sm font-normal leading-normal text-white/90">
+<span class="material-symbols-outlined text-[#A7C69F] text-xl">check</span>Priority support
+                            </div>
+</div>
+</div>
+<div class="flex flex-1 flex-col gap-6 rounded-lg border border-solid border-white/20 bg-[#333333] p-6">
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-xl font-bold leading-tight">Enterprise</h1>
+<p class="flex items-baseline gap-2 text-white">
+<span class="text-white text-5xl font-black leading-tight tracking-[-0.033em]">$99</span>
+<span class="text-white/80 text-base font-bold leading-tight">/ month</span>
+</p>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-white/10 text-white text-sm font-bold leading-normal tracking-[0.015em] border border-white/20 hover:bg-white/20 transition-colors">
+<span class="truncate">Contact Sales</span>
+</button>
+<div class="flex flex-col gap-3">
+<div class="flex gap-3 text-sm font-normal leading-normal text-white/90">
+<span class="material-symbols-outlined text-[#A7C69F] text-xl">check</span>All Pro features
+                            </div>
+<div class="flex gap-3 text-sm font-normal leading-normal text-white/90">
+<span class="material-symbols-outlined text-[#A7C69F] text-xl">check</span>Advanced security
+                            </div>
+<div class="flex gap-3 text-sm font-normal leading-normal text-white/90">
+<span class="material-symbols-outlined text-[#A7C69F] text-xl">check</span>Dedicated support
+                            </div>
+<div class="flex gap-3 text-sm font-normal leading-normal text-white/90">
+<span class="material-symbols-outlined text-[#A7C69F] text-xl">check</span>Custom integrations
+                            </div>
+</div>
+</div>
+</div>
+<!-- SectionHeader -->
+<div class="mt-16 sm:mt-24">
+<h2 class="text-white text-3xl font-bold leading-tight tracking-tighter px-4 pb-3 pt-5 text-center">Compare All Features</h2>
+</div>
+<!-- Table -->
+<div class="px-4 py-3">
+<div class="flex overflow-hidden rounded-lg border border-white/20 bg-[#333333]">
+<table class="flex-1">
+<thead class="border-b border-b-white/20">
+<tr>
+<th class="px-4 py-4 text-left text-white w-[40%] text-sm font-medium leading-normal">Feature</th>
+<th class="px-4 py-4 text-center text-white w-[20%] text-sm font-medium leading-normal">Basic</th>
+<th class="px-4 py-4 text-center text-white w-[20%] text-sm font-medium leading-normal">Pro</th>
+<th class="px-4 py-4 text-center text-white w-[20%] text-sm font-medium leading-normal">Enterprise</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-t border-t-white/10">
+<td class="h-[64px] px-4 py-2 text-white text-sm font-normal leading-normal">AI Spending Analysis</td>
+<td class="h-[64px] px-4 py-2 text-center text-sm font-normal leading-normal"><span class="material-symbols-outlined text-[#A7C69F] text-2xl">check</span></td>
+<td class="h-[64px] px-4 py-2 text-center text-sm font-normal leading-normal"><span class="material-symbols-outlined text-[#A7C69F] text-2xl">check</span></td>
+<td class="h-[64px] px-4 py-2 text-center text-sm font-normal leading-normal"><span class="material-symbols-outlined text-[#A7C69F] text-2xl">check</span></td>
+</tr>
+<tr class="border-t border-t-white/10">
+<td class="h-[64px] px-4 py-2 text-white text-sm font-normal leading-normal">Automated Savings</td>
+<td class="h-[64px] px-4 py-2 text-center text-sm font-normal leading-normal"><span class="material-symbols-outlined text-[#A7C69F] text-2xl">check</span></td>
+<td class="h-[64px] px-4 py-2 text-center text-sm font-normal leading-normal"><span class="material-symbols-outlined text-[#A7C69F] text-2xl">check</span></td>
+<td class="h-[64px] px-4 py-2 text-center text-sm font-normal leading-normal"><span class="material-symbols-outlined text-[#A7C69F] text-2xl">check</span></td>
+</tr>
+<tr class="border-t border-t-white/10">
+<td class="h-[64px] px-4 py-2 text-white text-sm font-normal leading-normal">Multi-Asset Portfolio Tracking</td>
+<td class="h-[64px] px-4 py-2 text-center text-sm font-normal leading-normal"><span class="material-symbols-outlined text-white/30 text-2xl">remove</span></td>
+<td class="h-[64px] px-4 py-2 text-center text-sm font-normal leading-normal"><span class="material-symbols-outlined text-[#A7C69F] text-2xl">check</span></td>
+<td class="h-[64px] px-4 py-2 text-center text-sm font-normal leading-normal"><span class="material-symbols-outlined text-[#A7C69F] text-2xl">check</span></td>
+</tr>
+<tr class="border-t border-t-white/10">
+<td class="h-[64px] px-4 py-2 text-white text-sm font-normal leading-normal">Advanced Fraud Detection</td>
+<td class="h-[64px] px-4 py-2 text-center text-sm font-normal leading-normal"><span class="material-symbols-outlined text-white/30 text-2xl">remove</span></td>
+<td class="h-[64px] px-4 py-2 text-center text-sm font-normal leading-normal"><span class="material-symbols-outlined text-[#A7C69F] text-2xl">check</span></td>
+<td class="h-[64px] px-4 py-2 text-center text-sm font-normal leading-normal"><span class="material-symbols-outlined text-[#A7C69F] text-2xl">check</span></td>
+</tr>
+<tr class="border-t border-t-white/10">
+<td class="h-[64px] px-4 py-2 text-white text-sm font-normal leading-normal">Dedicated Support</td>
+<td class="h-[64px] px-4 py-2 text-center text-sm font-normal leading-normal"><span class="material-symbols-outlined text-white/30 text-2xl">remove</span></td>
+<td class="h-[64px] px-4 py-2 text-center text-sm font-normal leading-normal"><span class="material-symbols-outlined text-white/30 text-2xl">remove</span></td>
+<td class="h-[64px] px-4 py-2 text-center text-sm font-normal leading-normal"><span class="material-symbols-outlined text-[#A7C69F] text-2xl">check</span></td>
+</tr>
+<tr class="border-t border-t-white/10">
+<td class="h-[64px] px-4 py-2 text-white text-sm font-normal leading-normal">Custom Integrations</td>
+<td class="h-[64px] px-4 py-2 text-center text-sm font-normal leading-normal"><span class="material-symbols-outlined text-white/30 text-2xl">remove</span></td>
+<td class="h-[64px] px-4 py-2 text-center text-sm font-normal leading-normal"><span class="material-symbols-outlined text-white/30 text-2xl">remove</span></td>
+<td class="h-[64px] px-4 py-2 text-center text-sm font-normal leading-normal"><span class="material-symbols-outlined text-[#A7C69F] text-2xl">check</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- FAQ Section -->
+<div class="mt-16 sm:mt-24 max-w-3xl mx-auto w-full">
+<h2 class="text-white text-3xl font-bold leading-tight tracking-tighter text-center mb-10">Frequently Asked Questions</h2>
+<div class="space-y-4">
+<details class="group rounded-lg bg-white/5 p-6 [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex cursor-pointer items-center justify-between gap-1.5 text-white">
+<h3 class="font-medium">Is my financial data secure with AIWallet?</h3>
+<span class="relative size-5 shrink-0">
+<span class="material-symbols-outlined absolute inset-0 opacity-100 group-open:opacity-0 transition-opacity">add</span>
+<span class="material-symbols-outlined absolute inset-0 opacity-0 group-open:opacity-100 transition-opacity">remove</span>
+</span>
+</summary>
+<p class="mt-4 leading-relaxed text-white/70">
+                                Absolutely. We use state-of-the-art, end-to-end encryption and comply with the highest industry security standards to ensure your data is always protected. Your privacy and security are our top priorities.
+                            </p>
+</details>
+<details class="group rounded-lg bg-white/5 p-6 [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex cursor-pointer items-center justify-between gap-1.5 text-white">
+<h3 class="font-medium">Can I cancel my subscription at any time?</h3>
+<span class="relative size-5 shrink-0">
+<span class="material-symbols-outlined absolute inset-0 opacity-100 group-open:opacity-0 transition-opacity">add</span>
+<span class="material-symbols-outlined absolute inset-0 opacity-0 group-open:opacity-100 transition-opacity">remove</span>
+</span>
+</summary>
+<p class="mt-4 leading-relaxed text-white/70">
+                                Yes, you can cancel your subscription at any time directly from your account dashboard. There are no hidden fees or long-term contracts. You will retain access to your plan's features until the end of the current billing cycle.
+                            </p>
+</details>
+<details class="group rounded-lg bg-white/5 p-6 [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex cursor-pointer items-center justify-between gap-1.5 text-white">
+<h3 class="font-medium">What payment methods do you accept?</h3>
+<span class="relative size-5 shrink-0">
+<span class="material-symbols-outlined absolute inset-0 opacity-100 group-open:opacity-0 transition-opacity">add</span>
+<span class="material-symbols-outlined absolute inset-0 opacity-0 group-open:opacity-100 transition-opacity">remove</span>
+</span>
+</summary>
+<p class="mt-4 leading-relaxed text-white/70">
+                                We accept all major credit cards, including Visa, Mastercard, and American Express. For Enterprise plans, we also support invoicing and bank transfers.
+                            </p>
+</details>
+</div>
+</div>
+<!-- Footer -->
+<footer class="mt-24 sm:mt-32 border-t border-white/20 py-8 text-center text-white/50 text-sm">
+<p>© 2024 AIWallet. All rights reserved.</p>
+</footer>
+</div>
+</div>
+</div>
+</div>
+</body></html>
+
+
+
+
+
+
+
+

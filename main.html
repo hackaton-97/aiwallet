@@ -1,0 +1,275 @@
+<html><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Space+Grotesk%3Awght%40400%3B500%3B700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<title>AIWallet Homepage - Ultra Futuristic</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      @keyframes glowing {
+        0% {
+          text-shadow: 0 0 5px #a7c69f, 0 0 10px #a7c69f, 0 0 15px #a7c69f;
+        }
+        50% {
+          text-shadow: 0 0 10px #a7c69f, 0 0 20px #a7c69f, 0 0 30px #a7c69f;
+        }
+        100% {
+          text-shadow: 0 0 5px #a7c69f, 0 0 10px #a7c69f, 0 0 15px #a7c69f;
+        }
+      }
+      .neon-glow-text {
+        animation: glowing 3s infinite ease-in-out;
+      }
+      .neon-glow-box {
+        box-shadow: 0 0 2px #a7c69f, 0 0 5px #a7c69f, 0 0 8px #a7c69f;
+      }
+      .neon-glow-box-subtle {
+        box-shadow: 0 0 3px rgba(167, 198, 159, 0.5), 0 0 6px rgba(167, 198, 159, 0.3);
+      }
+      body {
+        background: #111;
+      }
+      html:not(.dark) body {
+        background: #ffffff !important;
+        color: #1a1a1a !important;
+      }
+      html:not(.dark) {
+        background-color: #ffffff !important;
+        color: #1a1a1a !important;
+      }
+      html:not(.dark) * {
+        color: #1a1a1a !important;
+      }
+      html:not(.dark) header {
+        background-color: #ffffff !important;
+        border-color: #e0e0e0 !important;
+        color: #1a1a1a !important;
+      }
+      html:not(.dark) footer {
+        background-color: #f5f5f5 !important;
+        color: #1a1a1a !important;
+        border-color: #e0e0e0 !important;
+      }
+      html:not(.dark) [class*="text-white"] {
+        color: #1a1a1a !important;
+      }
+      html:not(.dark) [class*="text-white/"] {
+        color: rgba(26, 26, 26, 0.8) !important;
+      }
+      html:not(.dark) [class*="bg-[#"],
+      html:not(.dark) [class*="bg-custom"],
+      html:not(.dark) [class*="bg-primary"],
+      html:not(.dark) div[style*="#0a0a0a"],
+      html:not(.dark) div[style*="#111"],
+      html:not(.dark) div[style*="#333333"],
+      html:not(.dark) div[style*="rgb(10"],
+      html:not(.dark) div[style*="rgb(17"],
+      html:not(.dark) div[style*="rgb(51"] {
+        background-color: #ffffff !important;
+      }
+      html:not(.dark) [class*="border-"] {
+        border-color: #e0e0e0 !important;
+      }
+      html:not(.dark) [class*="text-[#A7C69F]"],
+      html:not(.dark) [class*="text-custom-accent"] {
+        color: #5a7a4f !important;
+      }
+      html:not(.dark) svg {
+        color: #1a1a1a !important;
+      }
+      html:not(.dark) svg [fill="#a7c69f"],
+      html:not(.dark) svg [fill="#A7C69F"] {
+        fill: #5a7a4f !important;
+      }
+    </style>
+<script src="../script.js" defer></script>
+</head>
+<body>
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-[#111] dark group/design-root overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif; background-image: radial-gradient(circle at 25% 25%, rgba(167, 198, 159, 0.05) 0%, rgba(167, 198, 159, 0) 25%), radial-gradient(circle at 75% 75%, rgba(167, 198, 159, 0.05) 0%, rgba(167, 198, 159, 0) 25%);'>
+<div class="absolute inset-0 z-0 h-full w-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-repeat opacity-5" style="background-size: 150px"></div>
+<div class="absolute inset-0 z-0 h-full w-full bg-[url('https://www.transparenttextures.com/patterns/diagmonds.png')] bg-repeat opacity-5" style="background-size: 100px"></div>
+<div class="layout-container relative z-10 flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#a7c69f]/20 px-10 py-3 backdrop-blur-sm">
+<div class="flex items-center gap-4 text-[#A7C69F]">
+<div class="size-4 neon-glow-text">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-[#A7C69F] text-lg font-bold leading-tight tracking-[-0.015em] neon-glow-text">AIWallet</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="overview.html">Overview</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="features.html">Features</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="resources.html">Resources</a>
+</div>
+<div class="flex gap-2">
+<button id="themeToggle" class="flex min-w-[40px] w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent border border-[#A7C69F]/50 text-[#A7C69F] font-bold transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]" title="Toggle theme">
+<span id="themeIcon">🌙</span>
+</button>
+<a href="signup.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#A7C69F] text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-white hover:shadow-[0_0_15px_#A7C69F]">
+<span class="truncate">Get Started</span>
+</a>
+<a href="signin.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-[#A7C69F]/50 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]">
+<span class="truncate">Login</span>
+</a>
+</div>
+</div>
+</header>
+<div class="px-10 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col w-full flex-1">
+<div class="@container">
+<div class="@[480px]:p-0">
+<div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 rounded-lg items-start justify-end px-4 pb-10 @[480px]:px-10 border border-[#a7c69f]/20 bg-[#333333]/50 neon-glow-box-subtle relative overflow-hidden">
+<div class="absolute inset-0 bg-black/40 z-0"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-0"></div>
+<div class="relative z-10 flex flex-col gap-4 text-left">
+<h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-6xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] drop-shadow-[0_0_15px_#A7C69F]">
+                      AIWallet: Your Future, Financed Intelligently
+                    </h1>
+<h2 class="text-white/90 text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal max-w-3xl">
+                      AIWallet is a revolutionary financial management platform that leverages artificial intelligence to provide personalized insights and automated solutions for
+                      your financial well-being. Experience the future of finance with AIWallet.
+                    </h2>
+</div>
+<button class="relative z-10 flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#A7C69F] text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em] transition-all hover:bg-white hover:shadow-[0_0_15px_#A7C69F]">
+<span class="truncate">Get Started</span>
+</button>
+</div>
+</div>
+</div>
+<h2 class="text-[#A7C69F] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-8 neon-glow-text">
+              Useful Functions
+            </h2>
+<div class="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4 p-4">
+<div class="flex flex-1 gap-3 rounded-lg border border-[#a7c69f]/20 bg-[#333333]/40 p-4 flex-col backdrop-blur-sm transition-all hover:border-[#a7c69f]/50 hover:bg-[#333333]/80 hover:-translate-y-1 neon-glow-box-subtle">
+<div class="text-[#A7C69F] neon-glow-text" data-icon="PresentationChart" data-size="24px" data-weight="regular">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M216,40H136V24a8,8,0,0,0-16,0V40H40A16,16,0,0,0,24,56V176a16,16,0,0,0,16,16H79.36L57.75,219a8,8,0,0,0,12.5,10l29.59-37h56.32l29.59,37a8,8,0,1,0,12.5-10l-21.61-27H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,136H40V56H216V176ZM104,120v24a8,8,0,0,1-16,0V120a8,8,0,0,1,16,0Zm32-16v40a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm32-16v56a8,8,0,0,1-16,0V88a8,8,0,0,1,16,0Z"></path>
+</svg>
+</div>
+<div class="flex flex-col gap-1">
+<h2 class="text-white text-base font-bold leading-tight">Smart Budgeting</h2>
+<p class="text-white/70 text-sm font-normal leading-normal">AI-powered budgeting tools that adapt to your spending habits and financial goals.</p>
+</div>
+</div>
+<div class="flex flex-1 gap-3 rounded-lg border border-[#a7c69f]/20 bg-[#333333]/40 p-4 flex-col backdrop-blur-sm transition-all hover:border-[#a7c69f]/50 hover:bg-[#333333]/80 hover:-translate-y-1 neon-glow-box-subtle">
+<div class="text-[#A7C69F] neon-glow-text" data-icon="CurrencyDollar" data-size="24px" data-weight="regular">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M152,120H136V56h8a32,32,0,0,1,32,32,8,8,0,0,0,16,0,48.05,48.05,0,0,0-48-48h-8V24a8,8,0,0,0-16,0V40h-8a48,48,0,0,0,0,96h8v64H104a32,32,0,0,1-32-32,8,8,0,0,0-16,0,48.05,48.05,0,0,0,48,48h16v16a8,8,0,0,0,16,0V216h16a48,48,0,0,0,0-96Zm-40,0a32,32,0,0,1,0-64h8v64Zm40,80H136V136h16a32,32,0,0,1,0,64Z"></path>
+</svg>
+</div>
+<div class="flex flex-col gap-1">
+<h2 class="text-white text-base font-bold leading-tight">Automated Savings</h2>
+<p class="text-white/70 text-sm font-normal leading-normal">Automated savings plans that help you reach your financial milestones faster.</p>
+</div>
+</div>
+<div class="flex flex-1 gap-3 rounded-lg border border-[#a7c69f]/20 bg-[#333333]/40 p-4 flex-col backdrop-blur-sm transition-all hover:border-[#a7c69f]/50 hover:bg-[#333333]/80 hover:-translate-y-1 neon-glow-box-subtle">
+<div class="text-[#A7C69F] neon-glow-text" data-icon="ShieldCheck" data-size="24px" data-weight="regular">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M208,40H48A16,16,0,0,0,32,56v58.78c0,89.61,75.82,119.34,91,124.39a15.53,15.53,0,0,0,10,0c15.2-5.05,91-34.78,91-124.39V56A16,16,0,0,0,208,40Zm0,74.79c0,78.42-66.35,104.62-80,109.18-13.53-4.51-80-30.69-80-109.18V56H208ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.68l50.34-50.34a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"></path>
+</svg>
+</div>
+<div class="flex flex-col gap-1">
+<h2 class="text-white text-base font-bold leading-tight">Secure Transactions</h2>
+<p class="text-white/70 text-sm font-normal leading-normal">Cutting-edge security measures to protect your financial data and transactions.</p>
+</div>
+</div>
+<div class="flex flex-1 gap-3 rounded-lg border border-[#a7c69f]/20 bg-[#333333]/40 p-4 flex-col backdrop-blur-sm transition-all hover:border-[#a7c69f]/50 hover:bg-[#333333]/80 hover:-translate-y-1 neon-glow-box-subtle">
+<div class="text-[#A7C69F] neon-glow-text" data-icon="CreditCard" data-size="24px" data-weight="regular">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M224,48H32A16,16,0,0,0,16,64V192a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm0,16V88H32V64Zm0,128H32V104H224v88Zm-16-24a8,8,0,0,1-8,8H168a8,8,0,0,1,0-16h32A8,8,0,0,1,208,168Zm-64,0a8,8,0,0,1-8,8H120a8,8,0,0,1,0-16h16A8,8,0,0,1,144,168Z"></path>
+</svg>
+</div>
+<div class="flex flex-col gap-1">
+<h2 class="text-white text-base font-bold leading-tight">Credit Optimization</h2>
+<p class="text-white/70 text-sm font-normal leading-normal">
+                    Personalized credit optimization strategies to improve your credit score and unlock better financial opportunities.
+                  </p>
+</div>
+</div>
+</div>
+<h2 class="text-[#A7C69F] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 neon-glow-text">
+              User Testimonials
+            </h2>
+<div class="flex overflow-x-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden p-4">
+<div class="flex items-stretch gap-4">
+<div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-80 border border-[#a7c69f]/20 bg-[#333333]/40 p-4 backdrop-blur-sm neon-glow-box-subtle">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg flex flex-col border border-[#a7c69f]/30" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBseV7BT_xGHnqXCwA_ZyftFLhvufow9j3ZEo4gObJAoaaBXQYWWa5XTIZLlA0XCjMLQjpkbYznwXJiOVtp70YapqW_BGrfScYRoZ_Dn8s3qaPahD2uf3PL0ePbf5TCC3g8RlpG9bNgoYZ-u8knUlfhWd-7DZDMpPwZfh0z7hdZ3HruIHFAQWVJnkCCHf2jDSypObZghuaIG2awxdYGmgTTlmG65LsgglxJ0piQM7nLJ9MRUaAIJn1dIMYsd7yaTOqX8KPshM6lvTu1");'></div>
+<div>
+<p class="text-white text-base font-medium leading-normal">
+                      "AIWallet has completely transformed my financial life. The smart budgeting tools have helped me save more than I ever thought possible."
+                    </p>
+<p class="text-[#a7c69f] text-sm font-normal leading-normal mt-2">Sarah Miller, Marketing Manager</p>
+</div>
+</div>
+<div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-80 border border-[#a7c69f]/20 bg-[#333333]/40 p-4 backdrop-blur-sm neon-glow-box-subtle">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg flex flex-col border border-[#a7c69f]/30" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCToRGgsJUsWqgeQwTNrpNjLcQgzj5mbqbMJXfQQ0MC5_yYFrDqRDoC00GiqTkqe1cpe2Hq3WfP7B2lEeNtYW1RPydoqMu4TXUrEEVtwgj8kfm0Kh3fArOXio4lsQryNPJutTvWJlkjRVgj7sd3yECaGJtiiiRaLZAAZV82gm0QA7HLXxpefAnkEKaO6wyoKziXEMOSym2DDnxDZBSCqMhmA6RC2lw9-rvSzR9locegEexWAMGW0TSdBfpSscArKRNDj3yMSmuZcRe7");'></div>
+<div>
+<p class="text-white text-base font-medium leading-normal">
+                      "I was struggling with debt, but AIWallet's personalized credit optimization strategies helped me improve my credit score significantly."
+                    </p>
+<p class="text-[#a7c69f] text-sm font-normal leading-normal mt-2">David Chen, Software Engineer</p>
+</div>
+</div>
+<div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-80 border border-[#a7c69f]/20 bg-[#333333]/40 p-4 backdrop-blur-sm neon-glow-box-subtle">
+<div class="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg flex flex-col border border-[#a7c69f]/30" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAROZSNSvsE3uksbs5HgBIwmaWmKT0N15QDed0XjHbhGZleg-uJMKNgizzDK5ag61VvI71HCyQ6QKIRWwuElEu-nTrUminqKmx8XVbW4mr2XJNMpDPYncPRGcewfjKFh-VN7_N_ubCa4zqQSuzgv7bdNdotoMpI8zvUGf-ApnALAAWPm48jcyP1JSG2ptHyIJFWun915lceZETO9mDENJqMN-ALAudWwZiE1TQAeZAxa5LjagQgHBAG9LMhWgqSUbcRb8Nkrbzm-t-g");'></div>
+<div>
+<p class="text-white text-base font-medium leading-normal">
+                      "The automated savings plans are a game-changer. I'm now on track to achieve my financial goals years ahead of schedule."
+                    </p>
+<p class="text-[#a7c69f] text-sm font-normal leading-normal mt-2">Emily Rodriguez, Student</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer class="flex justify-center border-t border-[#a7c69f]/20 mt-8">
+<div class="flex w-full flex-1 flex-col">
+<div class="flex flex-col gap-6 px-5 py-10 text-center @container">
+<div class="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-center">
+<a class="text-white/70 text-base font-normal leading-normal min-w-40 transition-colors hover:text-[#A7C69F]" href="#">Privacy Policy</a>
+<a class="text-white/70 text-base font-normal leading-normal min-w-40 transition-colors hover:text-[#A7C69F]" href="#">Terms of Service</a>
+<a class="text-white/70 text-base font-normal leading-normal min-w-40 transition-colors hover:text-[#A7C69F]" href="#">Contact Us</a>
+</div>
+<div class="flex flex-wrap justify-center gap-4">
+<a href="#">
+<div class="text-white/70 transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" data-icon="TwitterLogo" data-size="24px" data-weight="regular">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M247.39,68.94A8,8,0,0,0,240,64H209.57A48.66,48.66,0,0,0,168.1,40a46.91,46.91,0,0,0-33.75,13.7A47.9,47.9,0,0,0,120,88v6.09C79.74,83.47,46.81,50.72,46.46,50.37a8,8,0,0,0-13.65,4.92c-4.31,47.79,9.57,79.77,22,98.18a110.93,110.93,0,0,0,21.88,24.2c-15.23,17.53-39.21,26.74-39.47,26.84a8,8,0,0,0-3.85,11.93c.75,1.12,3.75,5.05,11.08,8.72C53.51,229.7,65.48,232,80,232c70.67,0,129.72-54.42,135.75-124.44l29.91-29.9A8,8,0,0,0,247.39,68.94Zm-45,29.41a8,8,0,0,0-2.32,5.14C196,166.58,143.28,216,80,216c-10.56,0-18-1.4-23.22-3.08,11.51-6.25,27.56-17,37.88-32.48A8,8,0,0,0,92,169.08c-.47-.27-43.91-26.34-44-96,16,13,45.25,33.17,78.67,38.79A8,8,0,0,0,136,104V88a32,32,0,0,1,9.6-22.92A30.94,30.94,0,0,1,167.9,56c12.66.16,24.49,7.88,29.44,19.21A8,8,0,0,0,204.67,80h16Z"></path>
+</svg>
+</div>
+</a>
+<a href="#">
+<div class="text-white/70 transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" data-icon="InstagramLogo" data-size="24px" data-weight="regular">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"></path>
+</svg>
+</div>
+</a>
+<a href="#">
+<div class="text-white/70 transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" data-icon="FacebookLogo" data-size="24px" data-weight="regular">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm8,191.63V152h24a8,8,0,0,0,0-16H136V112a16,16,0,0,1,16-16h16a8,8,0,0,0,0-16H152a32,32,0,0,0-32,32v24H96a8,8,0,0,0,0,16h24v63.63a88,88,0,1,1,16,0Z"></path>
+</svg>
+</div>
+</a>
+</div>
+<p class="text-white/50 text-base font-normal leading-normal">@2024 AIWallet. All rights reserved.</p>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>
+
+
+
+
+
+
+

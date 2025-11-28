@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AIWallet Resources Page - Ultra Futuristic</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+        /* Light mode styles */
+        html:not(.dark) { background-color: #ffffff !important;
+            color: #1a1a1a;
+        }
+        html:not(.dark) body { background-color: #ffffff !important;
+            color: #1a1a1a;
+        }
+        html:not(.dark) header {
+            background-color: #ffffff !important;
+            border-color: #e0e0e0 !important;
+            color: #1a1a1a;
+        }
+        html:not(.dark) footer {
+            background-color: #f5f5f5 !important;
+            color: #1a1a1a;
+            border-color: #e0e0e0 !important;
+        }
+        html:not(.dark) [class*="text-white"] {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) [class*="text-white/"] {
+            color: rgba(26, 26, 26, 0.8) !important;
+        }
+        html:not(.dark) [class*="bg-[#"],
+        html:not(.dark) [class*="bg-custom"] {
+            background-color: #f5f5f5 !important;
+        }
+        html:not(.dark) [class*="border-"] {
+            border-color: #e0e0e0 !important;
+        }
+    
+        html:not(.dark) [class*="text-[#A7C69F]"], html:not(.dark) [class*="text-custom-accent"] { color: #5a7a4f !important; }
+        html:not(.dark) svg { color: #1a1a1a !important; }
+        html:not(.dark) * { color: #1a1a1a !important; }
+        html:not(.dark) div { background-color: #ffffff !important; }
+        html:not(.dark) [class*="bg-"] { background-color: #ffffff !important; }
+        html:not(.dark) h1, html:not(.dark) h2, html:not(.dark) h3 { color: #1a1a1a !important; }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#135bec",
+              "background-light": "#f6f6f8",
+              "background-dark": "#333333",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<script src="../script.js" defer></script>
+</head>
+<body class="bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full flex-col dark group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-4 sm:px-10 md:px-20 lg:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#ffffff]/20 px-4 py-3">
+<a href="main.html" class="flex items-center gap-4 text-white cursor-pointer hover:opacity-80 transition-opacity">
+<div class="size-6 text-[#A7C69F]">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">AIWallet</h2>
+</a>
+<div class="hidden md:flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="overview.html">Overview</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="features.html">Features</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="resources.html">Resources</a>
+</div>
+<div class="flex gap-2">
+<button id="themeToggle" class="flex min-w-[40px] w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent border border-[#A7C69F]/50 text-white font-bold transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]" title="Toggle theme">
+<span id="themeIcon">🌙</span>
+</button>
+<a href="signup.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#A7C69F] text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-white hover:shadow-[0_0_15px_#A7C69F]">
+<span class="truncate">Get Started</span>
+</a>
+<a href="signin.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-[#A7C69F]/50 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]">
+<span class="truncate">Login</span>
+</a>
+</div>
+</div>
+</header>
+<!-- HeroSection -->
+<div class="@container mt-10">
+<div class="@[480px]:p-4">
+<div class="flex min-h-[400px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-lg items-center justify-center text-center px-4 pb-10 @[480px]:px-10" data-alt="Abstract futuristic digital grid background" style='background-image: linear-gradient(rgba(51, 51, 51, 0.7) 0%, rgba(51, 51, 51, 1) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuCxp6mK-VKEugwB3-lLAqYry1167VH7mWdh-JN2S2rD58d5OTgHVNEopo54WDcHllvqFy6P1_UkH2D2ijmV1VE2uScjRv7FWTR-MiX9KyEbQOCmR7AefNtzrkynvGG2m-_qx2diYs38jWnimMKRXx7nZPYCNO2iknfuQtwP9bvAl5f4R89RE9N6P09RMGxllkmrsa17d0e9JqrV7GTXw2u6h_y1nYerVKeJd1Nv3UGv8B94IAuMR5qRreGbLJx79nGCynfY6fU5S7Ad");'>
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">AIWallet Knowledge Core</h1>
+<h2 class="text-white/80 text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal">Access guides, tutorials, and insights to maximize your financial intelligence.</h2>
+</div>
+<label class="flex flex-col min-w-40 h-14 w-full max-w-[480px] @[480px]:h-16">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full border border-[#A7C69F]/50 bg-[#333333]/50 backdrop-blur-sm focus-within:border-[#A7C69F] focus-within:shadow-[0_0_12px_rgba(167,198,159,0.5)] transition-all">
+<div class="text-[#A7C69F] flex items-center justify-center pl-[15px]">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-0 border-0 bg-transparent h-full placeholder:text-white/50 px-3 text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal" placeholder="Search for a resource..." value=""/>
+<div class="flex items-center justify-center pr-[7px]">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#A7C69F] text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em] hover:shadow-[0_0_12px_rgba(167,198,159,0.7)] transition-shadow">
+<span class="truncate">Search</span>
+</button>
+</div>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Chips -->
+<div class="flex flex-wrap justify-center gap-3 p-3 overflow-x-auto mt-6">
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#A7C69F] px-4">
+<p class="text-[#333333] text-sm font-bold leading-normal">All Resources</p>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#ffffff]/10 hover:bg-[#ffffff]/20 px-4 transition-colors">
+<p class="text-white text-sm font-medium leading-normal">Getting Started</p>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#ffffff]/10 hover:bg-[#ffffff]/20 px-4 transition-colors">
+<p class="text-white text-sm font-medium leading-normal">Security Guides</p>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#ffffff]/10 hover:bg-[#ffffff]/20 px-4 transition-colors">
+<p class="text-white text-sm font-medium leading-normal">Feature Tutorials</p>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#ffffff]/10 hover:bg-[#ffffff]/20 px-4 transition-colors">
+<p class="text-white text-sm font-medium leading-normal">Market Insights</p>
+</button>
+<button class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#ffffff]/10 hover:bg-[#ffffff]/20 px-4 transition-colors">
+<p class="text-white text-sm font-medium leading-normal">FAQ</p>
+</button>
+</div>
+<!-- ImageGrid -->
+<div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 p-4 mt-6">
+<div class="flex flex-col gap-4 p-5 rounded-lg border border-solid border-white/10 hover:border-[#A7C69F]/80 hover:shadow-[0_0_20px_rgba(167,198,159,0.3)] transition-all cursor-pointer">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold tracking-widest text-[#A7C69F]">GUIDE</span>
+</div>
+<div class="flex flex-col gap-2">
+<p class="text-white text-lg font-bold leading-normal">Securing Your Digital Assets</p>
+<p class="text-white/60 text-sm font-normal leading-normal">An overview of best practices for wallet security.</p>
+</div>
+<p class="text-[#A7C69F] text-sm font-bold leading-normal mt-auto">Read More</p>
+</div>
+<div class="flex flex-col gap-4 p-5 rounded-lg border border-solid border-white/10 hover:border-[#A7C69F]/80 hover:shadow-[0_0_20px_rgba(167,198,159,0.3)] transition-all cursor-pointer">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold tracking-widest text-[#A7C69F]">FAQ</span>
+</div>
+<div class="flex flex-col gap-2">
+<p class="text-white text-lg font-bold leading-normal">Frequently Asked Questions</p>
+<p class="text-white/60 text-sm font-normal leading-normal">Quick answers to the most common user inquiries.</p>
+</div>
+<p class="text-[#A7C69F] text-sm font-bold leading-normal mt-auto">View</p>
+</div>
+<div class="flex flex-col gap-4 p-5 rounded-lg border border-solid border-white/10 hover:border-[#A7C69F]/80 hover:shadow-[0_0_20px_rgba(167,198,159,0.3)] transition-all cursor-pointer">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold tracking-widest text-[#A7C69F]">ARTICLE</span>
+</div>
+<div class="flex flex-col gap-2">
+<p class="text-white text-lg font-bold leading-normal">The Future of AI in Personal Finance</p>
+<p class="text-white/60 text-sm font-normal leading-normal">An analysis of upcoming trends and their impact.</p>
+</div>
+<p class="text-[#A7C69F] text-sm font-bold leading-normal mt-auto">Read More</p>
+</div>
+<div class="flex flex-col gap-4 p-5 rounded-lg border border-solid border-white/10 hover:border-[#A7C69F]/80 hover:shadow-[0_0_20px_rgba(167,198,159,0.3)] transition-all cursor-pointer">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold tracking-widest text-[#A7C69F]">TUTORIAL</span>
+</div>
+<div class="flex flex-col gap-2">
+<p class="text-white text-lg font-bold leading-normal">Setting Up Your First Automated Investment</p>
+<p class="text-white/60 text-sm font-normal leading-normal">A step-by-step video guide to get you started.</p>
+</div>
+<p class="text-[#A7C69F] text-sm font-bold leading-normal mt-auto">View</p>
+</div>
+</div>
+<!-- Footer -->
+<footer class="flex flex-col gap-8 px-5 py-10 text-center @container mt-12 border-t border-solid border-white/10">
+<div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 @[480px]:flex-row @[480px]:justify-center">
+<a class="text-white/60 hover:text-[#A7C69F] text-base font-normal leading-normal min-w-40 transition-colors" href="#">Contact</a>
+<a class="text-white/60 hover:text-[#A7C69F] text-base font-normal leading-normal min-w-40 transition-colors" href="#">Privacy Policy</a>
+<a class="text-white/60 hover:text-[#A7C69F] text-base font-normal leading-normal min-w-40 transition-colors" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a href="#">
+<img class="text-white/60 hover:text-[#A7C69F] h-6 w-6 transition-colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpFh7OSUzEj0XKLJfBIIV04v-GovLLGjGnzDoQbT0ps0Df9oU8HHpWzi4FU3EgN14NBNziFl4HZcvrKRIUfrB1wovmysIFaTBEbmc8R-7C8ndna4mgfw2eBXQcnnGJmYoAv3r98aJO0Nn8M4fCw14NBF3PWea5A4IR7yc2kkzNdVtZh8_iOgzDSH1Tvn6i9pRDZszXGg4L7kGCz_NRI0F8qoAkp4S5JrV2-3XpTR15xeC-kj1YhQ82SbMUKY4K9_ngc4YGUunxrFQL"/>
+</a>
+<a href="#">
+<img class="text-white/60 hover:text-[#A7C69F] h-6 w-6 transition-colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpFh7OSUzEj0XKLJfBIIV04v-GovLLGjGnzDoQbT0ps0Df9oU8HHpWzi4FU3EgN14NBNziFl4HZcvrKRIUfrB1wovmysIFaTBEbmc8R-7C8ndna4mgfw2eBXQcnnGJmYoAv3r98aJO0Nn8M4fCw14NBF3PWea5A4IR7yc2kkzNdVtZh8_iOgzDSH1Tvn6i9pRDZszXGg4L7kGCz_NRI0F8qoAkp4S5JrV2-3XpTR15xeC-kj1YhQ82SbMUKY4K9_ngc4YGUunxrFQL"/>
+</a>
+<a href="#">
+<img class="text-white/60 hover:text-[#A7C69F] h-6 w-6 transition-colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpFh7OSUzEj0XKLJfBIIV04v-GovLLGjGnzDoQbT0ps0Df9oU8HHpWzi4FU3EgN14NBNziFl4HZcvrKRIUfrB1wovmysIFaTBEbmc8R-7C8ndna4mgfw2eBXQcnnGJmYoAv3r98aJO0Nn8M4fCw14NBF3PWea5A4IR7yc2kkzNdVtZh8_iOgzDSH1Tvn6i9pRDZszXGg4L7kGCz_NRI0F8qoAkp4S5JrV2-3XpTR15xeC-kj1YhQ82SbMUKY4K9_ngc4YGUunxrFQL"/>
+</a>
+</div>
+<p class="text-white/60 text-sm font-normal leading-normal">© 2024 AIWallet. All Rights Reserved.</p>
+</footer>
+</div>
+</div>
+</div>
+</div>
+</body></html>
+
+
+
+
+
+
+
+

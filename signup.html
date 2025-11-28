@@ -1,0 +1,133 @@
+<html><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Space+Grotesk%3Awght%40400%3B500%3B700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      @layer utilities {
+        .glow-button {
+          box-shadow: 0 0 5px #a7c69f, 0 0 10px #a7c69f, 0 0 15px #a7c69f;
+        }
+        .glow-input:focus {
+          outline: none;
+          box-shadow: 0 0 5px #a7c69f;
+        }
+      }
+      /* Light mode styles */
+      html:not(.dark) {
+        background-color: #ffffff !important;
+        color: #1a1a1a !important;
+      }
+      html:not(.dark) body {
+        background-color: #ffffff !important;
+        color: #1a1a1a !important;
+      }
+      html:not(.dark) * {
+        color: #1a1a1a !important;
+      }
+      html:not(.dark) header {
+        background-color: #ffffff !important;
+        border-color: #e0e0e0 !important;
+        color: #1a1a1a !important;
+      }
+      html:not(.dark) footer {
+        background-color: #f5f5f5 !important;
+        color: #1a1a1a !important;
+        border-color: #e0e0e0 !important;
+      }
+      html:not(.dark) [class*="text-white"] {
+        color: #1a1a1a !important;
+      }
+      html:not(.dark) [class*="bg-[#"] {
+        background-color: #f5f5f5 !important;
+      }
+      html:not(.dark) [class*="border-"] {
+        border-color: #e0e0e0 !important;
+      }
+      html:not(.dark) [class*="text-[#A7C69F]"],
+      html:not(.dark) [class*="text-custom-accent"] {
+        color: #5a7a4f !important;
+      }
+      html:not(.dark) div {
+        background-color: #ffffff !important;
+      }
+      html:not(.dark) button {
+        background-color: #f5f5f5 !important;
+        color: #1a1a1a !important;
+        border-color: #e0e0e0 !important;
+      }
+      html:not(.dark) input {
+        background-color: #f5f5f5 !important;
+        color: #1a1a1a !important;
+        border-color: #e0e0e0 !important;
+      }
+      html:not(.dark) h1, html:not(.dark) h2, html:not(.dark) h3 {
+        color: #1a1a1a !important;
+      }
+    </style>
+<script src="../script.js" defer></script>
+</head>
+<body>
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-[#0a0a0a] dark group/design-root overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif; background-image: radial-gradient(circle at top right, rgba(167, 198, 159, 0.1) 0%, transparent 30%), radial-gradient(circle at bottom left, rgba(167, 198, 159, 0.1) 0%, transparent 40%);'>
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#333333] px-10 py-4">
+<a href="main.html" class="flex items-center gap-4 text-white cursor-pointer hover:opacity-80 transition-opacity">
+<div class="size-5 text-[#A7C69F]">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">AIWallet</h2>
+</a>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="overview.html">Overview</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="features.html">Features</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="resources.html">Resources</a>
+</div>
+<div class="flex gap-2">
+<button id="themeToggle" class="flex min-w-[40px] w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent border border-[#A7C69F]/50 text-[#A7C69F] font-bold transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]" title="Toggle theme">
+<span id="themeIcon">🌙</span>
+</button>
+<a href="signin.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-[#A7C69F]/50 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]">
+<span class="truncate">Login</span>
+</a>
+</div>
+</header>
+<div class="px-10 flex flex-1 justify-center items-center py-10">
+<div class="layout-content-container flex flex-col w-[480px] max-w-[480px] border border-[#333333] rounded-xl bg-[rgba(51,51,51,0.2)] backdrop-blur-sm p-8">
+<h2 class="text-white tracking-light text-3xl font-bold leading-tight text-center pb-6">Create Your Account</h2>
+<div class="flex flex-col gap-5">
+<label class="flex flex-col flex-1">
+<p class="text-[#A7C69F] text-sm font-medium leading-normal pb-2">Email Address</p>
+<input class="form-input glow-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-md text-white border border-[#333333] bg-[#333333] h-12 placeholder:text-[#a9b6a5]/50 p-4 text-base font-normal leading-normal transition-shadow" placeholder="Enter your email" value=""/>
+</label>
+<label class="flex flex-col flex-1">
+<p class="text-[#A7C69F] text-sm font-medium leading-normal pb-2">Full Name</p>
+<input class="form-input glow-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-md text-white border border-[#333333] bg-[#333333] h-12 placeholder:text-[#a9b6a5]/50 p-4 text-base font-normal leading-normal transition-shadow" placeholder="Enter your full name" value=""/>
+</label>
+<label class="flex flex-col flex-1">
+<p class="text-[#A7C69F] text-sm font-medium leading-normal pb-2">Password</p>
+<input class="form-input glow-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-md text-white border border-[#333333] bg-[#333333] h-12 placeholder:text-[#a9b6a5]/50 p-4 text-base font-normal leading-normal transition-shadow" placeholder="Create a secure password" type="password" value=""/>
+</label>
+</div>
+<div class="flex pt-6 pb-4">
+<button class="glow-button flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-md h-12 px-4 flex-1 bg-[#a7c69f] text-[#333333] text-base font-bold leading-normal tracking-[0.015em] transition-all hover:bg-white">
+<span class="truncate">Create Account</span>
+</button>
+</div>
+<p class="text-[#ffffff]/60 text-xs font-normal leading-normal text-center">By continuing, you agree to our Terms of Service and Privacy Policy.</p>
+</div>
+</div>
+</div>
+</div>
+</body></html>
+
+
+
+
+
+
