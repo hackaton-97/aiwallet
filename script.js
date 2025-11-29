@@ -1,3 +1,141 @@
+// Add floating animation to buttons and logo
+function addFloatingAnimation() {
+  // Add CSS for floating animation if not already added
+  if (!document.getElementById('floatingAnimationStyle')) {
+    const style = document.createElement('style');
+    style.id = 'floatingAnimationStyle';
+    style.textContent = `
+      /* Floating animation for buttons and logo */
+      .floating-hover {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out !important;
+        will-change: transform;
+      }
+      
+      .floating-hover:hover {
+        animation: float 2s ease-in-out infinite !important;
+        transform: translateY(-3px) !important;
+      }
+      
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(-3px);
+        }
+        50% {
+          transform: translateY(-6px);
+        }
+      }
+      
+      /* Logo specific animation */
+      .logo-floating {
+        transition: transform 0.3s ease-in-out !important;
+        will-change: transform;
+      }
+      
+      .logo-floating:hover {
+        animation: logoFloat 2s ease-in-out infinite !important;
+      }
+      
+      @keyframes logoFloat {
+        0%, 100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        25% {
+          transform: translateY(-4px) rotate(-1deg);
+        }
+        50% {
+          transform: translateY(-6px) rotate(0deg);
+        }
+        75% {
+          transform: translateY(-4px) rotate(1deg);
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+  
+  // Apply to logo (only if not in header)
+  const logos = document.querySelectorAll('a[href="main.html"]');
+  logos.forEach(logo => {
+    // Check if logo is NOT in header
+    const header = logo.closest('header');
+    if (!header) {
+      if (!logo.classList.contains('logo-floating')) {
+        logo.classList.add('logo-floating');
+      }
+    }
+  });
+  
+  // Apply to all buttons (excluding header, profile menu, and profile avatar)
+  const allButtons = document.querySelectorAll('button, a[role="button"]');
+  allButtons.forEach(button => {
+    // Skip if in header
+    if (button.closest('header')) return;
+    
+    // Skip if in profile modal/menu
+    if (button.closest('#profileModal')) return;
+    
+    // Skip profile avatar
+    if (button.id === 'profileAvatar' || button.closest('#profileAvatar')) return;
+    
+    // Skip theme toggle (it's in header)
+    if (button.id === 'themeToggle') return;
+    
+    // Skip auth buttons (they're in header)
+    if (button.closest('#authButtons')) return;
+    
+    // Skip info dropdown button (it's in profile menu)
+    if (button.id === 'infoDropdownButton') return;
+    
+    // Add floating class if not already added
+    if (!button.classList.contains('floating-hover')) {
+      button.classList.add('floating-hover');
+    }
+  });
+  
+  // Apply to links that look like buttons (excluding header and profile menu)
+  const buttonLinks = document.querySelectorAll('a');
+  buttonLinks.forEach(link => {
+    // Skip if in header
+    if (link.closest('header')) return;
+    
+    // Skip if in profile modal
+    if (link.closest('#profileModal')) return;
+    
+    // Skip if it's dashboard link in header
+    if (link.id === 'dashboardLink') return;
+    
+    // Skip if it's logo in header
+    if (link.href && link.href.includes('main.html') && link.closest('header')) return;
+    
+    // Only apply to links that look like buttons or are interactive
+    const hasButtonClass = link.className && (
+      link.className.includes('btn') || 
+      link.className.includes('button') ||
+      link.className.includes('cursor-pointer')
+    );
+    
+    // Or if it's a significant action link
+    const isActionLink = link.href && (
+      link.href.includes('signup') || 
+      link.href.includes('signin') ||
+      (link.href.includes('profile') && !link.closest('header'))
+    );
+    
+    if (hasButtonClass || isActionLink) {
+      if (!link.classList.contains('floating-hover')) {
+        link.classList.add('floating-hover');
+      }
+    }
+  });
+}
+
+// Add floating animation on DOM ready
+document.addEventListener('DOMContentLoaded', function() {
+  // Add floating animation after a short delay to ensure all elements are loaded
+  setTimeout(addFloatingAnimation, 100);
+  setTimeout(addFloatingAnimation, 500);
+});
+
 // Theme Toggle Functionality with Full UI Adaptation
 document.addEventListener('DOMContentLoaded', function() {
   const themeToggle = document.getElementById('themeToggle');
@@ -200,7 +338,12 @@ function toggleProfileMenu(e) {
   const profileUsername = document.getElementById('profileUsername');
   const profileEmail = document.getElementById('profileEmail');
   
-  if (profileUsername) profileUsername.textContent = username || 'User';
+  // Get plan prefix
+  const userPlan = localStorage.getItem('userPlan');
+  const planPrefix = getPlanPrefix(userPlan);
+  const displayName = planPrefix ? `${planPrefix} ${username || 'User'}` : (username || 'User');
+  
+  if (profileUsername) profileUsername.textContent = displayName;
   if (profileEmail) profileEmail.textContent = email || 'email@example.com';
   
   // Toggle modal
@@ -214,6 +357,16 @@ function toggleProfileMenu(e) {
 // Make toggleProfileMenu globally accessible
 window.toggleProfileMenu = toggleProfileMenu;
 
+function getPlanPrefix(planName) {
+  if (!planName) return '';
+  const prefixes = {
+    'basic': '[Basic]',
+    'pro': '[Pro]',
+    'enterprise': '[Enterprise]'
+  };
+  return prefixes[planName.toLowerCase()] || '';
+}
+
 function closeProfileMenuOnBackdrop(event) {
   const profileModal = document.getElementById('profileModal');
   if (event.target === event.currentTarget && profileModal) {
@@ -223,12 +376,66 @@ function closeProfileMenuOnBackdrop(event) {
 
 // ==== Custom Modal for confirmations ==== //
 (function(){
+  // Add styles for custom modal
+  if (!document.getElementById('customModalStyles')) {
+    const style = document.createElement('style');
+    style.id = 'customModalStyles';
+    style.textContent = `
+      #customModal > div {
+        background-color: #181818 !important;
+        color: #ffffff !important;
+      }
+      html:not(.dark) #customModal > div {
+        background-color: #ffffff !important;
+        color: #1a1a1a !important;
+        border-color: #5a7a4f !important;
+      }
+      #customModal #modalContent {
+        color: #ffffff !important;
+      }
+      html:not(.dark) #customModal #modalContent {
+        color: #1a1a1a !important;
+      }
+      #customModal #modalContent div {
+        color: rgba(255, 255, 255, 0.9) !important;
+      }
+      html:not(.dark) #customModal #modalContent div {
+        color: rgba(26, 26, 26, 0.9) !important;
+      }
+      #customModal #modalCloseBtn {
+        color: rgba(255, 255, 255, 0.5) !important;
+      }
+      html:not(.dark) #customModal #modalCloseBtn {
+        color: rgba(26, 26, 26, 0.5) !important;
+      }
+      #customModal #modalContent .text-white\\/80 {
+        color: rgba(255, 255, 255, 0.95) !important;
+      }
+      html:not(.dark) #customModal #modalContent .text-white\\/80 {
+        color: rgba(26, 26, 26, 0.9) !important;
+      }
+      #customModal #customModalError {
+        color: #f87171 !important;
+      }
+      html:not(.dark) #customModal #customModalError {
+        color: #dc2626 !important;
+      }
+      #customModal .text-red-400 {
+        color: #f87171 !important;
+      }
+      html:not(.dark) #customModal .text-red-400 {
+        color: #dc2626 !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+  
   if (!document.getElementById('customModal')) {
     const modalHTML = `
       <div id="customModal" class="fixed z-50 inset-0 flex items-center justify-center bg-black/70 hidden">
-        <div class="bg-[#181818] border border-[#A7C69F]/30 rounded-2xl shadow-2xl p-8 max-w-[94vw] w-full max-w-sm text-white relative">
-          <button id="modalCloseBtn" class="absolute top-4 right-4 text-white/50 hover:text-[#A7C69F] focus:outline-none"><span class="material-symbols-outlined">close</span></button>
-          <div id="modalContent" class="space-y-6"></div>
+        <div class="bg-[#181818] border border-[#A7C69F]/30 rounded-2xl shadow-2xl p-8 max-w-[94vw] w-full max-w-sm text-white relative" style="background-color: #181818 !important; color: #ffffff !important;">
+          <button id="modalCloseBtn" class="absolute top-4 right-4 text-white/50 hover:text-[#A7C69F] focus:outline-none" style="color: rgba(255, 255, 255, 0.5) !important;"><span class="material-symbols-outlined">close</span></button>
+          <div id="modalContent" class="space-y-6" style="color: #ffffff !important;"></div>
           <div class="flex gap-3 mt-6 items-center justify-end" id="modalActions"></div>
         </div>
       </div>`;
@@ -250,45 +457,99 @@ function closeProfileMenuOnBackdrop(event) {
   window.showCustomModal = function({type = 'confirm', title = '', message = '', inputLabel = '', initialValue = '', confirmText = 'OK', cancelText = 'Cancel', onConfirm, onCancel, validate}) {
     modalContent.innerHTML = '';
     modalActions.innerHTML = '';
-    if (title) modalContent.innerHTML += `<div class='text-xl font-bold text-[#A7C69F] mb-2'>${title}</div>`;
-    if (message) modalContent.innerHTML += `<div class='text-white/80'>${message}</div>`;
+    if (title) modalContent.innerHTML += `<div class='text-xl font-bold text-[#A7C69F] mb-2' style='color: #A7C69F !important;'>${title}</div>`;
+    if (message) {
+      const isDark = document.documentElement.classList.contains('dark');
+      const messageColor = isDark ? 'rgba(255, 255, 255, 0.95)' : 'rgba(26, 26, 26, 0.9)';
+      modalContent.innerHTML += `<div class='text-white/80' style='color: ${messageColor} !important;'>${message}</div>`;
+    }
+    
+    // Buttons - create early so they're available for event handlers
+    const confirmBtn = document.createElement('button');
+    confirmBtn.className = 'rounded bg-[#A7C69F] text-[#232323] font-bold px-5 py-2 hover:bg-[#89b788] transition-colors';
+    confirmBtn.textContent = confirmText;
+    
+    // Only add cancel button if cancelText is provided and not empty
+    if (cancelText && cancelText.trim() !== '') {
+      const cancelBtn = document.createElement('button');
+      cancelBtn.className = 'rounded border border-[#A7C69F] text-[#A7C69F] px-5 py-2 hover:bg-[#232323]/60 hover:text-[#e5ffe8] transition-colors';
+      cancelBtn.textContent = cancelText;
+      modalActions.appendChild(cancelBtn);
+    }
+    
+    modalActions.appendChild(confirmBtn);
+    
     if (type === 'input') {
       modalContent.innerHTML += `
         <label class='block mt-4'>
-          <span class='text-white/60'>${inputLabel || ''}</span>
+          <span class='text-white/60' style='color: rgba(255, 255, 255, 0.6);'>${inputLabel || ''}</span>
           <input id='customModalInput' class='w-full mt-2 rounded bg-[#232323] border border-[#A7C69F]/30 p-2 text-base text-white outline-none focus:border-[#A7C69F]' type='text' autocomplete='off' value='${initialValue||''}' />
         </label>
         <span id='customModalError' class='text-red-400 block text-sm mt-1'></span>
       `;
       setTimeout(()=>{
-        document.getElementById('customModalInput').focus();
-        document.getElementById('customModalInput').select();
+        const inputEl = document.getElementById('customModalInput');
+        if (inputEl) {
+          inputEl.focus();
+          inputEl.select();
+          // Add Enter key handler to trigger Save button
+          inputEl.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
+              e.preventDefault();
+              confirmBtn.click();
+            }
+          });
+        }
       }, 90);
     }
-    // Buttons
-    const confirmBtn = document.createElement('button');
-    confirmBtn.className = 'rounded bg-[#A7C69F] text-[#232323] font-bold px-5 py-2 hover:bg-[#89b788] transition-colors';
-    confirmBtn.textContent = confirmText;
-    const cancelBtn = document.createElement('button');
-    cancelBtn.className = 'rounded border border-[#A7C69F] text-[#A7C69F] px-5 py-2 hover:bg-[#232323]/60 hover:text-[#e5ffe8] transition-colors';
-    cancelBtn.textContent = cancelText;
-    modalActions.appendChild(cancelBtn);
-    modalActions.appendChild(confirmBtn);
+    
     confirmBtn.onclick = ()=>{
       if(type==='input') {
-        const val = document.getElementById('customModalInput').value.trim();
-        if(validate && !validate(val)) {
-          document.getElementById('customModalError').textContent = typeof validate==='function'? validate(val)||'Ошибка': 'Ошибка';
-          return;
+        const inputEl = document.getElementById('customModalInput');
+        if (!inputEl) return;
+        const val = inputEl.value || '';
+        const errorEl = document.getElementById('customModalError');
+        
+        if(validate && typeof validate === 'function') {
+          try {
+            const errorMsg = validate(val);
+            // If validate returns a non-empty string, it's an error
+            if(errorMsg && typeof errorMsg === 'string' && errorMsg.trim().length > 0) {
+              if(errorEl) {
+                errorEl.textContent = errorMsg;
+                // Update error color based on theme
+                const isDark = document.documentElement.classList.contains('dark');
+                errorEl.style.color = isDark ? '#f87171' : '#dc2626';
+              }
+              return;
+            }
+          } catch(e) {
+            console.error('Validation error:', e);
+            if(errorEl) {
+              errorEl.textContent = 'Validation error occurred';
+              // Update error color based on theme
+              const isDark = document.documentElement.classList.contains('dark');
+              errorEl.style.color = isDark ? '#f87171' : '#dc2626';
+            }
+            return;
+          }
         }
+        // Clear error if validation passes
+        if(errorEl) errorEl.textContent = '';
         closeModal();
-        if (onConfirm) onConfirm(val);
+        if (onConfirm) onConfirm(val.trim());
         return;
       }
       closeModal();
       if (onConfirm) onConfirm();
     };
-    cancelBtn.onclick = ()=>{ closeModal(); if(onCancel) onCancel(); };
+    
+    // Only set cancel button handler if cancel button exists
+    const cancelBtnElement = modalActions.querySelector('button:not(:last-child)');
+    if (cancelBtnElement) {
+      cancelBtnElement.onclick = ()=>{ closeModal(); if(onCancel) onCancel(); };
+    }
+    
     modal.classList.remove('hidden');
   }
 })();
@@ -366,9 +627,15 @@ function checkUserStatus() {
   const authButtons = document.getElementById('authButtons');
   const profileAvatar = document.getElementById('profileAvatar');
   const avatarInitial = document.getElementById('avatarInitial');
+  const dashboardLink = document.getElementById('dashboardLink');
+  const createPlanLink = document.getElementById('createPlanLink');
+  const myPlansLink = document.getElementById('myPlansLink');
 
   if (userId && username) {
     if (authButtons) authButtons.classList.add('hidden');
+    if (dashboardLink) dashboardLink.classList.remove('hidden');
+    if (createPlanLink) createPlanLink.classList.remove('hidden');
+    if (myPlansLink) myPlansLink.classList.remove('hidden');
     if (profileAvatar) {
       profileAvatar.classList.remove('hidden');
       // Update avatar image if exists
@@ -395,9 +662,13 @@ function checkUserStatus() {
     updateAuthButtons();
   } else {
     if (authButtons) authButtons.classList.remove('hidden');
+    if (dashboardLink) dashboardLink.classList.add('hidden');
+    if (createPlanLink) createPlanLink.classList.add('hidden');
+    if (myPlansLink) myPlansLink.classList.add('hidden');
     if (profileAvatar) profileAvatar.classList.add('hidden');
     resetAuthButtons();
   }
+  syncHeaderLinks();
 }
 
 // Update all authentication buttons to point to profile if user is logged in
@@ -443,25 +714,159 @@ function resetAuthButtons() {
   });
 }
 
+function syncHeaderLinks() {
+  const isLoggedIn = !!(localStorage.getItem('userId') && localStorage.getItem('username'));
+  const infoDropdownButton = document.getElementById('infoDropdownButton');
+  const infoDropdownMenu = document.getElementById('infoDropdownMenu');
+  const dashboardLink = document.getElementById('dashboardLink');
+  const createPlanLink = document.getElementById('createPlanLink');
+  const myPlansLink = document.getElementById('myPlansLink');
+  const headerLinksBlock = Array.from(document.querySelectorAll('header .flex.items-center.gap-9'))[0];
+  
+  // Show/hide Dashboard, Create Plan, and My Plans links based on login status
+  if (dashboardLink) {
+    if (isLoggedIn) {
+      dashboardLink.classList.remove('hidden');
+    } else {
+      dashboardLink.classList.add('hidden');
+    }
+  }
+  
+  if (createPlanLink) {
+    if (isLoggedIn) {
+      createPlanLink.classList.remove('hidden');
+    } else {
+      createPlanLink.classList.add('hidden');
+    }
+  }
+  
+  if (myPlansLink) {
+    if (isLoggedIn) {
+      myPlansLink.classList.remove('hidden');
+    } else {
+      myPlansLink.classList.add('hidden');
+    }
+  }
+  
+  // Если не нашли — не трогаем
+  if (!headerLinksBlock) return;
+  if (isLoggedIn) {
+    // Показываем только Pricing, Create Plan, My Plans и Dashboard (они есть у всех)
+    Array.from(headerLinksBlock.children).forEach(child=>{
+      const text = child.textContent || '';
+      child.style.display = (text.includes('Pricing') || text.includes('Dashboard') || text.includes('Create Plan') || text.includes('My Plans')) ? '' : 'none';
+    });
+    if (infoDropdownButton) infoDropdownButton.style.display = '';
+    if (infoDropdownMenu) infoDropdownMenu.classList.add('hidden');
+  } else {
+    // Показывать Overview, Features, Resources (+ Pricing)
+    headerLinksBlock.innerHTML = `
+      <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="overview.html">Overview</a>
+      <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="features.html">Features</a>
+      <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="resources.html">Resources</a>
+      <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
+    `;
+    if (infoDropdownButton) infoDropdownButton.style.display = 'none';
+    if (infoDropdownMenu) infoDropdownMenu.classList.add('hidden');
+  }
+}
+
 // Close modal when clicking outside (for all pages)
 document.addEventListener('click', function(e) {
   const profileModal = document.getElementById('profileModal');
   const profileAvatar = document.getElementById('profileAvatar');
+  const infoDropdownButton = document.getElementById('infoDropdownButton');
+  const infoDropdownMenu = document.getElementById('infoDropdownMenu');
   
   if (profileModal && !profileModal.classList.contains('hidden')) {
     // Check if click is on a button or link inside the modal
     const clickedButton = e.target.closest('button, a');
     const isInsideModal = profileModal.contains(e.target);
     const isOnAvatar = profileAvatar && profileAvatar.contains(e.target);
+    const isOnInfoButton = infoDropdownButton && infoDropdownButton.contains(e.target);
+    const isOnInfoMenu = infoDropdownMenu && infoDropdownMenu.contains(e.target);
+    
+    // Close Info dropdown if clicking outside of it (but not on the button)
+    if (infoDropdownMenu && !infoDropdownMenu.classList.contains('hidden')) {
+      if (!isOnInfoButton && !isOnInfoMenu) {
+        infoDropdownMenu.classList.add('hidden');
+        const infoDropdownArrow = document.getElementById('infoDropdownArrow');
+        if (infoDropdownArrow) {
+          infoDropdownArrow.style.transform = 'rotate(0deg)';
+        }
+      }
+    }
     
     // Close only if clicking outside the modal and not on the avatar
     // But don't close if clicking on buttons/links inside the modal
     if (!isInsideModal && !isOnAvatar) {
       profileModal.classList.add('hidden');
+      // Also close Info dropdown if modal is closing
+      if (infoDropdownMenu && !infoDropdownMenu.classList.contains('hidden')) {
+        infoDropdownMenu.classList.add('hidden');
+        const infoDropdownArrow = document.getElementById('infoDropdownArrow');
+        if (infoDropdownArrow) {
+          infoDropdownArrow.style.transform = 'rotate(0deg)';
+        }
+      }
     } else if (isInsideModal && clickedButton) {
       // If clicking on a button/link inside modal, let it handle its own action
       // The modal will close naturally when navigating or after action completes
     }
+  }
+});
+
+// Toggle Info dropdown menu
+function toggleInfoDropdown() {
+  const infoDropdownButton = document.getElementById('infoDropdownButton');
+  const infoDropdownMenu = document.getElementById('infoDropdownMenu');
+  const infoDropdownArrow = document.getElementById('infoDropdownArrow');
+  
+  if (!infoDropdownButton || !infoDropdownMenu) return;
+  
+  const isHidden = infoDropdownMenu.classList.contains('hidden');
+  
+  if (isHidden) {
+    infoDropdownMenu.classList.remove('hidden');
+    // Ensure flex display is applied (flex-col class should handle this, but ensure it)
+    if (!infoDropdownMenu.classList.contains('flex')) {
+      infoDropdownMenu.classList.add('flex');
+    }
+    if (infoDropdownArrow) {
+      infoDropdownArrow.style.transform = 'rotate(180deg)';
+    }
+  } else {
+    infoDropdownMenu.classList.add('hidden');
+    if (infoDropdownArrow) {
+      infoDropdownArrow.style.transform = 'rotate(0deg)';
+    }
+  }
+}
+
+// Make toggleInfoDropdown globally accessible
+window.toggleInfoDropdown = toggleInfoDropdown;
+
+// Add click handler for Info dropdown button using event delegation
+// This ensures it works even if the button is created dynamically
+// Use event delegation on document to catch clicks on Info button
+document.addEventListener('click', function(e) {
+  // Check if click is on the Info button or any element inside it
+  const clickedElement = e.target;
+  const infoDropdownButton = document.getElementById('infoDropdownButton');
+  
+  if (!infoDropdownButton) return;
+  
+  // Check if click is on the button itself or any child element
+  if (infoDropdownButton.contains(clickedElement) || infoDropdownButton === clickedElement) {
+    // Check if click is on a link inside the dropdown menu (should not toggle)
+    const infoDropdownMenu = document.getElementById('infoDropdownMenu');
+    if (infoDropdownMenu && infoDropdownMenu.contains(clickedElement)) {
+      return; // Don't toggle if clicking on menu links
+    }
+    
+    e.stopPropagation();
+    toggleInfoDropdown();
+    return;
   }
 });
 
@@ -477,4 +882,31 @@ window.addEventListener('load', function() {
       avatar.setAttribute('data-listener-attached', 'true');
     }
   });
+  
+  // Add direct click handler for Info dropdown button
+  // This ensures it works on all pages
+  function attachInfoButtonHandler() {
+    const infoDropdownButton = document.getElementById('infoDropdownButton');
+    if (infoDropdownButton && !infoDropdownButton.hasAttribute('data-info-handler-attached')) {
+      infoDropdownButton.setAttribute('data-info-handler-attached', 'true');
+      
+      infoDropdownButton.addEventListener('click', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        if (typeof toggleInfoDropdown === 'function') {
+          toggleInfoDropdown();
+        }
+      });
+    }
+  }
+  
+  // Attach handler immediately
+  attachInfoButtonHandler();
+  
+  // Also try after a short delay in case button is created dynamically
+  setTimeout(attachInfoButtonHandler, 100);
+  setTimeout(attachInfoButtonHandler, 500);
+  
+  // Add floating animation to buttons and logo (excluding header, profile menu, and profile avatar)
+  addFloatingAnimation();
 });

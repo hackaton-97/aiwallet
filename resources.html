@@ -3,7 +3,7 @@
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>AIWallet Resources Page - Ultra Futuristic</title>
+<title>AI Wallet | Resources</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -112,15 +112,16 @@
 </div>
 <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">AIWallet</h2>
 </a>
-<div class="hidden md:flex flex-1 justify-end gap-8">
-<div class="flex items-center gap-9">
 <div class="flex flex-1 justify-end gap-8">
-<div class="flex items-center gap-9">
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="overview.html">Overview</a>
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="features.html">Features</a>
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="resources.html">Resources</a>
-</div>
+  <div class="flex items-center gap-9">
+    <a id="createPlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="createplan.html">Create Plan</a>
+    <a id="myPlansLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="myplans.html">My Plans</a>
+    <a id="dashboardLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="profile.html">Dashboard</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="overview.html">Overview</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="features.html">Features</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="resources.html">Resources</a>
+  </div>
 <div class="flex gap-2">
 <button id="themeToggle" class="flex min-w-[40px] w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent border border-[#A7C69F]/50 text-white font-bold transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]" title="Toggle theme">
 <span id="themeIcon">🌙</span>
@@ -149,7 +150,15 @@
 <p class="font-semibold"><span id="profileUsername">User</span></p>
 <p class="text-xs text-gray-400"><span id="profileEmail">email@example.com</span></p>
 </div>
-<a href="profile.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">person</span> Profile</a>
+      <button type="button" id="infoDropdownButton" class="w-full text-left px-4 py-2 text-white flex items-center gap-2 hover:bg-[#A7C69F]/10 transition-colors rounded justify-between">
+  <span class="flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">info</span>Info</span>
+  <span class="material-symbols-outlined transition-transform" id="infoDropdownArrow" style="font-size:19px;">expand_more</span>
+</button>
+<div id="infoDropdownMenu" class="hidden flex flex-col gap-1 mb-1 px-2 pt-1 ">
+    <a href="overview.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size:18px;">subject</span>Overview</a>
+    <a href="features.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size:18px;">star</span>Features</a>
+    <a href="resources.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size:18px;">book</span>Resources</a>
+</div>
 <button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">logout</span> Logout</button>
 <button onclick="handleDeleteAccount()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-500/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">delete</span> Delete Account</button>
 </div>
@@ -380,6 +389,8 @@ document.addEventListener('DOMContentLoaded', function() {
 window.addEventListener('load', function() {
   checkUserStatus();
   
+  // Info dropdown button handler is added by script.js via event delegation
+  
   // Ensure profile avatar has click handler
   const profileAvatar = document.getElementById('profileAvatar');
   if (profileAvatar && !profileAvatar.hasAttribute('data-listener-attached')) {
@@ -408,12 +419,43 @@ function checkUserStatus() {
   const avatarInitial = document.getElementById('avatarInitial');
   
   if (userId && username) {
-    authButtons.classList.add('hidden');
-    profileAvatar.classList.remove('hidden');
-    avatarInitial.textContent = username.charAt(0).toUpperCase();
+    if (authButtons) authButtons.classList.add('hidden');
+    if (profileAvatar) {
+      profileAvatar.classList.remove('hidden');
+      
+      // Update avatar in header
+      const userAvatar = localStorage.getItem('userAvatar');
+      if (userAvatar) {
+        // Show image if exists
+        profileAvatar.innerHTML = '';
+        const img = document.createElement('img');
+        img.src = userAvatar;
+        img.className = 'w-full h-full rounded-lg object-cover';
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', toggleProfileMenu);
+        profileAvatar.appendChild(img);
+      } else {
+        // Show initial if no image
+        if (avatarInitial) avatarInitial.textContent = username.charAt(0).toUpperCase();
+        // Ensure span exists
+        if (!profileAvatar.querySelector('span')) {
+          profileAvatar.innerHTML = `<span id="avatarInitial">${username.charAt(0).toUpperCase()}</span>`;
+        }
+      }
+    }
+    
+    // Sync header links - hide navigation links when logged in
+    if (typeof syncHeaderLinks === 'function') {
+      syncHeaderLinks();
+    }
   } else {
-    authButtons.classList.remove('hidden');
-    profileAvatar.classList.add('hidden');
+    if (authButtons) authButtons.classList.remove('hidden');
+    if (profileAvatar) profileAvatar.classList.add('hidden');
+    
+    // Sync header links - show all navigation links when not logged in
+    if (typeof syncHeaderLinks === 'function') {
+      syncHeaderLinks();
+    }
   }
 }
 
@@ -478,16 +520,39 @@ function handleDeleteAccount() {
 document.addEventListener('click', function(e) {
   const profileModal = document.getElementById('profileModal');
   const profileAvatar = document.getElementById('profileAvatar');
+  const infoDropdownButton = document.getElementById('infoDropdownButton');
+  const infoDropdownMenu = document.getElementById('infoDropdownMenu');
   
   if (profileModal && !profileModal.classList.contains('hidden')) {
     // Check if click is on a button or link inside the modal
     const clickedButton = e.target.closest('button, a');
     const isInsideModal = profileModal.contains(e.target);
     const isOnAvatar = profileAvatar && profileAvatar.contains(e.target);
+    const isOnInfoButton = infoDropdownButton && infoDropdownButton.contains(e.target);
+    const isOnInfoMenu = infoDropdownMenu && infoDropdownMenu.contains(e.target);
+    
+    // Close Info dropdown if clicking outside of it (but not on the button)
+    if (infoDropdownMenu && !infoDropdownMenu.classList.contains('hidden')) {
+      if (!isOnInfoButton && !isOnInfoMenu) {
+        infoDropdownMenu.classList.add('hidden');
+        const infoDropdownArrow = document.getElementById('infoDropdownArrow');
+        if (infoDropdownArrow) {
+          infoDropdownArrow.style.transform = 'rotate(0deg)';
+        }
+      }
+    }
     
     // Close only if clicking outside the modal and not on the avatar
     if (!isInsideModal && !isOnAvatar) {
       profileModal.classList.add('hidden');
+      // Also close Info dropdown if modal is closing
+      if (infoDropdownMenu && !infoDropdownMenu.classList.contains('hidden')) {
+        infoDropdownMenu.classList.add('hidden');
+        const infoDropdownArrow = document.getElementById('infoDropdownArrow');
+        if (infoDropdownArrow) {
+          infoDropdownArrow.style.transform = 'rotate(0deg)';
+        }
+      }
     }
     // Don't close if clicking on buttons/links inside the modal
   }

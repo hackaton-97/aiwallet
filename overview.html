@@ -3,7 +3,7 @@
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>AIWallet Overview Page - Ultra Futuristic</title>
+<title>AI Wallet | Overview</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -22,6 +22,56 @@
         }
         .text-glow {
             text-shadow: 0 0 8px #a7c69f;
+        }
+        .chart-glow {
+            filter: drop-shadow(0 0 5px #A7C69F);
+        }
+        .chart-point-glow {
+             filter: drop-shadow(0 0 8px #A7C69F);
+             transform-origin: center;
+        }
+        .chart-glow {
+            transition: opacity 0.3s ease-out;
+        }
+        path.chart-glow {
+            transition: stroke-dashoffset 1.5s ease-out, opacity 0.3s ease-out;
+        }
+        /* Light mode chart styles */
+        html:not(.dark) .chart-axis,
+        html:not(.dark) .chart-grid {
+            stroke: rgba(26, 26, 26, 0.2) !important;
+        }
+        html:not(.dark) .chart-label {
+            fill: rgba(26, 26, 26, 0.6) !important;
+        }
+        html:not(.dark) .chart-glow {
+            filter: drop-shadow(0 0 3px rgba(90, 122, 79, 0.5)) !important;
+        }
+        html:not(.dark) .chart-point-glow {
+            filter: drop-shadow(0 0 4px rgba(90, 122, 79, 0.6)) !important;
+        }
+        html:not(.dark) .chart-stroke {
+            stroke: #5a7a4f !important;
+        }
+        html:not(.dark) .chart-point-glow {
+            fill: #5a7a4f !important;
+        }
+        html:not(.dark) #overviewChartGradient stop[offset="0%"] {
+            stop-color: #5a7a4f !important;
+            stop-opacity: 0.3 !important;
+        }
+        html:not(.dark) #overviewChartGradient stop[offset="100%"] {
+            stop-color: #5a7a4f !important;
+            stop-opacity: 0 !important;
+        }
+        html:not(.dark) .chart-fill {
+            fill: url(#overviewChartGradient) !important;
+        }
+        html:not(.dark) [class*="bg-black/20"] {
+            background-color: rgba(245, 245, 245, 0.8) !important;
+        }
+        html:not(.dark) [class*="border-white/20"] {
+            border-color: rgba(26, 26, 26, 0.2) !important;
         }
         /* Light mode styles */
         html:not(.dark) { background-color: #ffffff !important;
@@ -153,12 +203,13 @@
 <h2 class="text-custom-accent text-lg font-bold leading-tight tracking-[-0.015em] text-glow">AIWallet</h2>
 </a>
 <div class="flex flex-1 justify-end gap-8">
-<div class="flex items-center gap-9">
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="overview.html">Overview</a>
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="features.html">Features</a>
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="resources.html">Resources</a>
-</div>
+  <!-- Was: <div class="flex items-center gap-9"> ... </div>  -->
+  <div class="flex items-center gap-9">
+    <a id="createPlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="createplan.html">Create Plan</a>
+    <a id="myPlansLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="myplans.html">My Plans</a>
+    <a id="dashboardLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="profile.html">Dashboard</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
+  </div>
 <div class="flex gap-2">
 <button id="themeToggle" class="flex min-w-[40px] w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent border border-[#A7C69F]/50 text-custom-accent font-bold transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]" title="Toggle theme">
 <span id="themeIcon">🌙</span>
@@ -178,20 +229,27 @@
 </div>
 </header>
 
-<!-- В main.html ЗАМЕНИТЬ весь блок Profile Menu Modal на этот: -->
 <!-- Profile Menu Modal -->
 <div id="profileModal" class="hidden fixed inset-0 z-50 flex items-start justify-end pt-20 pr-10" onclick="closeProfileMenuOnBackdrop(event)">
-<div class="bg-black/90 border border-[#A7C69F]/30 rounded-lg shadow-lg min-w-[200px] backdrop-blur-sm" onclick="event.stopPropagation()">
-<div class="p-4 space-y-3">
-<div class="text-white text-sm px-4 py-2 border-b border-[#A7C69F]/20">
-<p class="font-semibold"><span id="profileUsername">User</span></p>
-<p class="text-xs text-gray-400"><span id="profileEmail">email@example.com</span></p>
-</div>
-<a href="profile.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">person</span> Profile</a>
-<button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">logout</span> Logout</button>
-<button onclick="handleDeleteAccount()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-500/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">delete</span> Delete Account</button>
-</div>
-</div>
+  <div class="bg-black/90 border border-[#A7C69F]/30 rounded-lg shadow-lg min-w-[220px] w-[250px] max-w-xs backdrop-blur-sm" onclick="event.stopPropagation()">
+    <div class="p-4 space-y-3">
+      <div class="text-white text-sm px-4 py-2 border-b border-[#A7C69F]/20">
+        <p class="font-semibold"><span id="profileUsername">User</span></p>
+        <p class="text-xs text-gray-400"><span id="profileEmail">email@example.com</span></p>
+      </div>
+      <button type="button" id="infoDropdownButton" class="w-full text-left px-4 py-2 text-white flex items-center gap-2 hover:bg-[#A7C69F]/10 transition-colors rounded justify-between">
+        <span class="flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">info</span>Info</span>
+        <span class="material-symbols-outlined transition-transform" id="infoDropdownArrow" style="font-size:19px;">expand_more</span>
+      </button>
+      <div id="infoDropdownMenu" class="hidden flex flex-col gap-1 mb-1 px-2 pt-1 ">
+          <a href="overview.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size:18px;">subject</span>Overview</a>
+          <a href="features.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size:18px;">star</span>Features</a>
+          <a href="resources.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size:18px;">book</span>Resources</a>
+      </div>
+      <button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">logout</span> Logout</button>
+      <button onclick="handleDeleteAccount()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-500/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">delete</span> Delete Account</button>
+    </div>
+  </div>
 </div>
 <!-- HeroSection -->
 <div class="p-4">
@@ -224,9 +282,44 @@
 <p class="text-custom-text/70 text-base font-medium leading-normal">Optimized</p>
 </div>
 </div>
-<!-- Map -->
+<!-- Chart -->
 <div class="flex px-4 py-3">
-<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg object-cover border border-custom-accent/30" data-alt="A dark-themed world map with glowing green data points and connecting lines, visualizing global market influence." data-location="global" style='background-image: url("https://i.postimg.cc/Y9CRG53H/image.png");'></div>
+<div class="w-full bg-black/20 dark:bg-black/20 border border-white/20 dark:border-white/20 rounded-lg backdrop-blur-sm p-4">
+<h3 class="text-white dark:text-white text-lg font-semibold mb-4 text-center">Global User Growth</h3>
+<div class="w-full h-[300px] sm:h-auto">
+<svg id="overviewChart" height="100%" preserveAspectRatio="xMidYMid meet" viewBox="0 0 500 200" width="100%" xmlns="http://www.w3.org/2000/svg">
+<line class="chart-axis" stroke="rgba(255,255,255,0.1)" x1="30" x2="30" y1="10" y2="170"></line>
+<line class="chart-axis" stroke="rgba(255,255,255,0.1)" x1="30" x2="490" y1="170" y2="170"></line>
+<line class="chart-grid" stroke="rgba(255,255,255,0.05)" stroke-dasharray="2 2" x1="30" x2="490" y1="90" y2="90"></line>
+<line class="chart-grid" stroke="rgba(255,255,255,0.05)" stroke-dasharray="2 2" x1="30" x2="490" y1="10" y2="10"></line>
+<text class="chart-label" fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="end" x="25" y="15">10k</text>
+<text class="chart-label" fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="end" x="25" y="95">5k</text>
+<text class="chart-label" fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="end" x="25" y="175">0</text>
+<text class="chart-label" fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="middle" x="50" y="190">Jan</text>
+<text class="chart-label" fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="middle" x="120" y="190">Feb</text>
+<text class="chart-label" fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="middle" x="190" y="190">Mar</text>
+<text class="chart-label" fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="middle" x="260" y="190">Apr</text>
+<text class="chart-label" fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="middle" x="330" y="190">May</text>
+<text class="chart-label" fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="middle" x="400" y="190">Jun</text>
+<text class="chart-label" fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="middle" x="470" y="190">Jul</text>
+<defs>
+<linearGradient id="overviewChartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#A7C69F" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#A7C69F" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+<path class="chart-glow chart-fill" d="M 50 150 C 85 120, 100 100, 120 90 S 155 60, 190 50 S 225 40, 260 35 S 295 30, 330 25 S 365 20, 400 18 S 435 15, 470 12" fill="url(#overviewChartGradient)"></path>
+<path class="chart-glow chart-stroke" d="M 50 150 C 85 120, 100 100, 120 90 S 155 60, 190 50 S 225 40, 260 35 S 295 30, 330 25 S 365 20, 400 18 S 435 15, 470 12" fill="none" stroke="#A7C69F" stroke-width="2"></path>
+<circle class="chart-point-glow" cx="50" cy="150" fill="#A7C69F" r="3"></circle>
+<circle class="chart-point-glow" cx="120" cy="90" fill="#A7C69F" r="3"></circle>
+<circle class="chart-point-glow" cx="190" cy="50" fill="#A7C69F" r="3"></circle>
+<circle class="chart-point-glow" cx="260" cy="35" fill="#A7C69F" r="3"></circle>
+<circle class="chart-point-glow" cx="330" cy="25" fill="#A7C69F" r="3"></circle>
+<circle class="chart-point-glow" cx="400" cy="18" fill="#A7C69F" r="3"></circle>
+<circle class="chart-point-glow" cx="470" cy="12" fill="#A7C69F" r="3"></circle>
+</svg>
+</div>
+</div>
 </div>
 <!-- FeatureSection -->
 <div class="flex flex-col gap-10 px-4 py-10 @container">
@@ -308,6 +401,8 @@
 <script>
 window.addEventListener('load', function() {
   checkUserStatus();
+  
+  // Info dropdown button handler is added by script.js via event delegation
   
   // Add click handlers to all auth buttons to check login status
   const allAuthLinks = document.querySelectorAll('a[href="signup.html"], a[href="signin.html"]');
@@ -422,20 +517,138 @@ function closeProfileMenuOnBackdrop(event) {
 document.addEventListener('click', function(e) {
   const profileModal = document.getElementById('profileModal');
   const profileAvatar = document.getElementById('profileAvatar');
+  const infoDropdownButton = document.getElementById('infoDropdownButton');
+  const infoDropdownMenu = document.getElementById('infoDropdownMenu');
   
   if (profileModal && !profileModal.classList.contains('hidden')) {
     // Check if click is on a button or link inside the modal
     const clickedButton = e.target.closest('button, a');
     const isInsideModal = profileModal.contains(e.target);
     const isOnAvatar = profileAvatar && profileAvatar.contains(e.target);
+    const isOnInfoButton = infoDropdownButton && infoDropdownButton.contains(e.target);
+    const isOnInfoMenu = infoDropdownMenu && infoDropdownMenu.contains(e.target);
+    
+    // Close Info dropdown if clicking outside of it (but not on the button)
+    if (infoDropdownMenu && !infoDropdownMenu.classList.contains('hidden')) {
+      if (!isOnInfoButton && !isOnInfoMenu) {
+        infoDropdownMenu.classList.add('hidden');
+        const infoDropdownArrow = document.getElementById('infoDropdownArrow');
+        if (infoDropdownArrow) {
+          infoDropdownArrow.style.transform = 'rotate(0deg)';
+        }
+      }
+    }
     
     // Close only if clicking outside the modal and not on the avatar
     if (!isInsideModal && !isOnAvatar) {
       profileModal.classList.add('hidden');
+      // Also close Info dropdown if modal is closing
+      if (infoDropdownMenu && !infoDropdownMenu.classList.contains('hidden')) {
+        infoDropdownMenu.classList.add('hidden');
+        const infoDropdownArrow = document.getElementById('infoDropdownArrow');
+        if (infoDropdownArrow) {
+          infoDropdownArrow.style.transform = 'rotate(0deg)';
+        }
+      }
     }
     // Don't close if clicking on buttons/links inside the modal
   }
 });
+
+
+// Animate chart drawing from left to right
+function animateOverviewChart() {
+  const svg = document.getElementById('overviewChart');
+  if (!svg) return;
+  
+  const paths = svg.querySelectorAll('path.chart-glow');
+  const circles = svg.querySelectorAll('circle.chart-point-glow');
+  
+  if (!paths || paths.length === 0) return;
+  
+  const strokePath = paths[1]; // The stroke path (second path)
+  const fillPath = paths[0]; // The fill path (first path)
+  
+  // Reset animation - hide everything first
+  if (strokePath) {
+    strokePath.style.transition = 'none';
+    strokePath.style.strokeDasharray = 'none';
+    strokePath.style.strokeDashoffset = '0';
+    strokePath.style.opacity = '0';
+  }
+  if (fillPath) {
+    fillPath.style.transition = 'none';
+    fillPath.style.opacity = '0';
+  }
+  
+  // Hide circles initially
+  if (circles && circles.length > 0) {
+    circles.forEach(circle => {
+      if (circle) {
+        circle.style.transition = 'none';
+        circle.style.opacity = '0';
+        circle.style.transform = 'scale(0)';
+      }
+    });
+  }
+  
+  // Force a reflow to ensure styles are applied before getting path length
+  if (strokePath) {
+    void strokePath.offsetHeight;
+  }
+  
+  // Get path length for stroke animation
+  let pathLength = 0;
+  if (strokePath) {
+    try {
+      pathLength = strokePath.getTotalLength();
+      if (pathLength === 0 || isNaN(pathLength)) {
+        pathLength = 1000;
+      }
+    } catch (e) {
+      pathLength = 1000;
+    }
+  }
+  
+  // Animate stroke path (line drawing effect)
+  if (strokePath && pathLength > 0) {
+    strokePath.style.strokeDasharray = pathLength + ' ' + pathLength;
+    strokePath.style.strokeDashoffset = pathLength;
+    strokePath.style.opacity = '1';
+    
+    void strokePath.offsetHeight;
+    
+    strokePath.style.transition = 'stroke-dashoffset 1.5s ease-out, opacity 0.3s ease-out';
+    
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        strokePath.style.strokeDashoffset = '0';
+      });
+    });
+  }
+  
+  // Animate fill path (gradient fill) with delay
+  if (fillPath) {
+    setTimeout(() => {
+      fillPath.style.opacity = '1';
+      fillPath.style.transition = 'opacity 1s ease-out';
+    }, 300);
+  }
+  
+  // Animate circles one by one from left to right
+  if (circles && circles.length > 0) {
+    circles.forEach((circle, index) => {
+      if (circle) {
+        const delay = 200 + (index * 120);
+        setTimeout(() => {
+          circle.style.opacity = '1';
+          circle.style.transform = 'scale(1)';
+          circle.style.transition = 'opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        }, delay);
+      }
+    });
+  }
+}
 
 // Update avatar from localStorage on load
 window.addEventListener('load', function() {
@@ -456,6 +669,11 @@ window.addEventListener('load', function() {
     profileAvatar.addEventListener('click', toggleProfileMenu);
     profileAvatar.setAttribute('data-listener-attached', 'true');
   }
+  
+  // Animate chart after a short delay
+  setTimeout(function() {
+    animateOverviewChart();
+  }, 300);
 });
 </script>
 </body></html>

@@ -3,7 +3,7 @@
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>AIWallet Login Window</title>
+<title>AI Wallet | Sign In</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -115,12 +115,13 @@
 <h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">AIWallet</h2>
 </a>
 <div class="flex flex-1 justify-end gap-8">
-<div class="flex items-center gap-9">
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="overview.html">Overview</a>
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="features.html">Features</a>
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="pricing.html">Pricing</a>
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="resources.html">Resources</a>
-</div>
+  <div class="flex items-center gap-9">
+    <a id="dashboardLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="profile.html">Dashboard</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="overview.html">Overview</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="features.html">Features</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="pricing.html">Pricing</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="resources.html">Resources</a>
+  </div>
 <div class="flex gap-2">
 <button id="themeToggle" class="flex min-w-[40px] w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent border border-primary/50 text-primary font-bold transition-all hover:bg-primary/10 hover:border-primary hover:shadow-[0_0_8px_primary_inset]" title="Toggle theme">
 <span id="themeIcon">🌙</span>
@@ -145,7 +146,6 @@
 <p class="font-semibold"><span id="profileUsername">User</span></p>
 <p class="text-xs text-gray-400"><span id="profileEmail">email@example.com</span></p>
 </div>
-<a href="profile.html" class="w-full text-left px-4 py-2 text-white hover:bg-primary/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">person</span> Profile</a>
 <button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-white hover:bg-primary/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">logout</span> Logout</button>
 <button onclick="handleDeleteAccount()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-500/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">delete</span> Delete Account</button>
 </div>
@@ -187,7 +187,7 @@
 </div>
 </div>
 <div class="w-full text-right mt-2">
-<p class="text-[#a9b6a5] text-sm font-normal leading-normal pt-1 px-0 underline hover:text-primary cursor-pointer font-display">Forgot Password?</p>
+<a href="https://help.steampowered.com/en/wizard/HelpWithLoginInfo?accountsearch=1" target="_blank" rel="noopener noreferrer" class="text-[#a9b6a5] text-sm font-normal leading-normal pt-1 px-0 underline hover:text-primary cursor-pointer font-display">Forgot Password?</a>
 </div>
 <div id="signinMessage" class="w-full mb-4 text-center"></div>
 <div class="flex w-full px-0 py-6 justify-center">
@@ -200,9 +200,28 @@
 </div>
 </body>
 <script>
+// Add Enter key handler for form inputs
+function addEnterKeyHandlers() {
+  const signinBtn = document.getElementById('signinBtn');
+  const inputs = ['signinEmailOrUsername', 'signinPassword'];
+  
+  inputs.forEach(inputId => {
+    const input = document.getElementById(inputId);
+    if (input) {
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
+          e.preventDefault();
+          signinBtn.click();
+        }
+      });
+    }
+  });
+}
+
 // Initialize on page load
 window.addEventListener('load', function() {
   checkUserStatus();
+  addEnterKeyHandlers();
 });
 
 // Check if user is already logged in

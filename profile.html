@@ -2,7 +2,7 @@
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>AIWallet Profile Page - Enhanced Data &amp; Notifications</title>
+<title>AI Wallet | Dashboard</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -33,6 +33,13 @@
         }
         .chart-point-glow {
              filter: drop-shadow(0 0 8px #A7C69F);
+             transform-origin: center;
+        }
+        .chart-glow {
+            transition: opacity 0.3s ease-out;
+        }
+        path.chart-glow {
+            transition: stroke-dashoffset 1.5s ease-out, opacity 0.3s ease-out;
         }
         .pie-chart-glow {
              filter: drop-shadow(0 0 8px #ffffff);
@@ -135,7 +142,115 @@
             color: #1a1a1a !important;
             text-shadow: 0 0 5px rgba(90, 122, 79, 0.3) !important;
         }
+        /* Dashboard specific light theme fixes */
+        html:not(.dark) body[style*="background-color: #000000"] {
+            background-color: #ffffff !important;
+        }
+        html:not(.dark) div[style*="background-image"] {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), url('https://lh3.googleusercontent.com/aida-public/AB6AXuCpFh7OSUzEj0XKLJfBIIV04v-GovLLGjGnzDoQbT0ps0Df9oU8HHpWzi4FU3EgN14NBNziFl4HZcvrKRIUfrB1wovmysIFaTBEbmc8R-7C8ndna4mgfw2eBXQcnnGJmYoAv3r98aJO0Nn8M4fCw14NBF3PWea5A4IR7yc2kkzNdVtZh8_iOgzDSH1Tvn6i9pRDZszXGg4L7kGCz_NRI0F8qoAkp4S5JrV2-3XpTR15xeC-kj1YhQ82SbMUKY4K9_ngc4YGUunxrFQL') !important;
+        }
+        html:not(.dark) .bg-black\/20 {
+            background-color: rgba(245, 245, 245, 0.9) !important;
+        }
+        html:not(.dark) .border-white\/20 {
+            border-color: rgba(26, 26, 26, 0.2) !important;
+        }
+        html:not(.dark) .bg-white\/10 {
+            background-color: rgba(26, 26, 26, 0.05) !important;
+        }
+        html:not(.dark) .bg-white\/20 {
+            background-color: rgba(26, 26, 26, 0.1) !important;
+        }
+        html:not(.dark) .bg-\[#333333\] {
+            background-color: #f5f5f5 !important;
+        }
+        html:not(.dark) .border-white\/10 {
+            border-color: rgba(26, 26, 26, 0.1) !important;
+        }
+        html:not(.dark) .text-white\/60 {
+            color: rgba(26, 26, 26, 0.6) !important;
+        }
+        html:not(.dark) .text-white\/70 {
+            color: rgba(26, 26, 26, 0.7) !important;
+        }
+        html:not(.dark) .bg-black\/90 {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+        }
+        html:not(.dark) #editMenu {
+            background-color: rgba(255, 255, 255, 0.98) !important;
+            border-color: rgba(90, 122, 79, 0.3) !important;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+        }
+        html:not(.dark) #editMenu button,
+        html:not(.dark) #editMenu label {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) #editMenu button:hover,
+        html:not(.dark) #editMenu label:hover {
+            background-color: rgba(90, 122, 79, 0.1) !important;
+        }
+        html:not(.dark) #customModal {
+            background-color: rgba(0, 0, 0, 0.5) !important;
+        }
+        html:not(.dark) #customModal > div {
+            background-color: #ffffff !important;
+            color: #1a1a1a !important;
+            border-color: rgba(90, 122, 79, 0.3) !important;
+        }
+        html:not(.dark) #customModal button,
+        html:not(.dark) #customModal input,
+        html:not(.dark) #customModal label,
+        html:not(.dark) #customModal span {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) #customModal input {
+            background-color: #f5f5f5 !important;
+            border-color: rgba(90, 122, 79, 0.3) !important;
+        }
+        html:not(.dark) #customModal input:focus {
+            border-color: #5a7a4f !important;
+        }
+        /* SVG chart fixes for light theme */
+        html:not(.dark) svg[viewBox="0 0 500 200"] line {
+            stroke: rgba(26, 26, 26, 0.2) !important;
+        }
+        html:not(.dark) svg[viewBox="0 0 500 200"] text {
+            fill: rgba(26, 26, 26, 0.6) !important;
+        }
+        html:not(.dark) svg[viewBox="0 0 500 200"] path.chart-glow {
+            stroke: #5a7a4f !important;
+        }
+        html:not(.dark) svg[viewBox="0 0 500 200"] circle.chart-point-glow {
+            fill: #5a7a4f !important;
+        }
+        html:not(.dark) svg[viewBox="0 0 500 200"] linearGradient stop[stop-color="#A7C69F"] {
+            stop-color: #5a7a4f !important;
+        }
+        html:not(.dark) footer {
+            border-color: rgba(26, 26, 26, 0.2) !important;
+        }
+        html:not(.dark) footer p,
+        html:not(.dark) footer a {
+            color: rgba(26, 26, 26, 0.6) !important;
+        }
+        html:not(.dark) footer a:hover {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) .timeframe-btn {
+            color: rgba(26, 26, 26, 0.6) !important;
+        }
+        html:not(.dark) .timeframe-btn:hover {
+            background-color: rgba(26, 26, 26, 0.05) !important;
+        }
+        html:not(.dark) .timeframe-btn.bg-\[#A7C69F\] {
+            background-color: #5a7a4f !important;
+            color: #ffffff !important;
+        }
+        html:not(.dark) .border-\[#000000\] {
+            border-color: #ffffff !important;
+        }
     </style>
+<script src="script.js" defer></script>
 </head>
 <body class="font-display" style="background-color: #000000;">
 <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden text-white" style="background-image: linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.95)), url('https://lh3.googleusercontent.com/aida-public/AB6AXuCpFh7OSUzEj0XKLJfBIIV04v-GovLLGjGnzDoQbT0ps0Df9oU8HHpWzi4FU3EgN14NBNziFl4HZcvrKRIUfrB1wovmysIFaTBEbmc8R-7C8ndna4mgfw2eBXQcnnGJmYoAv3r98aJO0Nn8M4fCw14NBF3PWea5A4IR7yc2kkzNdVtZh8_iOgzDSH1Tvn6i9pRDZszXGg4L7kGCz_NRI0F8qoAkp4S5JrV2-3XpTR15xeC-kj1YhQ82SbMUKY4K9_ngc4YGUunxrFQL'); background-size: cover; background-attachment: fixed;">
@@ -152,36 +267,52 @@
 <h2 class="text-custom-accent text-lg font-bold leading-tight tracking-[-0.015em] text-glow">AIWallet</h2>
 </a>
 <div class="flex flex-1 justify-end gap-8">
-<div class="flex items-center gap-9">
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="overview.html">Overview</a>
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="features.html">Features</a>
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="resources.html">Resources</a>
-</div>
-<div class="flex gap-2">
-<button id="themeToggle" class="flex min-w-[40px] w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent border border-[#A7C69F]/50 text-custom-accent font-bold transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]" title="Toggle theme">
-<span id="themeIcon">🌙</span>
-</button>
-<div id="profileAvatar" class="flex items-center justify-center w-10 h-10 rounded-lg bg-[#A7C69F] text-[#333333] font-bold text-lg cursor-pointer hover:shadow-[0_0_15px_#A7C69F] transition-all border border-[#A7C69F]" title="Profile" onclick="toggleProfileMenu()">
-<span id="avatarInitial">U</span>
-</div>
-</div>
+  <div class="flex items-center gap-9">
+    <a id="createPlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="createplan.html">Create Plan</a>
+    <a id="myPlansLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="myplans.html">My Plans</a>
+    <a id="dashboardLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="profile.html">Dashboard</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
+  </div>
+  <div class="flex gap-2">
+    <button id="themeToggle" onclick="handleThemeToggle(event)" class="flex min-w-[40px] w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent border border-[#A7C69F]/50 text-custom-accent font-bold transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]" title="Toggle theme">
+      <span id="themeIcon">🌙</span>
+    </button>
+    <div id="authButtons" class="flex gap-2">
+      <a id="getStartedBtn" href="signup.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#A7C69F] text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-white hover:shadow-[0_0_15px_#A7C69F] border border-[#A7C69F]">
+        <span class="truncate">Get Started</span>
+      </a>
+      <a href="signin.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-[#A7C69F]/50 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]">
+        <span class="truncate">Login</span>
+      </a>
+    </div>
+    <div id="profileAvatar" class="hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#A7C69F] text-[#333333] font-bold text-lg cursor-pointer hover:shadow-[0_0_15px_#A7C69F] transition-all border border-[#A7C69F]" title="Profile" onclick="toggleProfileMenu()">
+      <span id="avatarInitial">U</span>
+    </div>
+  </div>
 </div>
 </header>
 
 <!-- Profile Menu Modal -->
 <div id="profileModal" class="hidden fixed inset-0 z-50 flex items-start justify-end pt-20 pr-10" onclick="closeProfileMenuOnBackdrop(event)">
-<div class="bg-black/90 border border-[#A7C69F]/30 rounded-lg shadow-lg min-w-[200px] backdrop-blur-sm" onclick="event.stopPropagation()">
-<div class="p-4 space-y-3">
-<div class="text-white text-sm px-4 py-2 border-b border-[#A7C69F]/20">
-<p class="font-semibold"><span id="profileUsername">User</span></p>
-<p class="text-xs text-gray-400"><span id="profileEmail">email@example.com</span></p>
-</div>
-<a href="profile.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">person</span> Profile</a>
-<button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">logout</span> Logout</button>
-<button onclick="handleDeleteAccount()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-500/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">delete</span> Delete Account</button>
-</div>
-</div>
+  <div class="bg-black/90 border border-[#A7C69F]/30 rounded-lg shadow-lg min-w-[220px] w-[250px] max-w-xs backdrop-blur-sm" onclick="event.stopPropagation()">
+    <div class="p-4 space-y-3">
+      <div class="text-white text-sm px-4 py-2 border-b border-[#A7C69F]/20">
+        <p class="font-semibold"><span id="profileUsername">User</span></p>
+        <p class="text-xs text-gray-400"><span id="profileEmail">email@example.com</span></p>
+      </div>
+      <button type="button" id="infoDropdownButton" class="w-full text-left px-4 py-2 text-white flex items-center gap-2 hover:bg-[#A7C69F]/10 transition-colors rounded justify-between">
+        <span class="flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">info</span>Info</span>
+        <span class="material-symbols-outlined transition-transform" id="infoDropdownArrow" style="font-size:19px;">expand_more</span>
+      </button>
+      <div id="infoDropdownMenu" class="hidden flex flex-col gap-1 mb-1 px-2 pt-1 ">
+          <a href="overview.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size:18px;">subject</span>Overview</a>
+          <a href="features.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size:18px;">star</span>Features</a>
+          <a href="resources.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size:18px;">book</span>Resources</a>
+      </div>
+      <button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">logout</span> Logout</button>
+      <button onclick="handleDeleteAccount()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-500/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">delete</span> Delete Account</button>
+    </div>
+  </div>
 </div>
 <div class="py-16 sm:py-24">
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -206,6 +337,10 @@
 <span>Edit Profile Image</span>
 <input type="file" id="avatarFileInput" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)">
 </label>
+<button onclick="handleDeleteAccountImage()" class="flex w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">delete</span>
+<span>Delete Account Image</span>
+</button>
 <button onclick="handleEditUsername()" class="flex w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded items-center gap-2">
 <span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">badge</span>
 <span>Edit Username</span>
@@ -214,6 +349,21 @@
 <span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">email</span>
 <span>Edit E-mail</span>
 </button>
+<button onclick="handleEditPassword()" class="flex w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">lock</span>
+<span>Edit Password</span>
+</button>
+</div>
+</div>
+</div>
+<div class="relative mt-4 w-full">
+<button onclick="toggleEditPlanMenu()" class="flex w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-white/10 text-white text-sm font-bold leading-normal tracking-[0.015em] border border-white/20 hover:bg-white/20 transition-colors">
+<span class="truncate">Edit graph visibility</span>
+<span class="material-symbols-outlined" style="font-size: 18px; display: inline-flex; margin-left: 8px;">expand_more</span>
+</button>
+<div id="editPlanMenu" class="hidden absolute top-full mt-2 w-full bg-black/90 border border-[#A7C69F]/30 rounded-lg shadow-lg backdrop-blur-sm z-40 max-h-60 overflow-y-auto">
+<div id="planListContainer" class="p-3 space-y-2">
+<!-- Plans will be loaded here -->
 </div>
 </div>
 </div>
@@ -275,6 +425,10 @@
 </div>
 </div>
 </div>
+<div id="chartPlanName" class="text-center mt-4 text-white/60 text-sm">
+<!-- Plan name will be displayed here -->
+</div>
+</div>
 </div>
 <footer class="flex flex-col items-center justify-between gap-6 border-t border-white/20 py-8 px-4 mt-8 text-center md:flex-row md:text-left">
 <div class="flex items-center gap-3">
@@ -310,8 +464,40 @@
 window.addEventListener('load', function() {
   loadProfileData();
   checkUserStatus();
-  initializeTimeframeButtons();
+  // Initialize timeframe buttons after a small delay to ensure DOM is ready
+  setTimeout(function() {
+    initializeTimeframeButtons();
+    // Initialize chart with actual data
+    updateChart('daily');
+    updateChartPlanName();
+    // Animate initial chart after a short delay to ensure SVG is rendered
+    setTimeout(function() {
+      const svg = document.querySelector('svg[viewBox="0 0 500 200"]');
+      if (svg) {
+        const paths = svg.querySelectorAll('path.chart-glow');
+        const circles = svg.querySelectorAll('circle.chart-point-glow');
+        if (paths.length >= 2 && circles.length > 0) {
+          const strokePath = paths[1];
+          if (strokePath) {
+            const pathD = strokePath.getAttribute('d');
+            // Always animate on initial load
+            animateChart(paths, circles, pathD);
+          }
+        }
+      }
+    }, 300);
+  }, 100);
 });
+
+function getPlanPrefix(planName) {
+  if (!planName) return '';
+  const prefixes = {
+    'basic': '[Basic]',
+    'pro': '[Pro]',
+    'enterprise': '[Enterprise]'
+  };
+  return prefixes[planName.toLowerCase()] || '';
+}
 
 function loadProfileData() {
   const username = localStorage.getItem('username') || 'User';
@@ -320,58 +506,113 @@ function loadProfileData() {
   const firstLetter = username.charAt(0).toUpperCase();
   
   // Update profile information
-  document.getElementById('profileName').textContent = username;
-  document.getElementById('profileUserEmail').textContent = email;
-  document.getElementById('profileUsername').textContent = username;
-  document.getElementById('profileEmail').textContent = email;
-  document.getElementById('avatarInitial').textContent = firstLetter;
+  const profileNameEl = document.getElementById('profileName');
+  const profileUserEmailEl = document.getElementById('profileUserEmail');
+  const profileUsernameEl = document.getElementById('profileUsername');
+  const profileEmailEl = document.getElementById('profileEmail');
+  const avatarInitialEl = document.getElementById('avatarInitial');
+  
+  const userPlan = localStorage.getItem('userPlan');
+  const planPrefix = getPlanPrefix(userPlan);
+  const displayName = planPrefix ? `${planPrefix} ${username}` : username;
+  
+  if (profileNameEl) profileNameEl.textContent = displayName;
+  if (profileUserEmailEl) profileUserEmailEl.textContent = email;
+  if (profileUsernameEl) profileUsernameEl.textContent = displayName;
+  if (profileEmailEl) profileEmailEl.textContent = email;
+  if (avatarInitialEl) avatarInitialEl.textContent = firstLetter;
   
   // Update large avatar
   const profileLargeAvatar = document.getElementById('profileLargeAvatar');
-  if (userAvatar) {
-    profileLargeAvatar.innerHTML = '';
-    const img = document.createElement('img');
-    img.src = userAvatar;
-    img.className = 'w-full h-full rounded-full object-cover';
-    profileLargeAvatar.appendChild(img);
-  } else {
-    profileLargeAvatar.innerHTML = `<span id="profileLargeAvatarText" class="text-5xl font-bold text-[#333333]">${firstLetter}</span>`;
+  if (profileLargeAvatar) {
+    if (userAvatar && userAvatar.trim() !== '') {
+      // Clear existing content
+      profileLargeAvatar.innerHTML = '';
+      const img = document.createElement('img');
+      img.src = userAvatar;
+      img.className = 'w-full h-full rounded-full object-cover';
+      img.onerror = function() {
+        // If image fails to load, show initial instead
+        profileLargeAvatar.innerHTML = `<span id="profileLargeAvatarText" class="text-5xl font-bold text-[#333333]">${firstLetter}</span>`;
+        localStorage.removeItem('userAvatar'); // Remove invalid avatar
+      };
+      profileLargeAvatar.appendChild(img);
+    } else {
+      profileLargeAvatar.innerHTML = `<span id="profileLargeAvatarText" class="text-5xl font-bold text-[#333333]">${firstLetter}</span>`;
+    }
   }
 }
 
 function checkUserStatus() {
   const userId = localStorage.getItem('userId');
   if (!userId) {
-    window.location.href = 'signin.html';
-  }
-  
-  // Load avatar in header
-  const userAvatar = localStorage.getItem('userAvatar');
-  const profileAvatar = document.getElementById('profileAvatar');
-  if (userAvatar && profileAvatar) {
-    profileAvatar.innerHTML = '';
-    const img = document.createElement('img');
-    img.src = userAvatar;
-    img.className = 'w-full h-full rounded-lg object-cover';
-    img.style.cursor = 'pointer';
-    img.addEventListener('click', toggleProfileMenu);
-    profileAvatar.appendChild(img);
-  }
-  
-  // Ensure profile avatar has click handler
-  if (profileAvatar && !profileAvatar.hasAttribute('data-listener-attached')) {
-    profileAvatar.addEventListener('click', toggleProfileMenu);
-    profileAvatar.setAttribute('data-listener-attached', 'true');
+    // If not logged in, show only Pricing and Login/Get Started
+    document.getElementById('authButtons').classList.remove('hidden');
+    document.getElementById('profileAvatar').classList.add('hidden');
+    document.getElementById('infoDropdownButton').classList.add('hidden');
+    document.getElementById('infoDropdownMenu').classList.add('hidden');
+    document.getElementById('infoDropdownArrow').style.transform = ''; // Reset arrow
+  } else {
+    // If logged in, show all buttons and profile avatar
+    document.getElementById('authButtons').classList.add('hidden');
+    const profileAvatar = document.getElementById('profileAvatar');
+    if (profileAvatar) {
+      profileAvatar.classList.remove('hidden');
+      
+      // Update avatar in header
+      const username = localStorage.getItem('username') || 'User';
+      const firstLetter = username.charAt(0).toUpperCase();
+      const userAvatar = localStorage.getItem('userAvatar');
+      
+      if (userAvatar) {
+        // Show image if exists
+        profileAvatar.innerHTML = '';
+        const img = document.createElement('img');
+        img.src = userAvatar;
+        img.className = 'w-full h-full rounded-lg object-cover';
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', toggleProfileMenu);
+        profileAvatar.appendChild(img);
+      } else {
+        // Show initial if no image
+        profileAvatar.innerHTML = `<span id="avatarInitial">${firstLetter}</span>`;
+        const avatarInitial = document.getElementById('avatarInitial');
+        if (avatarInitial) {
+          avatarInitial.addEventListener('click', toggleProfileMenu);
+        }
+      }
+    }
+    document.getElementById('infoDropdownButton').classList.remove('hidden');
+    document.getElementById('infoDropdownMenu').classList.remove('hidden');
+    document.getElementById('infoDropdownArrow').style.transform = ''; // Reset arrow
   }
 }
 
 // Use global toggleProfileMenu function from script.js
-// If it doesn't exist, define a local one
-if (typeof toggleProfileMenu === 'undefined') {
-  function toggleProfileMenu() {
-    const profileModal = document.getElementById('profileModal');
-    const editMenu = document.getElementById('editMenu');
-    if (editMenu) editMenu.classList.add('hidden');
+// Override it locally to also close edit menu
+const originalToggleProfileMenu = window.toggleProfileMenu || function() {
+  const profileModal = document.getElementById('profileModal');
+  if (profileModal) {
+    if (profileModal.classList.contains('hidden')) {
+      profileModal.classList.remove('hidden');
+    } else {
+      profileModal.classList.add('hidden');
+    }
+  }
+};
+
+function toggleProfileMenu(e) {
+  if (e) e.stopPropagation();
+  const profileModal = document.getElementById('profileModal');
+  const editMenu = document.getElementById('editMenu');
+  
+  // Close edit menu if open
+  if (editMenu) editMenu.classList.add('hidden');
+  
+  // Use original function or local implementation
+  if (typeof originalToggleProfileMenu === 'function') {
+    originalToggleProfileMenu(e);
+  } else {
     if (profileModal) {
       if (profileModal.classList.contains('hidden')) {
         profileModal.classList.remove('hidden');
@@ -380,8 +621,9 @@ if (typeof toggleProfileMenu === 'undefined') {
       }
     }
   }
-  window.toggleProfileMenu = toggleProfileMenu;
 }
+
+window.toggleProfileMenu = toggleProfileMenu;
 
 function closeProfileMenuOnBackdrop(event) {
   if (event.target === event.currentTarget) {
@@ -394,6 +636,67 @@ function toggleEditMenu() {
   editMenu.classList.toggle('hidden');
 }
 
+function toggleEditPlanMenu() {
+  const editPlanMenu = document.getElementById('editPlanMenu');
+  const isHidden = editPlanMenu.classList.contains('hidden');
+  
+  if (isHidden) {
+    loadPlanList();
+  }
+  
+  editPlanMenu.classList.toggle('hidden');
+}
+
+function loadPlanList() {
+  const userId = localStorage.getItem('userId');
+  if (!userId) return;
+  
+  const allPlans = JSON.parse(localStorage.getItem('financial_plans_db') || '{}');
+  const userPlans = allPlans[userId] || [];
+  const planListContainer = document.getElementById('planListContainer');
+  const selectedPlanId = localStorage.getItem('selectedPlanId');
+  
+  if (userPlans.length === 0) {
+    planListContainer.innerHTML = '<div class="text-white/60 text-sm px-4 py-2 text-center">No plans available</div>';
+    return;
+  }
+  
+  // Sort plans: pinned first, then by creation date (newest first)
+  const sortedPlans = [...userPlans].sort((a, b) => {
+    if (a.pinned && !b.pinned) return -1;
+    if (!a.pinned && b.pinned) return 1;
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+  
+  planListContainer.innerHTML = sortedPlans.map(plan => {
+    const date = new Date(plan.createdAt);
+    const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    const isSelected = plan.id === selectedPlanId;
+    
+    return `
+      <button onclick="selectPlan('${plan.id}')" class="flex w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded items-center gap-2 ${isSelected ? 'bg-[#A7C69F]/20' : ''}">
+        ${plan.pinned ? '<span class="material-symbols-outlined text-[#A7C69F]" style="font-size: 16px;">push_pin</span>' : '<span style="width: 16px;"></span>'}
+        <span class="flex-1">
+          <div class="text-sm font-medium">Plan from ${formattedDate}</div>
+          <div class="text-xs text-white/60">Daily: $${plan.dailyLimit.toLocaleString()}</div>
+        </span>
+        ${isSelected ? '<span class="material-symbols-outlined text-[#A7C69F]" style="font-size: 18px;">check</span>' : ''}
+      </button>
+    `;
+  }).join('');
+}
+
+function selectPlan(planId) {
+  localStorage.setItem('selectedPlanId', planId);
+  const editPlanMenu = document.getElementById('editPlanMenu');
+  editPlanMenu.classList.add('hidden');
+  
+  // Update chart with selected plan
+  const activeTimeframe = document.querySelector('.timeframe-btn.bg-\\[\\#A7C69F\\]')?.getAttribute('data-timeframe') || 'daily';
+  updateChart(activeTimeframe);
+  updateChartPlanName();
+}
+
 function handleEditUsername() {
   const currentUsername = localStorage.getItem('username') || 'User';
   window.showCustomModal({
@@ -403,12 +706,86 @@ function handleEditUsername() {
     initialValue: currentUsername,
     confirmText: 'Save',
     cancelText: 'Cancel',
-    validate: (val) => val.length === 0 ? 'Username cannot be empty' : '',
+    validate: (val) => {
+      if (!val || val === null || val === undefined) {
+        return 'Username cannot be empty';
+      }
+      const trimmed = String(val).trim();
+      if (trimmed.length === 0) {
+        return 'Username cannot be empty';
+      }
+      if (trimmed.length > 9) {
+        return 'Username must be 9 characters or less';
+      }
+      // Allow only Russian letters, English letters, and numbers
+      // Check each character individually for better compatibility
+      for (let i = 0; i < trimmed.length; i++) {
+        const char = trimmed[i];
+        const charCode = char.charCodeAt(0);
+        // English letters: A-Z (65-90), a-z (97-122)
+        // Numbers: 0-9 (48-57)
+        // Russian letters: А-Я (1040-1071), а-я (1072-1103), Ё (1025), ё (1105)
+        const isEnglish = (charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122);
+        const isNumber = charCode >= 48 && charCode <= 57;
+        const isRussian = (charCode >= 1040 && charCode <= 1103) || charCode === 1025 || charCode === 1105;
+        
+        if (!isEnglish && !isNumber && !isRussian) {
+          return 'Username can only contain Russian letters, English letters, and numbers';
+        }
+      }
+      // Return empty string if validation passes
+      return '';
+    },
     onConfirm: (newUsername) => {
-      if(newUsername !== currentUsername) {
-        localStorage.setItem('username', newUsername);
+      const trimmed = newUsername.trim();
+      if(trimmed !== currentUsername && trimmed.length > 0) {
+        localStorage.setItem('username', trimmed);
         loadProfileData();
         checkUserStatus();
+      }
+    }
+  });
+}
+
+function handleEditPassword() {
+  window.showCustomModal({
+    type:'input',
+    title:'Edit Password',
+    inputLabel:'New password:',
+    initialValue: '',
+    confirmText: 'Save',
+    cancelText: 'Cancel',
+    validate: (val) => {
+      if (!val) {
+        return 'Password cannot be empty';
+      }
+      const trimmed = val.trim();
+      if (trimmed.length === 0) {
+        return 'Password cannot be empty';
+      }
+      if (trimmed.length < 6) {
+        return 'Password must be at least 6 characters';
+      }
+      if (trimmed.length > 50) {
+        return 'Password must be 50 characters or less';
+      }
+      return '';
+    },
+    onConfirm: (newPassword) => {
+      // In a real application, you would hash and store the password securely
+      // For now, we'll just store it (not recommended for production)
+      localStorage.setItem('userPassword', newPassword);
+      
+      // Show success message
+      if (window.showCustomModal) {
+        window.showCustomModal({
+          type: 'confirm',
+          title: 'Password Updated',
+          message: 'Your password has been successfully updated.',
+          confirmText: 'OK',
+          cancelText: '',
+          onConfirm: function() {}
+        });
       }
     }
   });
@@ -423,13 +800,103 @@ function handleEditEmail() {
     initialValue: currentEmail,
     confirmText: 'Save',
     cancelText: 'Cancel',
-    validate: (val)=>{
-      if(!val.match(/^([^\s@]+)@([^\s@]+)\.[^\s@]+$/)) return 'Enter a valid email';
+    validate: (val) => {
+      if (!val) {
+        return 'Email cannot be empty';
+      }
+      const trimmed = val.trim();
+      if (trimmed.length === 0) {
+        return 'Email cannot be empty';
+      }
+      
+      // Basic structure check: must match pattern *@*.*
+      // This ensures: something@something.something
+      const basicEmailPattern = /.+@.+\..+/;
+      if (!basicEmailPattern.test(trimmed)) {
+        return 'Email must be in format: name@domain.com';
+      }
+      
+      // Basic structure check: must contain @
+      if (!trimmed.includes('@')) {
+        return 'Email must contain @ symbol';
+      }
+      
+      // Split into local and domain parts
+      const parts = trimmed.split('@');
+      if (parts.length !== 2) {
+        return 'Email must have exactly one @ symbol';
+      }
+      
+      const localPart = parts[0];
+      const domainPart = parts[1];
+      
+      // Check local part (before @)
+      if (localPart.length === 0) {
+        return 'Email must have characters before @';
+      }
+      if (localPart.length > 64) {
+        return 'Email local part is too long (max 64 characters)';
+      }
+      // Local part: letters, numbers, dots, hyphens, underscores, plus signs
+      if (!/^[a-zA-Z0-9._+-]+$/.test(localPart)) {
+        return 'Email local part contains invalid characters';
+      }
+      // No consecutive dots
+      if (localPart.includes('..')) {
+        return 'Email cannot contain consecutive dots';
+      }
+      // Cannot start or end with dot
+      if (localPart.startsWith('.') || localPart.endsWith('.')) {
+        return 'Email cannot start or end with a dot';
+      }
+      
+      // Check domain part (after @)
+      if (domainPart.length === 0) {
+        return 'Email must have a domain after @';
+      }
+      if (domainPart.length > 255) {
+        return 'Email domain is too long';
+      }
+      // Domain must contain at least one dot (format *.*)
+      if (!domainPart.includes('.')) {
+        return 'Email domain must contain a dot (e.g., example.com)';
+      }
+      // Domain: letters, numbers, dots, hyphens
+      if (!/^[a-zA-Z0-9.-]+$/.test(domainPart)) {
+        return 'Email domain contains invalid characters';
+      }
+      // No consecutive dots in domain
+      if (domainPart.includes('..')) {
+        return 'Email domain cannot contain consecutive dots';
+      }
+      // Cannot start or end with dot or hyphen in domain
+      if (domainPart.startsWith('.') || domainPart.endsWith('.') || 
+          domainPart.startsWith('-') || domainPart.endsWith('-')) {
+        return 'Email domain cannot start or end with dot or hyphen';
+      }
+      
+      // Check TLD (top-level domain) - must be at least 2 letters
+      const domainParts = domainPart.split('.');
+      const tld = domainParts[domainParts.length - 1];
+      if (tld.length < 2) {
+        return 'Email must have a valid domain extension (e.g., .com, .ru)';
+      }
+      if (!/^[a-zA-Z]{2,}$/.test(tld)) {
+        return 'Email domain extension must contain only letters (e.g., .com, .ru)';
+      }
+      
+      // Final comprehensive regex check
+      const emailRegex = /^[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(trimmed)) {
+        return 'Please enter a valid email address (e.g., user@example.com)';
+      }
+      
       return '';
     },
     onConfirm: (newEmail) => {
-      if(newEmail !== currentEmail) {
-        localStorage.setItem('email', newEmail);
+      const trimmed = newEmail.trim();
+      if(trimmed !== currentEmail && trimmed.length > 0) {
+        localStorage.setItem('email', trimmed);
         loadProfileData();
         checkUserStatus();
       }
@@ -445,28 +912,105 @@ function handleAvatarUpload(event) {
       const avatarData = e.target.result;
       localStorage.setItem('userAvatar', avatarData);
       
-      // Update avatar in profile
+      // Update large avatar in profile
       const profileLargeAvatar = document.getElementById('profileLargeAvatar');
-      profileLargeAvatar.innerHTML = '';
-      const img = document.createElement('img');
-      img.src = avatarData;
-      img.className = 'w-full h-full rounded-full object-cover';
-      profileLargeAvatar.appendChild(img);
+      if (profileLargeAvatar) {
+        profileLargeAvatar.innerHTML = '';
+        const img = document.createElement('img');
+        img.src = avatarData;
+        img.className = 'w-full h-full rounded-full object-cover';
+        img.onerror = function() {
+          // If image fails to load, show initial instead
+          const username = localStorage.getItem('username') || 'User';
+          const firstLetter = username.charAt(0).toUpperCase();
+          profileLargeAvatar.innerHTML = `<span id="profileLargeAvatarText" class="text-5xl font-bold text-[#333333]">${firstLetter}</span>`;
+          localStorage.removeItem('userAvatar'); // Remove invalid avatar
+        };
+        profileLargeAvatar.appendChild(img);
+      }
       
       // Update avatar in header
       const headerAvatar = document.querySelector('#profileAvatar');
-      if (headerAvatar && !headerAvatar.querySelector('img')) {
+      if (headerAvatar) {
         headerAvatar.innerHTML = '';
         const headerImg = document.createElement('img');
         headerImg.src = avatarData;
         headerImg.className = 'w-full h-full rounded-lg object-cover';
+        headerImg.style.cursor = 'pointer';
+        headerImg.addEventListener('click', toggleProfileMenu);
+        headerImg.onerror = function() {
+          // If image fails to load, show initial instead
+          const username = localStorage.getItem('username') || 'User';
+          const firstLetter = username.charAt(0).toUpperCase();
+          headerAvatar.innerHTML = `<span id="avatarInitial">${firstLetter}</span>`;
+          const avatarInitial = document.getElementById('avatarInitial');
+          if (avatarInitial) {
+            avatarInitial.addEventListener('click', toggleProfileMenu);
+          }
+          localStorage.removeItem('userAvatar'); // Remove invalid avatar
+        };
         headerAvatar.appendChild(headerImg);
       }
       
-      document.getElementById('editMenu').classList.add('hidden');
+      // Update avatar in all pages by calling checkUserStatus
+      if (typeof checkUserStatus === 'function') {
+        checkUserStatus();
+      }
+      
+      const editMenu = document.getElementById('editMenu');
+      if (editMenu) {
+        editMenu.classList.add('hidden');
+      }
     };
     reader.readAsDataURL(file);
   }
+}
+
+function handleDeleteAccountImage() {
+  window.showCustomModal({
+    type: 'confirm',
+    title: 'Delete Account Image',
+    message: 'Are you sure you want to delete your profile image? It will be replaced with your initial.',
+    confirmText: 'Delete',
+    cancelText: 'Cancel',
+    onConfirm: () => {
+      localStorage.removeItem('userAvatar');
+      
+      // Update large avatar to show initial
+      const username = localStorage.getItem('username') || 'User';
+      const firstLetter = username.charAt(0).toUpperCase();
+      const profileLargeAvatar = document.getElementById('profileLargeAvatar');
+      if (profileLargeAvatar) {
+        profileLargeAvatar.innerHTML = `<span id="profileLargeAvatarText" class="text-5xl font-bold text-[#333333]">${firstLetter}</span>`;
+      }
+      
+      // Update header avatar to show initial
+      const headerAvatar = document.querySelector('#profileAvatar');
+      if (headerAvatar) {
+        headerAvatar.innerHTML = `<span id="avatarInitial">${firstLetter}</span>`;
+        // Re-attach click handler
+        if (typeof toggleProfileMenu === 'function') {
+          headerAvatar.addEventListener('click', toggleProfileMenu);
+        }
+      }
+      
+      // Update avatar in all pages by calling checkUserStatus
+      if (typeof checkUserStatus === 'function') {
+        checkUserStatus();
+      }
+      
+      document.getElementById('editMenu').classList.add('hidden');
+    }
+  });
+  
+  // Close plan menu when clicking outside
+  document.addEventListener('click', function(e) {
+    const editPlanMenu = document.getElementById('editPlanMenu');
+    const editPlanButton = e.target.closest('button[onclick*="toggleEditPlanMenu"]');
+    if (editPlanMenu && !editPlanMenu.contains(e.target) && !editPlanButton) {
+      editPlanMenu.classList.add('hidden');
+    }
+  });
 }
 
 function handleLogout() {
@@ -515,10 +1059,29 @@ function handleDeleteAccount() {
 function initializeTimeframeButtons() {
   // Spending Analysis timeframe buttons
   const timeframeBtns = document.querySelectorAll('.timeframe-btn');
+  
+  if (timeframeBtns.length === 0) {
+    console.warn('Timeframe buttons not found, retrying...');
+    setTimeout(initializeTimeframeButtons, 200);
+    return;
+  }
+  
+  // Remove any existing event listeners by cloning and replacing buttons
   timeframeBtns.forEach(btn => {
-    btn.addEventListener('click', function() {
+    // Remove old listeners by replacing with clone
+    const newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+  });
+  
+  // Get fresh references after cloning
+  const freshBtns = document.querySelectorAll('.timeframe-btn');
+  freshBtns.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
       // Remove active class from all buttons
-      timeframeBtns.forEach(b => {
+      freshBtns.forEach(b => {
         b.classList.remove('bg-[#A7C69F]', 'text-[#333333]', 'font-semibold', 'glow-button');
         b.classList.add('text-white/60', 'hover:bg-white/10');
       });
@@ -527,40 +1090,197 @@ function initializeTimeframeButtons() {
       this.classList.remove('text-white/60', 'hover:bg-white/10');
       this.classList.add('bg-[#A7C69F]', 'text-[#333333]', 'font-semibold', 'glow-button');
       
-      // Here you would update the chart based on the selected timeframe
+      // Update the chart based on the selected timeframe
       const timeframe = this.getAttribute('data-timeframe');
-      updateChart(timeframe);
+      if (timeframe) {
+        updateChart(timeframe);
+        updateChartPlanName();
+      }
     });
   });
+}
+
+// Animate chart drawing from left to right
+function animateChart(paths, circles, pathD) {
+  if (!paths || paths.length === 0) return;
   
+  const strokePath = paths[1]; // The stroke path (second path)
+  const fillPath = paths[0]; // The fill path (first path)
+  
+  // Reset animation - hide everything first
+  if (strokePath) {
+    // Remove any existing transitions
+    strokePath.style.transition = 'none';
+    strokePath.style.strokeDasharray = 'none';
+    strokePath.style.strokeDashoffset = '0';
+    strokePath.style.opacity = '0';
+  }
+  if (fillPath) {
+    fillPath.style.transition = 'none';
+    fillPath.style.opacity = '0';
+  }
+  
+  // Hide circles initially
+  if (circles && circles.length > 0) {
+    circles.forEach(circle => {
+      if (circle) {
+        circle.style.transition = 'none';
+        circle.style.opacity = '0';
+        circle.style.transform = 'scale(0)';
+      }
+    });
+  }
+  
+  // Force a reflow to ensure styles are applied before getting path length
+  if (strokePath) {
+    void strokePath.offsetHeight;
+  }
+  
+  // Get path length for stroke animation
+  let pathLength = 0;
+  if (strokePath) {
+    try {
+      pathLength = strokePath.getTotalLength();
+      if (pathLength === 0 || isNaN(pathLength)) {
+        // Fallback if getTotalLength fails or returns 0
+        pathLength = 1000;
+      }
+    } catch (e) {
+      // Fallback if getTotalLength fails
+      pathLength = 1000;
+    }
+  }
+  
+  // Animate stroke path (line drawing effect)
+  if (strokePath && pathLength > 0) {
+    // Set up dash array and offset
+    strokePath.style.strokeDasharray = pathLength + ' ' + pathLength;
+    strokePath.style.strokeDashoffset = pathLength;
+    strokePath.style.opacity = '1';
+    
+    // Force another reflow
+    void strokePath.offsetHeight;
+    
+    // Apply transition and trigger animation
+    strokePath.style.transition = 'stroke-dashoffset 1.5s ease-out, opacity 0.3s ease-out';
+    
+    // Trigger animation after browser applies styles
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        strokePath.style.strokeDashoffset = '0';
+      });
+    });
+  }
+  
+  // Animate fill path (gradient fill) with delay
+  if (fillPath) {
+    setTimeout(() => {
+      fillPath.style.opacity = '1';
+      fillPath.style.transition = 'opacity 1s ease-out';
+    }, 300);
+  }
+  
+  // Animate circles one by one from left to right
+  if (circles && circles.length > 0) {
+    circles.forEach((circle, index) => {
+      if (circle) {
+        const delay = 200 + (index * 120); // Stagger animation (120ms between each circle)
+        setTimeout(() => {
+          circle.style.opacity = '1';
+          circle.style.transform = 'scale(1)';
+          circle.style.transition = 'opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        }, delay);
+      }
+    });
+  }
 }
 
 function updateChart(timeframe) {
   const svg = document.querySelector('svg[viewBox="0 0 500 200"]');
   if (!svg) return;
   
-  // Sample data for different timeframes
-  const data = {
-    daily: {
-      days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      values: [120, 130, 50, 110, 30, 90, 60],
-      maxValue: 2000
-    },
-    monthly: {
-      days: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-      values: [1200, 1500, 800, 1100, 900, 1300, 1000],
-      maxValue: 2000
-    },
-    category: {
-      days: ['Food', 'Trans', 'Util', 'Enter', 'Shop', 'Health', 'Other'],
-      values: [140, 100, 60, 80, 120, 70, 90],
-      maxValue: 2000
-    }
-  };
+  // Load actual plan data
+  const userId = localStorage.getItem('userId');
+  const allPlans = JSON.parse(localStorage.getItem('financial_plans_db') || '{}');
+  const userPlans = allPlans[userId] || [];
+  const selectedPlanId = localStorage.getItem('selectedPlanId');
   
-  const chartData = data[timeframe] || data.daily;
-  const maxVal = Math.max(...chartData.values);
+  // Get selected plan or use latest plan
+  let selectedPlan = null;
+  if (selectedPlanId) {
+    selectedPlan = userPlans.find(p => p.id === selectedPlanId);
+  }
+  if (!selectedPlan && userPlans.length > 0) {
+    selectedPlan = userPlans[userPlans.length - 1];
+    localStorage.setItem('selectedPlanId', selectedPlan.id);
+  }
+  
+  let chartData;
+  
+  if (!selectedPlan || userPlans.length === 0) {
+    // No plans - show empty/default data
+    chartData = {
+      days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      values: [0, 0, 0, 0, 0, 0, 0],
+      maxValue: 100
+    };
+  } else {
+    // Use selected plan data based on timeframe
+    if (timeframe === 'daily') {
+      // Show daily limit repeated for each day
+      const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      const dailyLimit = selectedPlan.dailyLimit || 0;
+      const values = days.map(() => dailyLimit);
+      chartData = { days, values, maxValue: Math.max(dailyLimit, 100) };
+    } else if (timeframe === 'monthly') {
+      // Show monthly data - distribute expenses across months
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+      const totalExpenses = selectedPlan.totalExpenses || 0;
+      const avgMonthly = totalExpenses / 7;
+      const values = months.map(() => avgMonthly);
+      chartData = { days: months, values, maxValue: Math.max(totalExpenses, 100) };
+    } else if (timeframe === 'category') {
+      // Show expenses by category from selected plan
+      const categoryMap = {};
+      selectedPlan.expenses.forEach(exp => {
+        const category = exp.name || 'Other';
+        categoryMap[category] = (categoryMap[category] || 0) + exp.amount;
+      });
+      
+      // Get top 7 categories
+      const sortedCategories = Object.entries(categoryMap)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 7);
+      
+      const days = sortedCategories.map(c => c[0].substring(0, 4));
+      const values = sortedCategories.map(c => c[1]);
+      
+      // Pad to 7 if needed
+      while (days.length < 7) {
+        days.push('Other');
+        values.push(0);
+      }
+      
+      chartData = { days, values, maxValue: Math.max(...values, 100) };
+    } else {
+      // Default to daily
+      const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      const dailyLimit = selectedPlan.dailyLimit || 0;
+      const values = days.map(() => dailyLimit);
+      chartData = { days, values, maxValue: Math.max(dailyLimit, 100) };
+    }
+  }
+  
+  const maxVal = Math.max(...chartData.values, 1);
   const scale = 160 / maxVal; // Scale to fit in 160px height (170 - 10)
+  
+  // Update y-axis labels
+  const yAxisTexts = svg.querySelectorAll('text[text-anchor="end"]');
+  if (yAxisTexts.length >= 3) {
+    yAxisTexts[0].textContent = `$${Math.round(maxVal).toLocaleString()}`;
+    yAxisTexts[1].textContent = `$${Math.round(maxVal / 2).toLocaleString()}`;
+    yAxisTexts[2].textContent = '$0';
+  }
   
   // Update x-axis labels
   const textElements = svg.querySelectorAll('text[text-anchor="middle"]');
@@ -610,19 +1330,62 @@ function updateChart(timeframe) {
     }
   });
   
-  // Update summary values
+  // Animate the chart - wait a bit for browser to recalculate path length
+  setTimeout(() => {
+    animateChart(paths, circles, pathD);
+  }, 50);
+  
+  // Update summary values based on selected plan
   const summaryDiv = document.querySelector('.md\\:col-span-1');
-  if (summaryDiv) {
-    const weekTotal = timeframe === 'daily' ? chartData.values.reduce((a, b) => a + b, 0) : chartData.values[chartData.values.length - 1] * 7;
-    const monthTotal = timeframe === 'monthly' ? chartData.values.reduce((a, b) => a + b, 0) : weekTotal * 4;
-    const avgDaily = weekTotal / 7;
-    const budgetUsed = Math.min(100, Math.round((monthTotal / 7500) * 100));
+  if (summaryDiv && selectedPlan) {
+    // Calculate from selected plan
+    const weekTotal = selectedPlan.dailyLimit * 7;
+    const monthTotal = selectedPlan.totalExpenses || 0;
+    const avgDaily = selectedPlan.dailyLimit || 0;
+    const totalBudget = selectedPlan.salary || 1;
+    const budgetUsed = Math.min(100, Math.round((monthTotal / totalBudget) * 100));
     
     const spans = summaryDiv.querySelectorAll('span.text-white');
     if (spans[0]) spans[0].textContent = `$${Math.round(weekTotal).toLocaleString()}`;
     if (spans[1]) spans[1].textContent = `$${Math.round(monthTotal).toLocaleString()}`;
-    if (spans[2]) spans[2].textContent = `$${Math.round(avgDaily)}`;
+    if (spans[2]) spans[2].textContent = `$${Math.round(avgDaily).toLocaleString()}`;
     if (spans[3]) spans[3].textContent = `${budgetUsed}%`;
+  } else if (summaryDiv) {
+    // No plans - show zeros
+    const spans = summaryDiv.querySelectorAll('span.text-white');
+    if (spans[0]) spans[0].textContent = '$0';
+    if (spans[1]) spans[1].textContent = '$0';
+    if (spans[2]) spans[2].textContent = '$0';
+    if (spans[3]) spans[3].textContent = '0%';
+  }
+  
+  // Update plan name under chart
+  updateChartPlanName();
+}
+
+function updateChartPlanName() {
+  const userId = localStorage.getItem('userId');
+  const allPlans = JSON.parse(localStorage.getItem('financial_plans_db') || '{}');
+  const userPlans = allPlans[userId] || [];
+  const selectedPlanId = localStorage.getItem('selectedPlanId');
+  const chartPlanName = document.getElementById('chartPlanName');
+  
+  if (!chartPlanName) return;
+  
+  let selectedPlan = null;
+  if (selectedPlanId) {
+    selectedPlan = userPlans.find(p => p.id === selectedPlanId);
+  }
+  if (!selectedPlan && userPlans.length > 0) {
+    selectedPlan = userPlans[userPlans.length - 1];
+  }
+  
+  if (selectedPlan) {
+    const date = new Date(selectedPlan.createdAt);
+    const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    chartPlanName.innerHTML = `This is a graph for "Plan from ${formattedDate}"`;
+  } else {
+    chartPlanName.innerHTML = 'No plan selected';
   }
 }
 
@@ -646,24 +1409,203 @@ document.addEventListener('click', function(e) {
   }
 });
 
-// Theme toggle
-document.getElementById('themeToggle')?.addEventListener('click', function() {
+// Theme toggle handler - override any existing handlers
+function handleThemeToggle(e) {
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation(); // Prevent other handlers
+  }
+  
   const html = document.documentElement;
-  html.classList.toggle('dark');
+  const themeIcon = document.getElementById('themeIcon');
   const isDark = html.classList.contains('dark');
-  document.getElementById('themeIcon').textContent = isDark ? '🌙' : '☀️';
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
-});
-
-// Check saved theme preference
-window.addEventListener('load', function() {
-  const savedTheme = localStorage.getItem('theme') || 'dark';
-  const html = document.documentElement;
-  if (savedTheme === 'light') {
+  const newIsDark = !isDark;
+  
+  console.log('Theme toggle clicked, current:', isDark, 'new:', newIsDark);
+  
+  // Update class first - this is critical for CSS rules
+  if (newIsDark) {
+    html.classList.add('dark');
+  } else {
     html.classList.remove('dark');
-    document.getElementById('themeIcon').textContent = '☀️';
+  }
+  
+  // Update icon immediately - show moon for dark, sun for light
+  if (themeIcon) {
+    themeIcon.textContent = newIsDark ? '🌙' : '☀️';
+    console.log('Icon updated to:', themeIcon.textContent);
+  }
+  
+  // Save to localStorage
+  localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
+  
+  // Update html colorScheme
+  html.style.colorScheme = newIsDark ? 'dark' : 'light';
+  
+  // Update body styles with !important to override any inline styles
+  if (newIsDark) {
+    document.body.setAttribute('style', 'background-color: #000000 !important; color: #ffffff !important;');
+  } else {
+    document.body.setAttribute('style', 'background-color: #ffffff !important; color: #1a1a1a !important;');
+  }
+  
+  // Update main container background
+  const mainContainer = document.querySelector('div[style*="background-image"]');
+  if (mainContainer) {
+    if (newIsDark) {
+      mainContainer.setAttribute('style', mainContainer.getAttribute('style').replace(/linear-gradient\(rgba\(255[^)]+\)/g, 'linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.95)'));
+      if (!mainContainer.getAttribute('style').includes('linear-gradient(rgba(0, 0, 0')) {
+        mainContainer.style.backgroundImage = 'linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.95)), url(\'https://lh3.googleusercontent.com/aida-public/AB6AXuCpFh7OSUzEj0XKLJfBIIV04v-GovLLGjGnzDoQbT0ps0Df9oU8HHpWzi4FU3EgN14NBNziFl4HZcvrKRIUfrB1wovmysIFaTBEbmc8R-7C8ndna4mgfw2eBXQcnnGJmYoAv3r98aJO0Nn8M4fCw14NBF3PWea5A4IR7yc2kkzNdVtZh8_iOgzDSH1Tvn6i9pRDZszXGg4L7kGCz_NRI0F8qoAkp4S5JrV2-3XpTR15xeC-kj1YhQ82SbMUKY4K9_ngc4YGUunxrFQL\')';
+      }
+      mainContainer.style.color = '#ffffff';
+    } else {
+      mainContainer.setAttribute('style', mainContainer.getAttribute('style').replace(/linear-gradient\(rgba\(0[^)]+\)/g, 'linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)'));
+      if (!mainContainer.getAttribute('style').includes('linear-gradient(rgba(255')) {
+        mainContainer.style.backgroundImage = 'linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), url(\'https://lh3.googleusercontent.com/aida-public/AB6AXuCpFh7OSUzEj0XKLJfBIIV04v-GovLLGjGnzDoQbT0ps0Df9oU8HHpWzi4FU3EgN14NBNziFl4HZcvrKRIUfrB1wovmysIFaTBEbmc8R-7C8ndna4mgfw2eBXQcnnGJmYoAv3r98aJO0Nn8M4fCw14NBF3PWea5A4IR7yc2kkzNdVtZh8_iOgzDSH1Tvn6i9pRDZszXGg4L7kGCz_NRI0F8qoAkp4S5JrV2-3XpTR15xeC-kj1YhQ82SbMUKY4K9_ngc4YGUunxrFQL\')';
+      }
+      mainContainer.style.color = '#1a1a1a';
+    }
+  }
+  
+  // Force CSS to reapply by triggering multiple reflows
+  void document.body.offsetHeight;
+  void html.offsetHeight;
+  
+  // Use requestAnimationFrame to ensure styles are applied after browser repaint
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      // Force another reflow after styles are computed
+      void document.body.offsetHeight;
+      
+      console.log('Theme applied, dark class:', html.classList.contains('dark'));
+      console.log('Body bg:', getComputedStyle(document.body).backgroundColor);
+    });
+  });
+  
+  // Dispatch custom event for script.js if loaded (but don't let it override our changes)
+  window.dispatchEvent(new CustomEvent('themechange', { detail: { isDark: newIsDark } }));
+  
+  // Re-apply our styles after a delay to override script.js if it tries to change them
+  setTimeout(function() {
+    // Re-check and re-apply if needed
+    const currentIsDark = html.classList.contains('dark');
+    if (currentIsDark !== newIsDark) {
+      // script.js changed it back, force our version
+      if (newIsDark) {
+        html.classList.add('dark');
+      } else {
+        html.classList.remove('dark');
+      }
+    }
+    
+    // Re-apply body styles
+    if (newIsDark) {
+      document.body.setAttribute('style', 'background-color: #000000 !important; color: #ffffff !important;');
+    } else {
+      document.body.setAttribute('style', 'background-color: #ffffff !important; color: #1a1a1a !important;');
+    }
+    
+    // Re-apply icon
+    if (themeIcon) {
+      themeIcon.textContent = newIsDark ? '🌙' : '☀️';
+    }
+  }, 50);
+  
+  return false; // Prevent default and stop propagation
+}
+
+// Override script.js theme handler if it exists
+function overrideScriptJsThemeHandler() {
+  // Wait a bit for script.js to load
+  setTimeout(function() {
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+      // Remove all event listeners by cloning
+      const newButton = themeToggle.cloneNode(true);
+      themeToggle.parentNode.replaceChild(newButton, themeToggle);
+      
+      // Add our handler with highest priority
+      newButton.addEventListener('click', handleThemeToggle, true); // Use capture phase
+      newButton.onclick = handleThemeToggle; // Also set onclick as backup
+      
+      console.log('Theme toggle handler attached and script.js overridden');
+    }
+  }, 1000);
+}
+
+// Setup theme toggle - remove old handlers and add new one
+function setupThemeToggle() {
+  const themeToggle = document.getElementById('themeToggle');
+  
+  if (themeToggle) {
+    // Remove all existing click handlers by cloning the button
+    const newButton = themeToggle.cloneNode(true);
+    themeToggle.parentNode.replaceChild(newButton, themeToggle);
+    
+    // Add our handler with capture phase to run first
+    newButton.addEventListener('click', handleThemeToggle, true);
+    newButton.onclick = handleThemeToggle; // Also set onclick as backup
+    
+    console.log('Theme toggle handler attached');
+  } else {
+    console.log('Theme toggle button not found');
+  }
+}
+
+// Initialize theme icon on load
+function initializeThemeIcon() {
+  const themeIcon = document.getElementById('themeIcon');
+  const html = document.documentElement;
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  const isDark = savedTheme === 'dark' || html.classList.contains('dark');
+  
+  // Ensure dark class is set correctly
+  if (isDark) {
+    html.classList.add('dark');
+  } else {
+    html.classList.remove('dark');
+  }
+  
+  // Update icon - show moon for dark, sun for light
+  if (themeIcon) {
+    themeIcon.textContent = isDark ? '🌙' : '☀️';
+  }
+}
+
+// Listen for theme changes from script.js
+window.addEventListener('themechange', function(e) {
+  const themeIcon = document.getElementById('themeIcon');
+  if (themeIcon && e.detail) {
+    themeIcon.textContent = e.detail.isDark ? '🌙' : '☀️';
   }
 });
+
+// Setup theme toggle on load - try multiple times to ensure it works
+function initThemeToggle() {
+  initializeThemeIcon();
+  setupThemeToggle();
+}
+
+// Try immediately
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initThemeToggle);
+} else {
+  initThemeToggle();
+}
+
+// Also try on window load
+window.addEventListener('load', function() {
+  initializeThemeIcon();
+  setupThemeToggle();
+});
+
+// Try after delays to override script.js if needed
+setTimeout(initThemeToggle, 100);
+setTimeout(initThemeToggle, 500);
+setTimeout(initThemeToggle, 1000);
+setTimeout(overrideScriptJsThemeHandler, 1500);
+setTimeout(overrideScriptJsThemeHandler, 2000);
 
 // === Custom Modal Logic ===
 (function(){
@@ -693,6 +1635,17 @@ window.addEventListener('load', function() {
     let inputEl = null;
     if (title) modalContent.innerHTML += `<div class='text-xl font-bold text-[#A7C69F] mb-2'>${title}</div>`;
     if (message) modalContent.innerHTML += `<div class='text-white/80'>${message}</div>`;
+    
+    // Buttons - create early so they're available for event handlers
+    const confirmBtn = document.createElement('button');
+    confirmBtn.className = 'rounded bg-[#A7C69F] text-[#232323] font-bold px-5 py-2 hover:bg-[#89b788] transition-colors';
+    confirmBtn.textContent = confirmText;
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'rounded border border-[#A7C69F] text-[#A7C69F] px-5 py-2 hover:bg-[#232323]/60 hover:text-[#e5ffe8] transition-colors';
+    cancelBtn.textContent = cancelText;
+    modalActions.appendChild(cancelBtn);
+    modalActions.appendChild(confirmBtn);
+    
     if (type === 'input') {
       modalContent.innerHTML += `
         <label class='block mt-4'>
@@ -702,29 +1655,46 @@ window.addEventListener('load', function() {
         <span id='customModalError' class='text-red-400 block text-sm mt-1'></span>
       `;
       setTimeout(()=>{
-        document.getElementById('customModalInput').focus();
-        document.getElementById('customModalInput').select();
+        const inputEl = document.getElementById('customModalInput');
+        if (inputEl) {
+          inputEl.focus();
+          inputEl.select();
+          // Add Enter key handler to trigger Save button
+          inputEl.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.altKey) {
+              e.preventDefault();
+              confirmBtn.click();
+            }
+          });
+        }
       }, 90);
     }
-    // Buttons
-    const confirmBtn = document.createElement('button');
-    confirmBtn.className = 'rounded bg-[#A7C69F] text-[#232323] font-bold px-5 py-2 hover:bg-[#89b788] transition-colors';
-    confirmBtn.textContent = confirmText;
-    const cancelBtn = document.createElement('button');
-    cancelBtn.className = 'rounded border border-[#A7C69F] text-[#A7C69F] px-5 py-2 hover:bg-[#232323]/60 hover:text-[#e5ffe8] transition-colors';
-    cancelBtn.textContent = cancelText;
-    modalActions.appendChild(cancelBtn);
-    modalActions.appendChild(confirmBtn);
 
     confirmBtn.onclick = ()=>{
       if(type==='input') {
-        const val = document.getElementById('customModalInput').value.trim();
-        if(validate && !validate(val)) {
-          document.getElementById('customModalError').textContent = typeof validate==='function'? validate(val)||'Ошибка': 'Ошибка';
-          return;
+        const inputEl = document.getElementById('customModalInput');
+        if (!inputEl) return;
+        const val = inputEl.value || '';
+        const errorEl = document.getElementById('customModalError');
+        
+        if(validate && typeof validate === 'function') {
+          try {
+            const errorMsg = validate(val);
+            // If validate returns a non-empty string, it's an error
+            if(errorMsg && typeof errorMsg === 'string' && errorMsg.trim().length > 0) {
+              if(errorEl) errorEl.textContent = errorMsg;
+              return;
+            }
+          } catch(e) {
+            console.error('Validation error:', e);
+            if(errorEl) errorEl.textContent = 'Validation error occurred';
+            return;
+          }
         }
+        // Clear error if validation passes
+        if(errorEl) errorEl.textContent = '';
         closeModal();
-        if (onConfirm) onConfirm(val);
+        if (onConfirm) onConfirm(val.trim());
         return;
       }
       closeModal();
@@ -735,5 +1705,7 @@ window.addEventListener('load', function() {
   }
 })();
 // === END Custom Modal Logic ===
+
+// Info dropdown button handler is added by script.js via event delegation
 </script>
 </body></html>

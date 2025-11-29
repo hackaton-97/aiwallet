@@ -3,7 +3,7 @@
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>AIWallet Pricing Page - Ultra Futuristic</title>
+<title>AI Wallet | Pricing</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -98,12 +98,15 @@
     <h2 class="text-white text-xl font-bold leading-tight tracking-[-0.015em]">AIWallet</h2>
 </a>
 <div class="flex flex-1 justify-end gap-8">
-<div class="flex items-center gap-9">
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="overview.html">Overview</a>
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="features.html">Features</a>
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
-<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="resources.html">Resources</a>
-</div>
+  <div class="flex items-center gap-9">
+    <a id="createPlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="createplan.html">Create Plan</a>
+    <a id="myPlansLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="myplans.html">My Plans</a>
+    <a id="dashboardLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="profile.html">Dashboard</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="overview.html">Overview</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="features.html">Features</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="resources.html">Resources</a>
+  </div>
 <div class="flex gap-2">
 <button id="themeToggle" class="flex min-w-[40px] w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent border border-[#A7C69F]/50 text-white font-bold transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]" title="Toggle theme">
 <span id="themeIcon">🌙</span>
@@ -132,8 +135,16 @@
 <p class="font-semibold"><span id="profileUsername">User</span></p>
 <p class="text-xs text-gray-400"><span id="profileEmail">email@example.com</span></p>
 </div>
-<a href="profile.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">person</span> Profile</a>
-<button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">logout</span> Logout</button>
+      <button type="button" id="infoDropdownButton" class="w-full text-left px-4 py-2 text-white flex items-center gap-2 hover:bg-[#A7C69F]/10 transition-colors rounded justify-between">
+        <span class="flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">info</span>Info</span>
+        <span class="material-symbols-outlined transition-transform" id="infoDropdownArrow" style="font-size:19px;">expand_more</span>
+      </button>
+      <div id="infoDropdownMenu" class="hidden flex flex-col gap-1 mb-1 px-2 pt-1 ">
+          <a href="overview.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size:18px;">subject</span>Overview</a>
+          <a href="features.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size:18px;">star</span>Features</a>
+          <a href="resources.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size:18px;">book</span>Resources</a>
+      </div>
+      <button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">logout</span> Logout</button>
 <button onclick="handleDeleteAccount()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-500/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">delete</span> Delete Account</button>
 </div>
 </div>
@@ -161,7 +172,7 @@
 <span class="text-white/80 text-base font-bold leading-tight">/ month</span>
 </p>
 </div>
-<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-white/10 text-white text-sm font-bold leading-normal tracking-[0.015em] border border-white/20 hover:bg-white/20 transition-colors">
+<button onclick="selectPlan('basic')" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-white/10 text-white text-sm font-bold leading-normal tracking-[0.015em] border border-white/20 hover:bg-white/20 transition-colors">
 <span class="truncate">Select Basic</span>
 </button>
 <div class="flex flex-col gap-3">
@@ -180,7 +191,7 @@
 </div>
 </div>
 <div class="flex flex-1 flex-col gap-6 rounded-lg border-2 border-solid border-[#A7C69F] bg-[#333333] p-6 glow-border relative">
-<div class="absolute -top-3 right-6 text-xs font-medium leading-normal tracking-[0.015em] rounded-full bg-[#A7C69F] px-3 py-1 text-center text-[#333333]">Most Popular</div>
+<div id="proPlanBadge" class="absolute -top-3 right-6 text-xs font-medium leading-normal tracking-[0.015em] rounded-full bg-[#A7C69F] px-3 py-1 text-center text-[#333333]">Most Popular</div>
 <div class="flex flex-col gap-2">
 <h1 class="text-white text-xl font-bold leading-tight">Pro</h1>
 <p class="flex items-baseline gap-2 text-white">
@@ -188,7 +199,7 @@
 <span class="text-white/80 text-base font-bold leading-tight">/ month</span>
 </p>
 </div>
-<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-[#A7C69F] text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] glow-button transition-shadow hover:shadow-lg">
+<button onclick="selectPlan('pro')" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-[#A7C69F] text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] glow-button transition-shadow hover:shadow-lg">
 <span class="truncate">Select Pro</span>
 </button>
 <div class="flex flex-col gap-3">
@@ -214,8 +225,8 @@
 <span class="text-white/80 text-base font-bold leading-tight">/ month</span>
 </p>
 </div>
-<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-white/10 text-white text-sm font-bold leading-normal tracking-[0.015em] border border-white/20 hover:bg-white/20 transition-colors">
-<span class="truncate">Contact Sales</span>
+<button onclick="selectPlan('enterprise')" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-white/10 text-white text-sm font-bold leading-normal tracking-[0.015em] border border-white/20 hover:bg-white/20 transition-colors">
+<span class="truncate">Select Enterprise</span>
 </button>
 <div class="flex flex-col gap-3">
 <div class="flex gap-3 text-sm font-normal leading-normal text-white/90">
@@ -387,7 +398,12 @@ function toggleProfileMenu(e) {
   const profileUsername = document.getElementById('profileUsername');
   const profileEmail = document.getElementById('profileEmail');
   
-  if (profileUsername) profileUsername.textContent = username || 'User';
+  // Get plan prefix
+  const userPlan = localStorage.getItem('userPlan');
+  const planPrefix = getPlanPrefix(userPlan);
+  const displayName = planPrefix ? `${planPrefix} ${username || 'User'}` : (username || 'User');
+  
+  if (profileUsername) profileUsername.textContent = displayName;
   if (profileEmail) profileEmail.textContent = email || 'email@example.com';
   
   if (profileModal.classList.contains('hidden')) {
@@ -399,6 +415,16 @@ function toggleProfileMenu(e) {
 
 // Make function globally accessible
 window.toggleProfileMenu = toggleProfileMenu;
+
+function getPlanPrefix(planName) {
+  if (!planName) return '';
+  const prefixes = {
+    'basic': '[Basic]',
+    'pro': '[Pro]',
+    'enterprise': '[Enterprise]'
+  };
+  return prefixes[planName.toLowerCase()] || '';
+}
 
 function handleLogout() {
   if (confirm('Are you sure you want to logout?')) {
@@ -469,6 +495,282 @@ document.addEventListener('click', function(e) {
     // Don't close if clicking on buttons/links inside the modal
   }
 });
+
+// Payment modal
+function selectPlan(planName) {
+  const userId = localStorage.getItem('userId');
+  if (!userId) {
+    if (window.showCustomModal) {
+      window.showCustomModal({
+        type: 'confirm',
+        title: 'Login Required',
+        message: 'Please log in to purchase a plan.',
+        confirmText: 'OK',
+        cancelText: '',
+        onConfirm: function() {
+          window.location.href = 'signin.html';
+        }
+      });
+    } else {
+      alert('Please log in to purchase a plan.');
+    }
+    return;
+  }
+
+  const planPrices = {
+    'basic': { name: 'Basic', price: 9 },
+    'pro': { name: 'Pro', price: 29 },
+    'enterprise': { name: 'Enterprise', price: 99 }
+  };
+
+  const plan = planPrices[planName];
+  if (!plan) return;
+
+  // Show payment modal
+  showPaymentModal(plan);
+}
+
+function showPaymentModal(plan) {
+  const modalHTML = `
+    <div id="paymentModal" class="fixed z-50 inset-0 flex items-center justify-center bg-black/70">
+      <div class="bg-[#181818] border border-[#A7C69F]/30 rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 text-white relative" style="background-color: #181818 !important; color: #ffffff !important;">
+        <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-white/50 hover:text-[#A7C69F] focus:outline-none" style="color: rgba(255, 255, 255, 0.5) !important;">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+        <div id="paymentContent">
+          <h2 class="text-2xl font-bold text-[#A7C69F] mb-4" style="color: #A7C69F !important;">Payment Details</h2>
+          <p class="text-white/80 mb-6" style="color: rgba(255, 255, 255, 0.8) !important;">Plan: ${plan.name} - $${plan.price}/month</p>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-white/70 text-sm mb-2" style="color: rgba(255, 255, 255, 0.7) !important;">Card Number</label>
+              <input type="text" id="cardNumber" class="w-full rounded-lg bg-[#232323] border border-[#A7C69F]/30 p-3 text-base text-white outline-none focus:border-[#A7C69F] transition-colors" placeholder="1234 5678 9012 3456" maxlength="19">
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-white/70 text-sm mb-2" style="color: rgba(255, 255, 255, 0.7) !important;">Expiry Date</label>
+                <input type="text" id="expiryDate" class="w-full rounded-lg bg-[#232323] border border-[#A7C69F]/30 p-3 text-base text-white outline-none focus:border-[#A7C69F] transition-colors" placeholder="MM/YY" maxlength="5">
+              </div>
+              <div>
+                <label class="block text-white/70 text-sm mb-2" style="color: rgba(255, 255, 255, 0.7) !important;">CVV</label>
+                <input type="text" id="cvv" class="w-full rounded-lg bg-[#232323] border border-[#A7C69F]/30 p-3 text-base text-white outline-none focus:border-[#A7C69F] transition-colors" placeholder="123" maxlength="3">
+              </div>
+            </div>
+            <div>
+              <label class="block text-white/70 text-sm mb-2" style="color: rgba(255, 255, 255, 0.7) !important;">Cardholder Name</label>
+              <input type="text" id="cardholderName" class="w-full rounded-lg bg-[#232323] border border-[#A7C69F]/30 p-3 text-base text-white outline-none focus:border-[#A7C69F] transition-colors" placeholder="John Doe">
+            </div>
+          </div>
+          <div class="flex gap-3 mt-6">
+            <button onclick="closePaymentModal()" class="flex-1 rounded border border-[#A7C69F] text-[#A7C69F] px-5 py-2 hover:bg-[#232323]/60 transition-colors">Cancel</button>
+            <button onclick="processPayment('${plan.name.toLowerCase()}')" class="flex-1 rounded bg-[#A7C69F] text-[#232333] font-bold px-5 py-2 hover:bg-[#89b788] transition-colors">Pay $${plan.price}/month</button>
+          </div>
+        </div>
+        <div id="paymentLoading" class="hidden text-center">
+          <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#A7C69F] mx-auto mb-4"></div>
+          <p class="text-white/80" style="color: rgba(255, 255, 255, 0.8) !important;">Processing payment...</p>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Remove existing modal if any
+  const existingModal = document.getElementById('paymentModal');
+  if (existingModal) {
+    existingModal.remove();
+  }
+
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+  // Format card number input
+  const cardNumberInput = document.getElementById('cardNumber');
+  if (cardNumberInput) {
+    cardNumberInput.addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\s/g, '');
+      let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+      e.target.value = formattedValue;
+    });
+  }
+
+  // Format expiry date input
+  const expiryInput = document.getElementById('expiryDate');
+  if (expiryInput) {
+    expiryInput.addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length >= 2) {
+        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+      }
+      e.target.value = value;
+    });
+  }
+
+  // Only allow numbers for CVV
+  const cvvInput = document.getElementById('cvv');
+  if (cvvInput) {
+    cvvInput.addEventListener('input', function(e) {
+      e.target.value = e.target.value.replace(/\D/g, '');
+    });
+  }
+}
+
+function closePaymentModal() {
+  const modal = document.getElementById('paymentModal');
+  if (modal) {
+    modal.remove();
+  }
+}
+
+function processPayment(planName) {
+  const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+  const expiryDate = document.getElementById('expiryDate').value;
+  const cvv = document.getElementById('cvv').value;
+  const cardholderName = document.getElementById('cardholderName').value;
+
+  // Basic validation
+  if (!cardNumber || cardNumber.length < 16) {
+    if (window.showCustomModal) {
+      window.showCustomModal({
+        type: 'confirm',
+        title: 'Invalid Card Number',
+        message: 'Please enter a valid card number.',
+        confirmText: 'OK',
+        cancelText: '',
+        onConfirm: function() {}
+      });
+    }
+    return;
+  }
+
+  if (!expiryDate || !/^\d{2}\/\d{2}$/.test(expiryDate)) {
+    if (window.showCustomModal) {
+      window.showCustomModal({
+        type: 'confirm',
+        title: 'Invalid Expiry Date',
+        message: 'Please enter a valid expiry date (MM/YY).',
+        confirmText: 'OK',
+        cancelText: '',
+        onConfirm: function() {}
+      });
+    }
+    return;
+  }
+
+  if (!cvv || cvv.length < 3) {
+    if (window.showCustomModal) {
+      window.showCustomModal({
+        type: 'confirm',
+        title: 'Invalid CVV',
+        message: 'Please enter a valid CVV.',
+        confirmText: 'OK',
+        cancelText: '',
+        onConfirm: function() {}
+      });
+    }
+    return;
+  }
+
+  if (!cardholderName || cardholderName.trim().length === 0) {
+    if (window.showCustomModal) {
+      window.showCustomModal({
+        type: 'confirm',
+        title: 'Invalid Name',
+        message: 'Please enter cardholder name.',
+        confirmText: 'OK',
+        cancelText: '',
+        onConfirm: function() {}
+      });
+    }
+    return;
+  }
+
+  // Show loading
+  const paymentContent = document.getElementById('paymentContent');
+  const paymentLoading = document.getElementById('paymentLoading');
+  if (paymentContent) paymentContent.classList.add('hidden');
+  if (paymentLoading) paymentLoading.classList.remove('hidden');
+
+  // Simulate 7-second payment processing
+  setTimeout(() => {
+    // Save plan to localStorage
+    localStorage.setItem('userPlan', planName);
+    localStorage.setItem('planPurchaseDate', new Date().toISOString());
+
+    // Hide loading, show success
+    if (paymentLoading) paymentLoading.classList.add('hidden');
+    
+    const successHTML = `
+      <div class="text-center">
+        <div class="text-6xl mb-4" style="color: #A7C69F !important;">✓</div>
+        <h2 class="text-2xl font-bold text-[#A7C69F] mb-2" style="color: #A7C69F !important;">Payment Successful!</h2>
+        <p class="text-white/80 mb-6" style="color: rgba(255, 255, 255, 0.8) !important;">Your subscription has been activated.</p>
+        <button onclick="closePaymentModal(); window.location.reload();" class="rounded bg-[#A7C69F] text-[#232333] font-bold px-6 py-2 hover:bg-[#89b788] transition-colors">OK</button>
+      </div>
+    `;
+    
+    if (paymentContent) {
+      paymentContent.innerHTML = successHTML;
+      paymentContent.classList.remove('hidden');
+    }
+  }, 7000);
+}
+
+// Update pricing page on load
+window.addEventListener('load', function() {
+  updatePricingDisplay();
+});
+
+function updatePricingDisplay() {
+  const userPlan = localStorage.getItem('userPlan');
+  
+  if (userPlan) {
+    // Remove "Most Popular" from Pro if user has a different plan
+    const proPlanBadge = document.getElementById('proPlanBadge');
+    if (proPlanBadge && userPlan !== 'pro') {
+      proPlanBadge.textContent = 'Most Popular';
+    }
+    
+    // Update badge based on purchased plan
+    const planCards = document.querySelectorAll('.grid > div');
+    planCards.forEach((card, index) => {
+      let planType = '';
+      if (index === 0) planType = 'basic';
+      else if (index === 1) planType = 'pro';
+      else if (index === 2) planType = 'enterprise';
+      
+      if (planType === userPlan) {
+        let badge = card.querySelector('.absolute');
+        if (!badge) {
+          // Create badge if it doesn't exist
+          badge = document.createElement('div');
+          badge.className = 'absolute -top-3 right-6 text-xs font-medium leading-normal tracking-[0.015em] rounded-full bg-[#A7C69F] px-3 py-1 text-center text-[#333333]';
+          card.style.position = 'relative';
+          card.insertAdjacentElement('afterbegin', badge);
+        }
+        badge.textContent = 'Your plan';
+        
+        // Remove "Most Popular" from Pro if user has Pro
+        if (userPlan === 'pro' && proPlanBadge) {
+          proPlanBadge.textContent = 'Your plan';
+        }
+      } else {
+        // Remove "Your plan" from other cards
+        const badge = card.querySelector('.absolute');
+        if (badge && badge.textContent === 'Your plan') {
+          if (planType === 'pro') {
+            badge.textContent = 'Most Popular';
+          } else {
+            badge.remove();
+          }
+        }
+      }
+    });
+  }
+}
+
+// Make functions globally accessible
+window.selectPlan = selectPlan;
+window.closePaymentModal = closePaymentModal;
+window.processPayment = processPayment;
+window.updatePricingDisplay = updatePricingDisplay;
 </script>
 </div>
 </body></html>
