@@ -92,7 +92,9 @@ app.post('/api/login', (req, res) => {
     message: 'Login successful', 
     userId: user.id, 
     username: user.username,
-    email: user.email 
+    email: user.email,
+    userPlan: user.userPlan || null,
+    planPurchaseDate: user.planPurchaseDate || null
   });
 });
 
@@ -110,6 +112,45 @@ app.get('/api/user/:userId', (req, res) => {
   // Не отправляем пароль
   const { password, ...userWithoutPassword } = user;
   return res.json({ success: true, user: userWithoutPassword });
+});
+
+// API для обновления подписки пользователя
+app.post('/api/user/:userId/subscription', (req, res) => {
+  const { userId } = req.params;
+  const { userPlan, planPurchaseDate } = req.body;
+  
+  const db = readDatabase();
+  const user = db.users.find(u => u.id === userId);
+  
+  if (!user) {
+    return res.json({ success: false, message: 'User not found' });
+  }
+  
+  user.userPlan = userPlan || null;
+  user.planPurchaseDate = planPurchaseDate || null;
+  
+  saveDatabase(db);
+  
+  return res.json({ success: true, message: 'Subscription updated' });
+});
+
+// API для отмены подписки
+app.delete('/api/user/:userId/subscription', (req, res) => {
+  const { userId } = req.params;
+  
+  const db = readDatabase();
+  const user = db.users.find(u => u.id === userId);
+  
+  if (!user) {
+    return res.json({ success: false, message: 'User not found' });
+  }
+  
+  user.userPlan = null;
+  user.planPurchaseDate = null;
+  
+  saveDatabase(db);
+  
+  return res.json({ success: true, message: 'Subscription cancelled' });
 });
 
 app.listen(PORT, () => {

@@ -106,7 +106,7 @@
 <div class="relative flex h-auto min-h-screen w-full flex-col bg-[#333333] group/design-root overflow-hidden">
 <div class="circuit-bg" data-alt="abstract technological pattern"></div>
 <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/20 px-10 py-4 backdrop-blur-sm relative z-10">
-<a href="main.html" class="flex items-center gap-4 text-primary cursor-pointer hover:opacity-80 transition-opacity">
+<a href="index.html" class="flex items-center gap-4 text-primary cursor-pointer hover:opacity-80 transition-opacity">
 <div class="size-5">
 <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
 <path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
@@ -152,13 +152,13 @@
 </div>
 </div>
 <div class="layout-container flex h-full grow flex-col justify-center items-center relative z-10 p-4">
-<a href="main.html" class="absolute left-4 top-4 text-primary hover:text-white transition-colors">
+<a href="index.html" class="absolute left-4 top-4 text-primary hover:text-white transition-colors">
 <span class="material-symbols-outlined text-4xl">
                         arrow_back
                     </span>
 </a>
 <div class="layout-content-container flex flex-col max-w-md w-full items-center p-8 rounded-xl bg-black/30 backdrop-blur-sm border border-primary/20">
-<a href="main.html" class="flex flex-col items-center justify-center pb-6 cursor-pointer hover:opacity-80 transition-opacity">
+<a href="index.html" class="flex flex-col items-center justify-center pb-6 cursor-pointer hover:opacity-80 transition-opacity">
 <span class="material-symbols-outlined text-primary text-5xl">
                         shield
                     </span>
@@ -371,9 +371,44 @@ document.getElementById('signinBtn').addEventListener('click', async function(e)
   localStorage.setItem('userId', user.id);
   localStorage.setItem('username', user.username);
   localStorage.setItem('email', user.email);
+  
+  // Load subscription from user data (prioritize user data over localStorage)
+  if (user.userPlan) {
+    localStorage.setItem('userPlan', user.userPlan);
+  } else {
+    localStorage.removeItem('userPlan');
+  }
+  if (user.planPurchaseDate) {
+    localStorage.setItem('planPurchaseDate', user.planPurchaseDate);
+  } else {
+    localStorage.removeItem('planPurchaseDate');
+  }
+  
+  // Also try to load from server if available
+  fetch(`/api/user/${user.id}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.success && data.user) {
+        if (data.user.userPlan) {
+          localStorage.setItem('userPlan', data.user.userPlan);
+          // Update localStorage users array
+          const userIndex = users.findIndex(u => u.id === user.id);
+          if (userIndex !== -1) {
+            users[userIndex].userPlan = data.user.userPlan;
+            users[userIndex].planPurchaseDate = data.user.planPurchaseDate;
+            localStorage.setItem('aiwallet_users', JSON.stringify(users));
+          }
+        }
+        if (data.user.planPurchaseDate) {
+          localStorage.setItem('planPurchaseDate', data.user.planPurchaseDate);
+        }
+      }
+    })
+    .catch(err => console.error('Failed to load user data from server:', err));
+  
   setTimeout(() => {
     checkUserStatus();
-    window.location.href = 'main.html';
+    window.location.href = 'index.html';
   }, 1500);
 });
 </script>

@@ -10,9 +10,9 @@ const server = http.createServer((req, res) => {
   const parsedUrl = url.parse(req.url, true);
   let pathname = parsedUrl.pathname;
   
-  // Default to index.html or main.html
+  // Default to index.html
   if (pathname === '/') {
-    pathname = '/main.html';
+    pathname = '/index.html';
   }
   
   // Prevent directory traversal
@@ -22,7 +22,7 @@ const server = http.createServer((req, res) => {
   fs.stat(filepath, (err, stats) => {
     if (err || !stats.isFile()) {
       // Try index.html
-      const indexPath = path.join(__dirname, 'main.html');
+      const indexPath = path.join(__dirname, 'index.html');
       fs.readFile(indexPath, (err, data) => {
         if (err) {
           res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });

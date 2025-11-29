@@ -54,7 +54,7 @@ function addFloatingAnimation() {
   }
   
   // Apply to logo (only if not in header)
-  const logos = document.querySelectorAll('a[href="main.html"]');
+  const logos = document.querySelectorAll('a[href="index.html"]');
   logos.forEach(logo => {
     // Check if logo is NOT in header
     const header = logo.closest('header');
@@ -105,7 +105,7 @@ function addFloatingAnimation() {
     if (link.id === 'dashboardLink') return;
     
     // Skip if it's logo in header
-    if (link.href && link.href.includes('main.html') && link.closest('header')) return;
+    if (link.href && link.href.includes('index.html') && link.closest('header')) return;
     
     // Only apply to links that look like buttons or are interactive
     const hasButtonClass = link.className && (
@@ -341,9 +341,14 @@ function toggleProfileMenu(e) {
   // Get plan prefix
   const userPlan = localStorage.getItem('userPlan');
   const planPrefix = getPlanPrefix(userPlan);
-  const displayName = planPrefix ? `${planPrefix} ${username || 'User'}` : (username || 'User');
   
-  if (profileUsername) profileUsername.textContent = displayName;
+  if (profileUsername) {
+    if (planPrefix) {
+      profileUsername.innerHTML = (username || 'User') + ' ' + planPrefix;
+    } else {
+      profileUsername.textContent = username || 'User';
+    }
+  }
   if (profileEmail) profileEmail.textContent = email || 'email@example.com';
   
   // Toggle modal
@@ -359,12 +364,14 @@ window.toggleProfileMenu = toggleProfileMenu;
 
 function getPlanPrefix(planName) {
   if (!planName) return '';
-  const prefixes = {
-    'basic': '[Basic]',
-    'pro': '[Pro]',
-    'enterprise': '[Enterprise]'
+  const plan = planName.toLowerCase();
+  const planNames = {
+    'basic': 'Basic',
+    'pro': 'Pro',
+    'enterprise': 'Enterprise'
   };
-  return prefixes[planName.toLowerCase()] || '';
+  const planDisplayName = planNames[plan] || plan;
+  return `<button class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-[#A7C69F] text-[#333333] border border-[#A7C69F] hover:bg-[#89b788] transition-colors">${planDisplayName}</button>`;
 }
 
 function closeProfileMenuOnBackdrop(event) {
@@ -568,11 +575,13 @@ function handleLogout() {
       localStorage.removeItem('username');
       localStorage.removeItem('email');
       localStorage.removeItem('userAvatar');
+      localStorage.removeItem('userPlan');
+      localStorage.removeItem('planPurchaseDate');
       const profileModal = document.getElementById('profileModal');
       if (profileModal) profileModal.classList.add('hidden');
       setTimeout(function() {
         checkUserStatus();
-        window.location.href = 'main.html';
+        window.location.href = 'index.html';
       }, 100);
     }
   });
@@ -598,7 +607,7 @@ function handleDeleteAccount() {
       if (profileModal) profileModal.classList.add('hidden');
       setTimeout(function() {
         checkUserStatus();
-        window.location.href = 'main.html';
+        window.location.href = 'index.html';
       }, 100);
     }
   });

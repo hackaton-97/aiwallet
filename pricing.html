@@ -89,7 +89,7 @@
 <div class="layout-content-container flex flex-col w-full max-w-[1100px] flex-1 px-4 sm:px-10">
 <!-- TopNavBar -->
 <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-white/20 px-4 py-3">
-<a href="main.html" class="flex items-center gap-4 text-white cursor-pointer hover:opacity-80 transition-opacity">
+<a href="index.html" class="flex items-center gap-4 text-white cursor-pointer hover:opacity-80 transition-opacity">
     <div class="size-5 text-[#A7C69F] glow-text">
         <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
             <path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
@@ -126,7 +126,7 @@
 </div>
 </header>
 
-<!-- В main.html ЗАМЕНИТЬ весь блок Profile Menu Modal на этот: -->
+<!-- В index.html ЗАМЕНИТЬ весь блок Profile Menu Modal на этот: -->
 <!-- Profile Menu Modal -->
 <div id="profileModal" class="hidden fixed inset-0 z-50 flex items-start justify-end pt-20 pr-10" onclick="closeProfileMenuOnBackdrop(event)">
 <div class="bg-black/90 border border-[#A7C69F]/30 rounded-lg shadow-lg min-w-[200px] backdrop-blur-sm" onclick="event.stopPropagation()">
@@ -403,7 +403,13 @@ function toggleProfileMenu(e) {
   const planPrefix = getPlanPrefix(userPlan);
   const displayName = planPrefix ? `${planPrefix} ${username || 'User'}` : (username || 'User');
   
-  if (profileUsername) profileUsername.textContent = displayName;
+  if (profileUsername) {
+    if (planPrefix) {
+      profileUsername.innerHTML = (username || 'User') + ' ' + planPrefix;
+    } else {
+      profileUsername.textContent = username || 'User';
+    }
+  }
   if (profileEmail) profileEmail.textContent = email || 'email@example.com';
   
   if (profileModal.classList.contains('hidden')) {
@@ -418,12 +424,14 @@ window.toggleProfileMenu = toggleProfileMenu;
 
 function getPlanPrefix(planName) {
   if (!planName) return '';
-  const prefixes = {
-    'basic': '[Basic]',
-    'pro': '[Pro]',
-    'enterprise': '[Enterprise]'
+  const plan = planName.toLowerCase();
+  const planNames = {
+    'basic': 'Basic',
+    'pro': 'Pro',
+    'enterprise': 'Enterprise'
   };
-  return prefixes[planName.toLowerCase()] || '';
+  const planDisplayName = planNames[plan] || plan;
+  return `<button class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-[#A7C69F] text-[#333333] border border-[#A7C69F] hover:bg-[#89b788] transition-colors">${planDisplayName}</button>`;
 }
 
 function handleLogout() {
@@ -431,9 +439,12 @@ function handleLogout() {
     localStorage.removeItem('userId');
     localStorage.removeItem('username');
     localStorage.removeItem('email');
+    localStorage.removeItem('userPlan');
+    localStorage.removeItem('planPurchaseDate');
     document.getElementById('profileModal').classList.add('hidden');
     setTimeout(function() {
       checkUserStatus();
+      updatePricingDisplay();
       window.location.href = 'pricing.html';
     }, 100);
   }
@@ -517,6 +528,44 @@ function selectPlan(planName) {
     return;
   }
 
+  // Check subscription hierarchy
+  const currentPlan = localStorage.getItem('userPlan');
+  if (currentPlan) {
+    const planHierarchy = { 'basic': 1, 'pro': 2, 'enterprise': 3 };
+    const currentLevel = planHierarchy[currentPlan.toLowerCase()] || 0;
+    const selectedLevel = planHierarchy[planName.toLowerCase()] || 0;
+    
+    // If user has Pro, they can only upgrade to Enterprise, not downgrade to Basic
+    if (currentPlan.toLowerCase() === 'pro' && planName.toLowerCase() === 'basic') {
+      if (window.showCustomModal) {
+        window.showCustomModal({
+          type: 'confirm',
+          title: 'Cannot Downgrade',
+          message: 'You cannot downgrade from Pro to Basic. You can only upgrade to Enterprise.',
+          confirmText: 'OK',
+          cancelText: '',
+          onConfirm: function() {}
+        });
+      }
+      return;
+    }
+    
+    // If user has Enterprise, they cannot change plan
+    if (currentPlan.toLowerCase() === 'enterprise') {
+      if (window.showCustomModal) {
+        window.showCustomModal({
+          type: 'confirm',
+          title: 'Already on Highest Plan',
+          message: 'You are already on the Enterprise plan, which is the highest tier.',
+          confirmText: 'OK',
+          cancelText: '',
+          onConfirm: function() {}
+        });
+      }
+      return;
+    }
+  }
+
   const planPrices = {
     'basic': { name: 'Basic', price: 9 },
     'pro': { name: 'Pro', price: 29 },
@@ -544,20 +593,24 @@ function showPaymentModal(plan) {
             <div>
               <label class="block text-white/70 text-sm mb-2" style="color: rgba(255, 255, 255, 0.7) !important;">Card Number</label>
               <input type="text" id="cardNumber" class="w-full rounded-lg bg-[#232323] border border-[#A7C69F]/30 p-3 text-base text-white outline-none focus:border-[#A7C69F] transition-colors" placeholder="1234 5678 9012 3456" maxlength="19">
+              <div id="cardNumberError" class="text-red-400 text-sm mt-1 hidden" style="z-index: 100; position: relative;"></div>
             </div>
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-white/70 text-sm mb-2" style="color: rgba(255, 255, 255, 0.7) !important;">Expiry Date</label>
                 <input type="text" id="expiryDate" class="w-full rounded-lg bg-[#232323] border border-[#A7C69F]/30 p-3 text-base text-white outline-none focus:border-[#A7C69F] transition-colors" placeholder="MM/YY" maxlength="5">
+                <div id="expiryDateError" class="text-red-400 text-sm mt-1 hidden" style="z-index: 100; position: relative;"></div>
               </div>
               <div>
                 <label class="block text-white/70 text-sm mb-2" style="color: rgba(255, 255, 255, 0.7) !important;">CVV</label>
                 <input type="text" id="cvv" class="w-full rounded-lg bg-[#232323] border border-[#A7C69F]/30 p-3 text-base text-white outline-none focus:border-[#A7C69F] transition-colors" placeholder="123" maxlength="3">
+                <div id="cvvError" class="text-red-400 text-sm mt-1 hidden" style="z-index: 100; position: relative;"></div>
               </div>
             </div>
             <div>
               <label class="block text-white/70 text-sm mb-2" style="color: rgba(255, 255, 255, 0.7) !important;">Cardholder Name</label>
               <input type="text" id="cardholderName" class="w-full rounded-lg bg-[#232323] border border-[#A7C69F]/30 p-3 text-base text-white outline-none focus:border-[#A7C69F] transition-colors" placeholder="John Doe">
+              <div id="cardholderNameError" class="text-red-400 text-sm mt-1 hidden" style="z-index: 100; position: relative;"></div>
             </div>
           </div>
           <div class="flex gap-3 mt-6">
@@ -620,65 +673,83 @@ function closePaymentModal() {
 }
 
 function processPayment(planName) {
+  // Clear previous errors
+  const errorElements = ['cardNumberError', 'expiryDateError', 'cvvError', 'cardholderNameError'];
+  errorElements.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.add('hidden');
+      el.textContent = '';
+    }
+  });
+
   const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
   const expiryDate = document.getElementById('expiryDate').value;
   const cvv = document.getElementById('cvv').value;
   const cardholderName = document.getElementById('cardholderName').value;
+  let hasErrors = false;
 
   // Basic validation
   if (!cardNumber || cardNumber.length < 16) {
-    if (window.showCustomModal) {
-      window.showCustomModal({
-        type: 'confirm',
-        title: 'Invalid Card Number',
-        message: 'Please enter a valid card number.',
-        confirmText: 'OK',
-        cancelText: '',
-        onConfirm: function() {}
-      });
+    const errorEl = document.getElementById('cardNumberError');
+    if (errorEl) {
+      errorEl.textContent = 'Please enter a valid card number (16 digits)';
+      errorEl.classList.remove('hidden');
     }
-    return;
+    hasErrors = true;
   }
 
   if (!expiryDate || !/^\d{2}\/\d{2}$/.test(expiryDate)) {
-    if (window.showCustomModal) {
-      window.showCustomModal({
-        type: 'confirm',
-        title: 'Invalid Expiry Date',
-        message: 'Please enter a valid expiry date (MM/YY).',
-        confirmText: 'OK',
-        cancelText: '',
-        onConfirm: function() {}
-      });
+    const errorEl = document.getElementById('expiryDateError');
+    if (errorEl) {
+      errorEl.textContent = 'Please enter a valid expiry date (MM/YY)';
+      errorEl.classList.remove('hidden');
     }
-    return;
+    hasErrors = true;
+  } else {
+    // Validate expiry date is not expired
+    const [month, year] = expiryDate.split('/').map(Number);
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear() % 100;
+    const currentMonth = currentDate.getMonth() + 1;
+    
+    // Validate month is between 1 and 12
+    if (month < 1 || month > 12) {
+      const errorEl = document.getElementById('expiryDateError');
+      if (errorEl) {
+        errorEl.textContent = 'Month must be between 01 and 12';
+        errorEl.classList.remove('hidden');
+      }
+      hasErrors = true;
+    } else if (year < currentYear || (year === currentYear && month < currentMonth)) {
+      const errorEl = document.getElementById('expiryDateError');
+      if (errorEl) {
+        errorEl.textContent = 'This card has expired';
+        errorEl.classList.remove('hidden');
+      }
+      hasErrors = true;
+    }
   }
 
   if (!cvv || cvv.length < 3) {
-    if (window.showCustomModal) {
-      window.showCustomModal({
-        type: 'confirm',
-        title: 'Invalid CVV',
-        message: 'Please enter a valid CVV.',
-        confirmText: 'OK',
-        cancelText: '',
-        onConfirm: function() {}
-      });
+    const errorEl = document.getElementById('cvvError');
+    if (errorEl) {
+      errorEl.textContent = 'Please enter a valid CVV (3 digits)';
+      errorEl.classList.remove('hidden');
     }
-    return;
+    hasErrors = true;
   }
 
   if (!cardholderName || cardholderName.trim().length === 0) {
-    if (window.showCustomModal) {
-      window.showCustomModal({
-        type: 'confirm',
-        title: 'Invalid Name',
-        message: 'Please enter cardholder name.',
-        confirmText: 'OK',
-        cancelText: '',
-        onConfirm: function() {}
-      });
+    const errorEl = document.getElementById('cardholderNameError');
+    if (errorEl) {
+      errorEl.textContent = 'Please enter cardholder name';
+      errorEl.classList.remove('hidden');
     }
+    hasErrors = true;
+  }
+
+  if (hasErrors) {
     return;
   }
 
@@ -688,11 +759,45 @@ function processPayment(planName) {
   if (paymentContent) paymentContent.classList.add('hidden');
   if (paymentLoading) paymentLoading.classList.remove('hidden');
 
+  // Normalize plan name to lowercase to ensure consistency
+  const normalizedPlanName = planName.toLowerCase();
+
   // Simulate 7-second payment processing
   setTimeout(() => {
-    // Save plan to localStorage
-    localStorage.setItem('userPlan', planName);
-    localStorage.setItem('planPurchaseDate', new Date().toISOString());
+    const userId = localStorage.getItem('userId');
+    const purchaseDate = new Date().toISOString();
+    
+    // Save plan to localStorage with normalized name
+    localStorage.setItem('userPlan', normalizedPlanName);
+    localStorage.setItem('planPurchaseDate', purchaseDate);
+
+    // Save to server database
+    if (userId) {
+      fetch(`/api/user/${userId}/subscription`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userPlan: normalizedPlanName,
+          planPurchaseDate: purchaseDate
+        })
+      }).catch(err => console.error('Failed to save subscription:', err));
+      
+      // Also save to localStorage users array
+      let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
+      const user = users.find(u => u.id === userId);
+      if (user) {
+        user.userPlan = normalizedPlanName;
+        user.planPurchaseDate = purchaseDate;
+        localStorage.setItem('aiwallet_users', JSON.stringify(users));
+      }
+    }
+
+    // Update pricing display immediately
+    if (typeof updatePricingDisplay === 'function') {
+      updatePricingDisplay();
+    }
 
     // Hide loading, show success
     if (paymentLoading) paymentLoading.classList.add('hidden');
@@ -720,49 +825,81 @@ window.addEventListener('load', function() {
 
 function updatePricingDisplay() {
   const userPlan = localStorage.getItem('userPlan');
+  const normalizedPlan = userPlan ? userPlan.toLowerCase() : null;
+  const proPlanBadge = document.getElementById('proPlanBadge');
+  const planHierarchy = { 'basic': 1, 'pro': 2, 'enterprise': 3 };
+  const userPlanLevel = normalizedPlan ? (planHierarchy[normalizedPlan] || 0) : 0;
   
-  if (userPlan) {
-    // Remove "Most Popular" from Pro if user has a different plan
-    const proPlanBadge = document.getElementById('proPlanBadge');
-    if (proPlanBadge && userPlan !== 'pro') {
-      proPlanBadge.textContent = 'Most Popular';
+  // Update badge based on purchased plan
+  const planCards = document.querySelectorAll('.grid > div');
+  
+  planCards.forEach((card, index) => {
+    let planType = '';
+    if (index === 0) planType = 'basic';
+    else if (index === 1) planType = 'pro';
+    else if (index === 2) planType = 'enterprise';
+    
+    const planLevel = planHierarchy[planType] || 0;
+    const selectButton = card.querySelector('button[onclick*="selectPlan"]');
+    
+    // Hide button if user has this plan or a higher plan
+    if (userPlanLevel > 0 && planLevel <= userPlanLevel) {
+      if (selectButton) {
+        selectButton.style.display = 'none';
+      }
+    } else {
+      if (selectButton) {
+        selectButton.style.display = '';
+      }
     }
     
-    // Update badge based on purchased plan
-    const planCards = document.querySelectorAll('.grid > div');
-    planCards.forEach((card, index) => {
-      let planType = '';
-      if (index === 0) planType = 'basic';
-      else if (index === 1) planType = 'pro';
-      else if (index === 2) planType = 'enterprise';
+    // Find all badges in this card
+    const badges = card.querySelectorAll('.absolute');
+    let yourPlanBadge = null;
+    let mostPopularBadge = null;
+    
+    badges.forEach(b => {
+      if (b.textContent === 'Your plan') yourPlanBadge = b;
+      if (b.textContent === 'Most Popular' || b.id === 'proPlanBadge') mostPopularBadge = b;
+    });
+    
+    if (planType === normalizedPlan) {
+      // User has this plan - show "Your plan" badge
+      if (!yourPlanBadge) {
+        yourPlanBadge = document.createElement('div');
+        yourPlanBadge.className = 'absolute -top-3 right-6 text-xs font-medium leading-normal tracking-[0.015em] rounded-full bg-[#A7C69F] px-3 py-1 text-center text-[#333333]';
+        yourPlanBadge.textContent = 'Your plan';
+        yourPlanBadge.id = 'yourPlanBadge';
+        card.style.position = 'relative';
+        card.insertAdjacentElement('afterbegin', yourPlanBadge);
+      }
       
-      if (planType === userPlan) {
-        let badge = card.querySelector('.absolute');
-        if (!badge) {
-          // Create badge if it doesn't exist
-          badge = document.createElement('div');
-          badge.className = 'absolute -top-3 right-6 text-xs font-medium leading-normal tracking-[0.015em] rounded-full bg-[#A7C69F] px-3 py-1 text-center text-[#333333]';
-          card.style.position = 'relative';
-          card.insertAdjacentElement('afterbegin', badge);
-        }
-        badge.textContent = 'Your plan';
-        
-        // Remove "Most Popular" from Pro if user has Pro
-        if (userPlan === 'pro' && proPlanBadge) {
-          proPlanBadge.textContent = 'Your plan';
-        }
-      } else {
-        // Remove "Your plan" from other cards
-        const badge = card.querySelector('.absolute');
-        if (badge && badge.textContent === 'Your plan') {
-          if (planType === 'pro') {
-            badge.textContent = 'Most Popular';
-          } else {
-            badge.remove();
-          }
+      // Hide "Most Popular" badge if it exists on this card
+      if (planType === 'pro' && proPlanBadge) {
+        proPlanBadge.style.display = 'none';
+      } else if (mostPopularBadge && mostPopularBadge !== proPlanBadge) {
+        mostPopularBadge.style.display = 'none';
+      }
+    } else {
+      // User doesn't have this plan - remove "Your plan" badge
+      if (yourPlanBadge) {
+        yourPlanBadge.remove();
+      }
+      
+      // Show "Most Popular" only on Pro if user doesn't have Pro
+      if (planType === 'pro') {
+        if (normalizedPlan !== 'pro' && proPlanBadge) {
+          proPlanBadge.textContent = 'Most Popular';
+          proPlanBadge.style.display = '';
         }
       }
-    });
+    }
+  });
+  
+  // If no plan, ensure "Most Popular" is visible
+  if (!normalizedPlan && proPlanBadge) {
+    proPlanBadge.textContent = 'Most Popular';
+    proPlanBadge.style.display = '';
   }
 }
 

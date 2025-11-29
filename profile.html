@@ -249,6 +249,50 @@
         html:not(.dark) .border-\[#000000\] {
             border-color: #ffffff !important;
         }
+        /* Password change modal light theme - same as customModal */
+        html:not(.dark) #passwordChangeModal > div {
+            background-color: #ffffff !important;
+            color: #1a1a1a !important;
+            border-color: #5a7a4f !important;
+        }
+        html:not(.dark) #passwordChangeModal h2 {
+            color: #5a7a4f !important;
+        }
+        html:not(.dark) #passwordChangeModal label {
+            color: rgba(26, 26, 26, 0.7) !important;
+        }
+        html:not(.dark) #passwordChangeModal input {
+            background-color: #f5f5f5 !important;
+            border-color: rgba(90, 122, 79, 0.3) !important;
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) #passwordChangeModal input:focus {
+            border-color: #5a7a4f !important;
+        }
+        html:not(.dark) #passwordChangeModal input::placeholder {
+            color: rgba(26, 26, 26, 0.5) !important;
+        }
+        html:not(.dark) #passwordChangeModal button {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) #passwordChangeModal button[onclick="closePasswordChangeModal()"] {
+            color: rgba(26, 26, 26, 0.5) !important;
+        }
+        html:not(.dark) #passwordChangeModal button[onclick="closePasswordChangeModal()"]:hover {
+            color: #5a7a4f !important;
+            background-color: rgba(90, 122, 79, 0.1) !important;
+        }
+        html:not(.dark) #passwordChangeModal button[onclick="savePasswordChange()"] {
+            background-color: #5a7a4f !important;
+            color: #ffffff !important;
+        }
+        html:not(.dark) #passwordChangeModal button[onclick="savePasswordChange()"]:hover {
+            background-color: #4a6a3f !important;
+        }
+        html:not(.dark) #passwordChangeModal #oldPasswordError,
+        html:not(.dark) #passwordChangeModal #newPasswordError {
+            color: #dc2626 !important;
+        }
     </style>
 <script src="script.js" defer></script>
 </head>
@@ -258,7 +302,7 @@
 <div class="flex flex-1 justify-center py-5">
 <div class="layout-content-container flex flex-col w-full max-w-[1100px] flex-1 px-4 sm:px-10">
 <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-custom-accent/20 px-4 py-3 backdrop-blur-sm bg-custom-bg/30 rounded-t-lg">
-<a href="main.html" class="flex items-center gap-4 text-custom-accent cursor-pointer hover:opacity-80 transition-opacity">
+<a href="index.html" class="flex items-center gap-4 text-custom-accent cursor-pointer hover:opacity-80 transition-opacity">
 <div class="size-4 text-glow">
 <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
 <path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
@@ -366,6 +410,12 @@
 <!-- Plans will be loaded here -->
 </div>
 </div>
+</div>
+<div id="cancelSubscriptionContainer" class="relative mt-4 w-full hidden">
+<button onclick="handleCancelSubscription()" class="flex w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-red-500/20 text-red-400 text-sm font-bold leading-normal tracking-[0.015em] border border-red-500/50 hover:bg-red-500/30 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px; display: inline-flex; margin-right: 8px;">cancel</span>
+<span class="truncate">Cancel Subscription</span>
+</button>
 </div>
 </div>
 <div class="lg:col-span-2 flex flex-col p-8 bg-black/20 border border-white/20 rounded-lg backdrop-blur-sm">
@@ -491,12 +541,14 @@ window.addEventListener('load', function() {
 
 function getPlanPrefix(planName) {
   if (!planName) return '';
-  const prefixes = {
-    'basic': '[Basic]',
-    'pro': '[Pro]',
-    'enterprise': '[Enterprise]'
+  const plan = planName.toLowerCase();
+  const planNames = {
+    'basic': 'Basic',
+    'pro': 'Pro',
+    'enterprise': 'Enterprise'
   };
-  return prefixes[planName.toLowerCase()] || '';
+  const planDisplayName = planNames[plan] || plan;
+  return `<button class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-[#A7C69F] text-[#333333] border border-[#A7C69F] hover:bg-[#89b788] transition-colors">${planDisplayName}</button>`;
 }
 
 function loadProfileData() {
@@ -514,13 +566,35 @@ function loadProfileData() {
   
   const userPlan = localStorage.getItem('userPlan');
   const planPrefix = getPlanPrefix(userPlan);
-  const displayName = planPrefix ? `${planPrefix} ${username}` : username;
+  const displayName = planPrefix ? `${username} ${planPrefix}` : username;
   
-  if (profileNameEl) profileNameEl.textContent = displayName;
+  if (profileNameEl) {
+    if (planPrefix) {
+      profileNameEl.innerHTML = displayName;
+    } else {
+      profileNameEl.textContent = username;
+    }
+  }
   if (profileUserEmailEl) profileUserEmailEl.textContent = email;
-  if (profileUsernameEl) profileUsernameEl.textContent = displayName;
+  if (profileUsernameEl) {
+    if (planPrefix) {
+      profileUsernameEl.innerHTML = displayName;
+    } else {
+      profileUsernameEl.textContent = username;
+    }
+  }
   if (profileEmailEl) profileEmailEl.textContent = email;
   if (avatarInitialEl) avatarInitialEl.textContent = firstLetter;
+  
+  // Show/hide Cancel Subscription button
+  const cancelSubscriptionContainer = document.getElementById('cancelSubscriptionContainer');
+  if (cancelSubscriptionContainer) {
+    if (userPlan && (userPlan.toLowerCase() === 'basic' || userPlan.toLowerCase() === 'pro' || userPlan.toLowerCase() === 'enterprise')) {
+      cancelSubscriptionContainer.classList.remove('hidden');
+    } else {
+      cancelSubscriptionContainer.classList.add('hidden');
+    }
+  }
   
   // Update large avatar
   const profileLargeAvatar = document.getElementById('profileLargeAvatar');
@@ -748,48 +822,184 @@ function handleEditUsername() {
 }
 
 function handleEditPassword() {
-  window.showCustomModal({
-    type:'input',
-    title:'Edit Password',
-    inputLabel:'New password:',
-    initialValue: '',
-    confirmText: 'Save',
-    cancelText: 'Cancel',
-    validate: (val) => {
-      if (!val) {
-        return 'Password cannot be empty';
-      }
-      const trimmed = val.trim();
-      if (trimmed.length === 0) {
-        return 'Password cannot be empty';
-      }
-      if (trimmed.length < 6) {
-        return 'Password must be at least 6 characters';
-      }
-      if (trimmed.length > 50) {
-        return 'Password must be 50 characters or less';
-      }
-      return '';
-    },
-    onConfirm: (newPassword) => {
-      // In a real application, you would hash and store the password securely
-      // For now, we'll just store it (not recommended for production)
-      localStorage.setItem('userPassword', newPassword);
-      
-      // Show success message
-      if (window.showCustomModal) {
-        window.showCustomModal({
-          type: 'confirm',
-          title: 'Password Updated',
-          message: 'Your password has been successfully updated.',
-          confirmText: 'OK',
-          cancelText: '',
-          onConfirm: function() {}
-        });
-      }
+  const userId = localStorage.getItem('userId');
+  if (!userId) {
+    if (window.showCustomModal) {
+      window.showCustomModal({
+        type: 'confirm',
+        title: 'Error',
+        message: 'You must be logged in to change your password.',
+        confirmText: 'OK',
+        cancelText: '',
+        onConfirm: function() {}
+      });
     }
-  });
+    return;
+  }
+
+  // Get current password from users array
+  let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
+  const user = users.find(u => u.id === userId);
+  if (!user) {
+    if (window.showCustomModal) {
+      window.showCustomModal({
+        type: 'confirm',
+        title: 'Error',
+        message: 'User not found.',
+        confirmText: 'OK',
+        cancelText: '',
+        onConfirm: function() {}
+      });
+    }
+    return;
+  }
+
+  // Create custom modal for password change with two fields
+  const modalHTML = `
+    <div id="passwordChangeModal" class="fixed z-50 inset-0 flex items-center justify-center bg-black/70">
+      <div class="bg-[#181818] border border-[#A7C69F]/30 rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 text-white relative">
+        <button onclick="closePasswordChangeModal()" class="absolute top-4 right-4 text-white/50 hover:text-[#A7C69F] focus:outline-none">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+        <h2 class="text-2xl font-bold text-[#A7C69F] mb-4">Edit Password</h2>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-white/70 text-sm mb-2">Current Password</label>
+            <input type="password" id="oldPassword" class="w-full rounded-lg bg-[#232323] border border-[#A7C69F]/30 p-3 text-base text-white outline-none focus:border-[#A7C69F] transition-colors" placeholder="Enter current password">
+            <div id="oldPasswordError" class="text-red-400 text-sm mt-1 hidden"></div>
+          </div>
+          <div>
+            <label class="block text-white/70 text-sm mb-2">New Password</label>
+            <input type="password" id="newPassword" class="w-full rounded-lg bg-[#232323] border border-[#A7C69F]/30 p-3 text-base text-white outline-none focus:border-[#A7C69F] transition-colors" placeholder="Enter new password">
+            <div id="newPasswordError" class="text-red-400 text-sm mt-1 hidden"></div>
+          </div>
+        </div>
+        <div class="flex gap-3 mt-6">
+          <button onclick="closePasswordChangeModal()" class="flex-1 rounded border border-[#A7C69F] text-[#A7C69F] px-5 py-2 hover:bg-[#232323]/60 transition-colors">Cancel</button>
+          <button onclick="savePasswordChange()" class="flex-1 rounded bg-[#A7C69F] text-[#232333] font-bold px-5 py-2 hover:bg-[#89b788] transition-colors">Save</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Remove existing modal if any
+  const existingModal = document.getElementById('passwordChangeModal');
+  if (existingModal) {
+    existingModal.remove();
+  }
+
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+  // Focus on first input
+  setTimeout(() => {
+    const oldPasswordInput = document.getElementById('oldPassword');
+    if (oldPasswordInput) {
+      oldPasswordInput.focus();
+    }
+  }, 100);
 }
+
+function closePasswordChangeModal() {
+  const modal = document.getElementById('passwordChangeModal');
+  if (modal) {
+    modal.remove();
+  }
+}
+
+function savePasswordChange() {
+  // Clear previous errors
+  const oldPasswordError = document.getElementById('oldPasswordError');
+  const newPasswordError = document.getElementById('newPasswordError');
+  if (oldPasswordError) {
+    oldPasswordError.classList.add('hidden');
+    oldPasswordError.textContent = '';
+  }
+  if (newPasswordError) {
+    newPasswordError.classList.add('hidden');
+    newPasswordError.textContent = '';
+  }
+
+  const oldPassword = document.getElementById('oldPassword').value;
+  const newPassword = document.getElementById('newPassword').value;
+  let hasErrors = false;
+
+  if (!oldPassword || oldPassword.trim().length === 0) {
+    if (oldPasswordError) {
+      oldPasswordError.textContent = 'Please enter your current password';
+      oldPasswordError.classList.remove('hidden');
+    }
+    hasErrors = true;
+  }
+
+  if (!newPassword || newPassword.trim().length === 0) {
+    if (newPasswordError) {
+      newPasswordError.textContent = 'Password cannot be empty';
+      newPasswordError.classList.remove('hidden');
+    }
+    hasErrors = true;
+  } else if (newPassword.trim().length < 6) {
+    if (newPasswordError) {
+      newPasswordError.textContent = 'Password must be at least 6 characters';
+      newPasswordError.classList.remove('hidden');
+    }
+    hasErrors = true;
+  } else if (newPassword.trim().length > 50) {
+    if (newPasswordError) {
+      newPasswordError.textContent = 'Password must be 50 characters or less';
+      newPasswordError.classList.remove('hidden');
+    }
+    hasErrors = true;
+  }
+
+  if (hasErrors) {
+    return;
+  }
+
+  // Verify old password
+  const userId = localStorage.getItem('userId');
+  let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
+  const user = users.find(u => u.id === userId);
+  
+  if (!user) {
+    if (oldPasswordError) {
+      oldPasswordError.textContent = 'User not found';
+      oldPasswordError.classList.remove('hidden');
+    }
+    return;
+  }
+
+  const storedPassword = atob(user.password); // Decode password
+  if (storedPassword !== oldPassword) {
+    if (oldPasswordError) {
+      oldPasswordError.textContent = 'Current password is incorrect';
+      oldPasswordError.classList.remove('hidden');
+    }
+    return;
+  }
+
+  // Update password
+  user.password = btoa(newPassword.trim()); // Encode new password
+  localStorage.setItem('aiwallet_users', JSON.stringify(users));
+
+  // Close modal
+  closePasswordChangeModal();
+
+  // Show success message
+  if (window.showCustomModal) {
+    window.showCustomModal({
+      type: 'confirm',
+      title: 'Password Updated',
+      message: 'Your password has been successfully updated.',
+      confirmText: 'OK',
+      cancelText: '',
+      onConfirm: function() {}
+    });
+  }
+}
+
+// Make functions globally accessible
+window.closePasswordChangeModal = closePasswordChangeModal;
+window.savePasswordChange = savePasswordChange;
 
 function handleEditEmail() {
   const currentEmail = localStorage.getItem('email') || 'user@example.com';
@@ -1028,6 +1238,64 @@ function handleLogout() {
       setTimeout(function () {
         window.location.href = 'overview.html';
       }, 100);
+    }
+  });
+}
+
+function handleCancelSubscription() {
+  const userPlan = localStorage.getItem('userPlan');
+  const planNames = {
+    'basic': 'Basic',
+    'pro': 'Pro',
+    'enterprise': 'Enterprise'
+  };
+  const planDisplayName = planNames[userPlan?.toLowerCase()] || userPlan;
+  
+  window.showCustomModal({
+    type: 'confirm',
+    title: 'Cancel Subscription',
+    message: `Are you sure you want to cancel your ${planDisplayName} subscription?<br><br><span style="color:#ef4444">Note: Money for the current month will not be refunded.</span>`,
+    confirmText: 'Cancel Subscription',
+    cancelText: 'Keep Subscription',
+    onConfirm: () => {
+      const userId = localStorage.getItem('userId');
+      
+      // Remove from localStorage
+      localStorage.removeItem('userPlan');
+      localStorage.removeItem('planPurchaseDate');
+      
+      // Remove from server database
+      if (userId) {
+        fetch(`/api/user/${userId}/subscription`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).catch(err => console.error('Failed to cancel subscription:', err));
+      }
+      
+      // Also remove from localStorage users array if exists
+      let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
+      const user = users.find(u => u.id === userId);
+      if (user) {
+        user.userPlan = null;
+        user.planPurchaseDate = null;
+        localStorage.setItem('aiwallet_users', JSON.stringify(users));
+      }
+      
+      // Reload profile data to update UI
+      loadProfileData();
+      
+      if (window.showCustomModal) {
+        window.showCustomModal({
+          type: 'confirm',
+          title: 'Subscription Cancelled',
+          message: 'Your subscription has been cancelled successfully.',
+          confirmText: 'OK',
+          cancelText: '',
+          onConfirm: function() {}
+        });
+      }
     }
   });
 }
