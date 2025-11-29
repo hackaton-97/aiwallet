@@ -158,6 +158,17 @@ app.get('/api/health', (req, res) => {
   return res.json({ status: 'ok', server: 'available' });
 });
 
+// Handle 404 for API routes (must be before catch-all)
+app.use('/api/*', (req, res) => {
+  res.status(404).json({ success: false, message: 'API endpoint not found' });
+});
+
+// Catch-all: serve index.html for root
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Static files are served from: ${__dirname}`);
 });
