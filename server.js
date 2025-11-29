@@ -153,6 +153,91 @@ app.delete('/api/user/:userId/subscription', (req, res) => {
   return res.json({ success: true, message: 'Subscription cancelled' });
 });
 
+// API для получения всех планов всех пользователей (для share-plans)
+app.get('/api/plans/all', (req, res) => {
+  const db = readDatabase();
+  
+  // Собираем все планы всех пользователей
+  const allPlans = [];
+  db.users.forEach(user => {
+    if (user.plans && Array.isArray(user.plans)) {
+      user.plans.forEach(plan => {
+        allPlans.push({
+          ...plan,
+          userId: user.id,
+          username: user.username
+        });
+      });
+    }
+  });
+  
+  return res.json({ success: true, plans: allPlans });
+});
+
+// API для получения планов конкретного пользователя
+app.get('/api/user/:userId/plans', (req, res) => {
+  const { userId } = req.params;
+  const db = readDatabase();
+  
+  const user = db.users.find(u => u.id === userId);
+  
+  if (!user) {
+    return res.json({ success: false, message: 'User not found' });
+  }
+  
+  return res.json({ success: true, plans: user.plans || [] });
+});
+
+// API для удаления плана пользователя
+app.delete('/api/user/:userId/plans/:planId', (req, res) => {
+  const { userId, planId } = req.params;
+  const db = readDatabase();
+  
+  const user = db.users.find(u => u.id === userId);
+  
+  if (!user) {
+    return res.json({ success: false, message: 'User not found' });
+  }
+  
+  if (!user.plans) {
+    user.plans = [];
+  }
+  
+  user.plans = user.plans.filter(p => p.id !== planId);
+  saveDatabase(db);
+  
+  return res.json({ success: true, message: 'Plan deleted' });
+});
+
+// API для сохранения плана пользователя
+app.post('/api/user/:userId/plans', (req, res) => {
+  const { userId } = req.params;
+  const plan = req.body;
+  
+  const db = readDatabase();
+  const user = db.users.find(u => u.id === userId);
+  
+  if (!user) {
+    return res.json({ success: false, message: 'User not found' });
+  }
+  
+  if (!user.plans) {
+    user.plans = [];
+  }
+  
+  // Если план с таким id уже существует, обновляем его
+  const existingPlanIndex = user.plans.findIndex(p => p.id === plan.id);
+  if (existingPlanIndex !== -1) {
+    user.plans[existingPlanIndex] = plan;
+  } else {
+    user.plans.push(plan);
+  }
+  
+  saveDatabase(db);
+  
+  return res.json({ success: true, message: 'Plan saved' });
+});
+
 // Health check endpoint for API wrapper
 app.get('/api/health', (req, res) => {
   return res.json({ status: 'ok', server: 'available' });

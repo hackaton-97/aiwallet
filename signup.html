@@ -100,7 +100,9 @@
         html:not(.dark) [class*="text-[#A7C69F]"], html:not(.dark) [class*="text-custom-accent"] { color: #5a7a4f !important; }
         html:not(.dark) svg { color: #1a1a1a !important; }
     </style>
-<script src="api-wrapper.js"></script>
+    <style>
+    </style>
+<script src="db-manager.js"></script>
 <script src="script.js" defer></script>
 </head>
 <body class="font-display">
@@ -117,6 +119,9 @@
 </a>
 <div class="flex flex-1 justify-end gap-8">
   <div class="flex items-center gap-9">
+    <a id="createPlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="createplan.html">Create Plan</a>
+    <a id="myPlansLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="myplans.html">My Plans</a>
+    <a id="sharePlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="share-plans.html">Share Plan</a>
     <a id="dashboardLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="profile.html">Dashboard</a>
     <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="overview.html">Overview</a>
     <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="features.html">Features</a>
@@ -340,7 +345,7 @@ function toggleSignupPassword() {
   }
 }
 
-document.getElementById('signupBtn').addEventListener('click', async function(e) {
+document.getElementById('signupBtn').addEventListener('click', function(e) {
   e.preventDefault();
   
   const email = document.getElementById('signupEmail').value;
@@ -365,14 +370,14 @@ document.getElementById('signupBtn').addEventListener('click', async function(e)
     return;
   }
   
-  // Disable button during request
+  // Disable button during process
   const signupBtn = document.getElementById('signupBtn');
   signupBtn.disabled = true;
   signupBtn.textContent = 'CREATING...';
   
   try {
-    // Use API wrapper
-    const result = await window.apiWrapper.register(email, username, password);
+    // Use DBManager to register
+    const result = DBManager.registerUser(email, username, password);
     
     if (result.success) {
       messageDiv.innerHTML = '<p class="text-green-500 text-sm">Registration successful! Redirecting...</p>';
@@ -385,7 +390,7 @@ document.getElementById('signupBtn').addEventListener('click', async function(e)
         window.location.href = 'index.html';
       }, 1500);
     } else {
-      messageDiv.innerHTML = `<p class="text-red-500 text-sm">${result.message || 'Registration failed'}</p>`;
+      messageDiv.innerHTML = `<p class="text-red-500 text-sm">${result.message}</p>`;
       signupBtn.disabled = false;
       signupBtn.innerHTML = '<span class="truncate">CREATE ACCOUNT</span>';
     }

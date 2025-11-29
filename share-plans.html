@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Wallet | Share Plans</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="db-manager.js"></script>
+<script src="script.js" defer></script>
+<style>
+        .glow-border {
+            box-shadow: 0 0 2px #A7C69F, 0 0 5px #A7C69F, 0 0 10px #A7C69F;
+        }
+        .glow-button {
+            box-shadow: 0 0 5px #A7C69F, 0 0 10px #A7C69F, 0 0 15px #A7C69F;
+        }
+        .glow-text {
+            text-shadow: 0 0 5px #A7C69F;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(167, 198, 159, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 90% 80%, rgba(167, 198, 159, 0.1) 0%, transparent 25%);
+            background-attachment: fixed;
+        }
+        /* Light mode styles */
+        html:not(.dark) { 
+            background-color: #ffffff !important;
+            color: #1a1a1a;
+        }
+        html:not(.dark) body { 
+            background-color: #ffffff !important;
+            color: #1a1a1a;
+        }
+        html:not(.dark) [class*="text-white"] {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) [class*="text-white/"] {
+            color: rgba(26, 26, 26, 0.8) !important;
+        }
+        html:not(.dark) [class*="bg-black"] {
+            background-color: #ffffff !important;
+        }
+        html:not(.dark) [class*="bg-black/"] {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+        }
+        html:not(.dark) [class*="bg-custom-bg"],
+        html:not(.dark) [class*="bg-[#333333]"],
+        html:not(.dark) [class*="bg-[#0a0a0a]"] {
+            background-color: #f5f5f5 !important;
+        }
+        html:not(.dark) [class*="border-"] {
+            border-color: #e0e0e0 !important;
+        }
+        html:not(.dark) [class*="text-[#A7C69F]"],
+        html:not(.dark) [class*="text-custom-accent"] {
+            color: #5a7a4f !important;
+        }
+        html:not(.dark) svg {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) .plan-card {
+            background-color: #f9f9f9 !important;
+            border-color: #e0e0e0 !important;
+        }
+        html:not(.dark) .plan-card h3,
+        html:not(.dark) .plan-card .text-white {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) .plan-card .text-white/60,
+        html:not(.dark) .plan-card .text-white/70 {
+            color: rgba(26, 26, 26, 0.7) !important;
+        }
+        html:not(.dark) .bg-\[#333333\]\/40 {
+            background-color: rgba(249, 249, 249, 0.9) !important;
+        }
+        html:not(.dark) .bg-\[#111\] {
+            background-color: #ffffff !important;
+        }
+        html:not(.dark) header {
+            background-color: rgba(255, 255, 255, 0.9) !important;
+            border-color: #e0e0e0 !important;
+        }
+        html:not(.dark) footer {
+            background-color: #f5f5f5 !important;
+            border-color: #e0e0e0 !important;
+        }
+        html:not(.dark) .border-\[#a7c69f\]\/20 {
+            border-color: rgba(90, 122, 79, 0.3) !important;
+        }
+        html:not(.dark) #browseTab,
+        html:not(.dark) #mySharingTab {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) #browseTab.border-\[#A7C69F\] {
+            border-color: #5a7a4f !important;
+            color: #5a7a4f !important;
+        }
+        html:not(.dark) #mySharingTab.border-\[#A7C69F\] {
+            border-color: #5a7a4f !important;
+            color: #5a7a4f !important;
+        }
+        html:not(.dark) h1,
+        html:not(.dark) h2,
+        html:not(.dark) h3 {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) button,
+        html:not(.dark) .bg-\[#A7C69F\] {
+            color: #333333 !important;
+        }
+        html:not(.dark) .text-white\/80 {
+            color: rgba(26, 26, 26, 0.8) !important;
+        }
+        html:not(.dark) * {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) div {
+            background-color: #ffffff !important;
+        }
+        html:not(.dark) .bg-\[#333333\] {
+            background-color: #f5f5f5 !important;
+        }
+        html:not(.dark) input,
+        html:not(.dark) textarea {
+            background-color: #f9f9f9 !important;
+            color: #1a1a1a !important;
+            border-color: #e0e0e0 !important;
+        }
+        html:not(.dark) .text-red-500 {
+            color: #ef4444 !important;
+        }
+        html:not(.dark) .text-green-500 {
+            color: #22c55e !important;
+        }
+        html:not(.dark) .border-\[#A7C69F\]\/20 {
+            border-color: rgba(90, 122, 79, 0.3) !important;
+        }
+        html:not(.dark) .bg-\[#A7C69F\] {
+            background-color: #5a7a4f !important;
+        }
+        html:not(.dark) .bg-\[#A7C69F\]:hover {
+            background-color: #4a6a3f !important;
+        }
+        html:not(.dark) #emptyState,
+        html:not(.dark) #myEmptyState {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) #emptyState .text-white\/60,
+        html:not(.dark) #myEmptyState .text-white\/60 {
+            color: rgba(26, 26, 26, 0.6) !important;
+        }
+        html:not(.dark) .text-\[#A7C69F\] {
+            color: #5a7a4f !important;
+        }
+        html:not(.dark) .neon-glow-text {
+            color: #5a7a4f !important;
+        }
+        html:not(.dark) .material-symbols-outlined {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) .bg-red-500\/20 {
+            background-color: rgba(239, 68, 68, 0.1) !important;
+        }
+        html:not(.dark) .text-red-400 {
+            color: #dc2626 !important;
+        }
+        html:not(.dark) .border-red-500\/50 {
+            border-color: rgba(239, 68, 68, 0.5) !important;
+        }
+        .plan-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .plan-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(167, 198, 159, 0.3);
+        }
+        @keyframes glowing {
+          0% {
+            text-shadow: 0 0 5px #a7c69f, 0 0 10px #a7c69f, 0 0 15px #a7c69f;
+          }
+          50% {
+            text-shadow: 0 0 10px #a7c69f, 0 0 20px #a7c69f, 0 0 30px #a7c69f;
+          }
+          100% {
+            text-shadow: 0 0 5px #a7c69f, 0 0 10px #a7c69f, 0 0 15px #a7c69f;
+          }
+        }
+        .neon-glow-text {
+          animation: glowing 3s infinite ease-in-out;
+        }
+        .neon-glow-box-subtle {
+          box-shadow: 0 0 3px rgba(167, 198, 159, 0.5), 0 0 6px rgba(167, 198, 159, 0.3);
+        }
+    </style>
+</head>
+<body>
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-[#111] dark group/design-root overflow-x-hidden">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-custom-accent/20 px-4 py-3 backdrop-blur-sm bg-custom-bg/30 rounded-t-lg">
+<a href="index.html" class="flex items-center gap-4 text-custom-accent cursor-pointer hover:opacity-80 transition-opacity">
+<div class="size-4 text-glow">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-custom-accent text-lg font-bold leading-tight tracking-[-0.015em] text-glow">AIWallet</h2>
+</a>
+<div class="flex flex-1 justify-end gap-8">
+  <div class="flex items-center gap-9">
+    <a id="createPlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="createplan.html">Create Plan</a>
+    <a id="myPlansLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="myplans.html">My Plans</a>
+    <a id="sharePlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="share-plans.html">Share Plan</a>
+    <a id="dashboardLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="profile.html">Dashboard</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
+  </div>
+  <div class="flex gap-2">
+    <button id="themeToggle" class="flex min-w-[40px] w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent border border-[#A7C69F]/50 text-custom-accent font-bold transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]" title="Toggle theme">
+      <span id="themeIcon">🌙</span>
+    </button>
+    <div id="authButtons" class="flex gap-2">
+      <a id="getStartedBtn" href="signup.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#A7C69F] text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-white hover:shadow-[0_0_15px_#A7C69F] border border-[#A7C69F]">
+        <span class="truncate">Get Started</span>
+      </a>
+      <a href="signin.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-[#A7C69F]/50 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]">
+        <span class="truncate">Login</span>
+      </a>
+    </div>
+    <div id="profileAvatar" class="hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#A7C69F] text-[#333333] font-bold text-lg cursor-pointer hover:shadow-[0_0_15px_#A7C69F] transition-all border border-[#A7C69F]" title="Profile" onclick="toggleProfileMenu()">
+      <span id="avatarInitial">U</span>
+    </div>
+  </div>
+</div>
+</header>
+
+<!-- Profile Menu Modal -->
+<div id="profileModal" class="hidden fixed inset-0 z-50 flex items-start justify-end pt-20 pr-10" onclick="closeProfileMenuOnBackdrop(event)">
+  <div class="bg-black/90 border border-[#A7C69F]/30 rounded-lg shadow-lg min-w-[220px] w-[250px] max-w-xs backdrop-blur-sm" onclick="event.stopPropagation()">
+    <div class="p-4 space-y-3">
+      <div class="text-white text-sm px-4 py-2 border-b border-[#A7C69F]/20">
+        <p class="font-semibold"><span id="profileUsername">User</span></p>
+        <p class="text-xs text-gray-400"><span id="profileEmail">email@example.com</span></p>
+      </div>
+      <button type="button" id="infoDropdownButton" class="w-full text-left px-4 py-2 text-white flex items-center gap-2 hover:bg-[#A7C69F]/10 transition-colors rounded justify-between">
+        <span class="flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">info</span>Info</span>
+        <span class="material-symbols-outlined transition-transform" id="infoDropdownArrow" style="font-size:19px;">expand_more</span>
+      </button>
+      <div id="infoDropdownMenu" class="hidden flex flex-col gap-1 mb-1 px-2 pt-1 ">
+          <a href="overview.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size:18px;">subject</span>Overview</a>
+          <a href="features.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size:18px;">star</span>Features</a>
+          <a href="resources.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size:18px;">book</span>Resources</a>
+      </div>
+      <button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">logout</span> Logout</button>
+      <button onclick="handleDeleteAccount()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-500/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">delete</span> Delete Account</button>
+    </div>
+  </div>
+</div>
+
+<div class="px-10 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col w-full flex-1 max-w-6xl">
+<h1 class="text-[#A7C69F] text-3xl font-bold leading-tight tracking-[-0.015em] px-4 pb-6 neon-glow-text">Share Plans</h1>
+
+<!-- Tabs -->
+<div class="flex gap-4 px-4 mb-6 border-b border-[#A7C69F]/20">
+  <button id="browseTab" class="px-4 py-2 text-white/80 font-medium border-b-2 border-[#A7C69F] text-[#A7C69F] transition-colors">Browse Plans</button>
+  <button id="mySharingTab" class="px-4 py-2 text-white/80 font-medium border-b-2 border-transparent hover:text-[#A7C69F] transition-colors">My Sharing Plans</button>
+</div>
+
+<!-- Browse Plans Tab -->
+<div id="browseTabContent" class="space-y-4">
+  <div class="flex justify-between items-center px-4 mb-4">
+    <h2 class="text-white text-xl font-semibold">Public Plans</h2>
+    <div class="flex gap-2">
+      <button id="shareMyPlanBtn" class="hidden flex items-center gap-2 px-4 py-2 bg-[#A7C69F] text-[#333333] font-bold rounded-lg hover:bg-white hover:shadow-[0_0_15px_#A7C69F] transition-all">
+        <span class="material-symbols-outlined" style="font-size: 20px;">add</span>
+        Share My Plan
+      </button>
+      <button id="refreshBtn" class="flex items-center gap-2 px-4 py-2 bg-[#A7C69F] text-[#333333] font-bold rounded-lg hover:bg-white hover:shadow-[0_0_15px_#A7C69F] transition-all">
+        <span class="material-symbols-outlined" style="font-size: 20px;">refresh</span>
+        Refresh
+      </button>
+    </div>
+  </div>
+  
+  <div id="sharedPlansContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4">
+    <!-- Plans will be loaded here -->
+  </div>
+  
+  <div id="emptyState" class="hidden text-center py-12 px-4">
+    <div class="text-white/60 text-lg mb-2">No sharing planes</div>
+    <div class="text-[#A7C69F] text-xl font-bold">Be first</div>
+  </div>
+</div>
+
+<!-- My Sharing Plans Tab -->
+<div id="mySharingTabContent" class="hidden space-y-4">
+  <h2 class="text-white text-xl font-semibold px-4">My Published Plans</h2>
+  <div id="mySharedPlansContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4">
+    <!-- User's shared plans will be loaded here -->
+  </div>
+  <div id="myEmptyState" class="hidden text-center py-12 px-4">
+    <div class="text-white/60 text-lg mb-2">You haven't shared any plans yet</div>
+    <button onclick="switchToBrowseTab()" class="mt-4 px-6 py-2 bg-[#A7C69F] text-[#333333] font-bold rounded-lg hover:bg-white hover:shadow-[0_0_15px_#A7C69F] transition-all">
+      Browse Plans
+    </button>
+  </div>
+</div>
+</div>
+</div>
+
+<footer class="flex flex-col items-center justify-between gap-6 border-t border-white/10 py-8 px-4 text-center md:flex-row md:text-left mt-8">
+<div class="flex items-center gap-3">
+<div class="size-4">
+<svg class="text-primary" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<p class="text-sm text-white/60">© 2024 AIWallet. All rights reserved.</p>
+</div>
+<div class="flex items-center gap-6">
+<a class="text-sm text-white/60 hover:text-white transition-colors" href="#">Privacy Policy</a>
+<a class="text-sm text-white/60 hover:text-white transition-colors" href="#">Terms of Service</a>
+<a class="text-sm text-white/60 hover:text-white transition-colors" href="#">Contact</a>
+</div>
+</footer>
+</div>
+
+<script>
+// Load shared plans on page load
+window.addEventListener('load', function() {
+  checkUserStatus();
+  loadSharedPlans();
+  loadMySharedPlans();
+  setupShareMyPlanButton();
+});
+
+// Setup share my plan button
+function setupShareMyPlanButton() {
+  const userId = localStorage.getItem('userId');
+  const shareBtn = document.getElementById('shareMyPlanBtn');
+  
+  if (userId && shareBtn) {
+    shareBtn.classList.remove('hidden');
+    shareBtn.addEventListener('click', function() {
+      showSharePlanModal();
+    });
+  }
+}
+
+// Show modal to select plan to share
+function showSharePlanModal() {
+  const userId = localStorage.getItem('userId');
+  if (!userId) {
+    if (window.showCustomModal) {
+      window.showCustomModal({
+        type: 'confirm',
+        title: 'Not Logged In',
+        message: 'Please log in to share a plan.',
+        confirmText: 'OK',
+        cancelText: '',
+        onConfirm: function() {
+          window.location.href = 'signin.html';
+        }
+      });
+    }
+    return;
+  }
+
+  const allPlans = JSON.parse(localStorage.getItem('financial_plans_db') || '{}');
+  const userPlans = allPlans[userId] || [];
+  const sharedPlans = JSON.parse(localStorage.getItem('shared_plans_db') || '[]');
+  
+  if (userPlans.length === 0) {
+    if (window.showCustomModal) {
+      window.showCustomModal({
+        type: 'confirm',
+        title: 'No Plans',
+        message: 'You need to create a plan first. Go to My Plans to create one.',
+        confirmText: 'OK',
+        cancelText: '',
+        onConfirm: function() {
+          window.location.href = 'myplans.html';
+        }
+      });
+    }
+    return;
+  }
+
+  // Filter out already shared plans
+  const availablePlans = userPlans.filter(plan => {
+    return !sharedPlans.some(sp => sp.originalPlanId === plan.id && sp.userId === userId);
+  });
+
+  if (availablePlans.length === 0) {
+    if (window.showCustomModal) {
+      window.showCustomModal({
+        type: 'confirm',
+        title: 'All Plans Shared',
+        message: 'You have already shared all your plans.',
+        confirmText: 'OK',
+        cancelText: '',
+        onConfirm: function() {}
+      });
+    }
+    return;
+  }
+
+  // Create plan selection modal
+  let planOptions = availablePlans.map(plan => {
+    const date = new Date(plan.createdAt);
+    const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    return `<option value="${plan.id}">Plan from ${formattedDate} (Daily: $${plan.dailyLimit.toLocaleString()})</option>`;
+  }).join('');
+
+  const modal = document.createElement('div');
+  modal.className = 'fixed z-50 inset-0 flex items-center justify-center bg-black/70';
+  modal.innerHTML = `
+    <div class="bg-[#181818] border border-[#A7C69F]/30 rounded-2xl shadow-2xl p-8 max-w-md w-full text-white">
+      <h3 class="text-xl font-bold text-[#A7C69F] mb-4">Select Plan to Share</h3>
+      <select id="planSelect" class="w-full mt-2 rounded bg-[#232323] border border-[#A7C69F]/30 p-2 text-base text-white outline-none focus:border-[#A7C69F] mb-4">
+        ${planOptions}
+      </select>
+      <div class="flex gap-3 justify-end">
+        <button id="cancelShareBtn" class="px-5 py-2 border border-[#A7C69F] text-[#A7C69F] rounded hover:bg-[#232323]/60 transition-colors">Cancel</button>
+        <button id="confirmShareBtn" class="px-5 py-2 bg-[#A7C69F] text-[#232323] font-bold rounded hover:bg-[#89b788] transition-colors">Share</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  document.getElementById('cancelShareBtn').addEventListener('click', () => {
+    document.body.removeChild(modal);
+  });
+
+  document.getElementById('confirmShareBtn').addEventListener('click', () => {
+    const selectedPlanId = document.getElementById('planSelect').value;
+    document.body.removeChild(modal);
+    sharePlanById(selectedPlanId);
+  });
+}
+
+// Share plan by ID
+function sharePlanById(planId) {
+  const userId = localStorage.getItem('userId');
+  if (!userId) return;
+
+  const allPlans = JSON.parse(localStorage.getItem('financial_plans_db') || '{}');
+  const userPlans = allPlans[userId] || [];
+  const plan = userPlans.find(p => p.id === planId);
+  
+  if (!plan) {
+    alert('Plan not found');
+    return;
+  }
+
+  const sharedPlans = JSON.parse(localStorage.getItem('shared_plans_db') || '[]');
+  const username = localStorage.getItem('username') || 'Anonymous';
+  
+  const sharedPlan = {
+    id: Date.now().toString(),
+    originalPlanId: planId,
+    userId: userId,
+    username: username,
+    salary: plan.salary,
+    debts: plan.debts,
+    expenses: [...plan.expenses],
+    totalExpenses: plan.totalExpenses,
+    moneyLeft: plan.moneyLeft,
+    dailyLimit: plan.dailyLimit,
+    sharedAt: new Date().toISOString(),
+    createdAt: plan.createdAt
+  };
+  
+  sharedPlans.push(sharedPlan);
+  localStorage.setItem('shared_plans_db', JSON.stringify(sharedPlans));
+  
+  if (window.showCustomModal) {
+    window.showCustomModal({
+      type: 'confirm',
+      title: 'Plan Shared',
+      message: 'Your plan has been shared successfully!',
+      confirmText: 'OK',
+      cancelText: '',
+      onConfirm: function() {
+        loadSharedPlans();
+        loadMySharedPlans();
+      }
+    });
+  } else {
+    alert('Plan shared successfully!');
+    loadSharedPlans();
+    loadMySharedPlans();
+  }
+}
+
+// Tab switching
+document.getElementById('browseTab').addEventListener('click', function() {
+  switchToBrowseTab();
+});
+
+document.getElementById('mySharingTab').addEventListener('click', function() {
+  switchToMySharingTab();
+});
+
+function switchToBrowseTab() {
+  document.getElementById('browseTab').classList.add('border-[#A7C69F]', 'text-[#A7C69F]');
+  document.getElementById('browseTab').classList.remove('border-transparent');
+  document.getElementById('mySharingTab').classList.remove('border-[#A7C69F]', 'text-[#A7C69F]');
+  document.getElementById('mySharingTab').classList.add('border-transparent');
+  document.getElementById('browseTabContent').classList.remove('hidden');
+  document.getElementById('mySharingTabContent').classList.add('hidden');
+}
+
+function switchToMySharingTab() {
+  document.getElementById('mySharingTab').classList.add('border-[#A7C69F]', 'text-[#A7C69F]');
+  document.getElementById('mySharingTab').classList.remove('border-transparent');
+  document.getElementById('browseTab').classList.remove('border-[#A7C69F]', 'text-[#A7C69F]');
+  document.getElementById('browseTab').classList.add('border-transparent');
+  document.getElementById('browseTabContent').classList.add('hidden');
+  document.getElementById('mySharingTabContent').classList.remove('hidden');
+  loadMySharedPlans();
+}
+
+// Refresh button
+document.getElementById('refreshBtn').addEventListener('click', function() {
+  loadSharedPlans();
+});
+
+// Load all shared plans (excluding user's own plans)
+async function loadSharedPlans() {
+  const userId = localStorage.getItem('userId');
+  const container = document.getElementById('sharedPlansContainer');
+  const emptyState = document.getElementById('emptyState');
+  
+  let allPlans = [];
+  
+  // Try to get plans from API first
+  try {
+    const response = await fetch('/api/plans/all');
+    if (response.ok) {
+      const data = await response.json();
+      if (data.success && data.plans) {
+        allPlans = data.plans;
+      }
+    }
+  } catch (error) {
+    console.warn('API unavailable, trying localStorage:', error);
+    // Fallback to localStorage
+    const sharedPlans = JSON.parse(localStorage.getItem('shared_plans_db') || '[]');
+    allPlans = sharedPlans;
+  }
+  
+  // If API didn't return plans, try to get from localStorage financial_plans_db
+  if (allPlans.length === 0) {
+    const allPlansFromStorage = JSON.parse(localStorage.getItem('financial_plans_db') || '{}');
+    Object.keys(allPlansFromStorage).forEach(uid => {
+      const userPlans = allPlansFromStorage[uid] || [];
+      userPlans.forEach(plan => {
+        // Get username from localStorage users
+        const users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
+        const user = users.find(u => u.id === uid);
+        allPlans.push({
+          ...plan,
+          userId: uid,
+          username: user ? user.username : 'Anonymous'
+        });
+      });
+    });
+  }
+  
+  // Filter out user's own plans to show only others' plans
+  const othersPlans = userId ? allPlans.filter(plan => plan.userId !== userId) : allPlans;
+  
+  if (othersPlans.length === 0) {
+    container.innerHTML = '';
+    emptyState.classList.remove('hidden');
+    return;
+  }
+  
+  emptyState.classList.add('hidden');
+  
+  container.innerHTML = othersPlans.map(plan => {
+    const date = new Date(plan.createdAt || plan.sharedAt || Date.now());
+    const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    const username = plan.username || 'Anonymous';
+    const planName = plan.name || `Plan from ${formattedDate}`;
+    
+    return `
+      <div class="plan-card bg-[#333333]/40 border border-[#a7c69f]/20 rounded-lg p-4 backdrop-blur-sm neon-glow-box-subtle">
+        <div class="flex justify-between items-start mb-3">
+          <div>
+            <h3 class="text-white font-bold text-lg mb-1">${planName}</h3>
+            <p class="text-white/60 text-sm">By ${username} • ${formattedDate}</p>
+          </div>
+        </div>
+        <div class="space-y-2 mb-4">
+          <div class="flex justify-between text-sm">
+            <span class="text-white/70">Salary:</span>
+            <span class="text-white font-semibold">$${plan.salary.toLocaleString()}</span>
+          </div>
+          <div class="flex justify-between text-sm">
+            <span class="text-white/70">Daily Limit:</span>
+            <span class="text-[#A7C69F] font-semibold">$${plan.dailyLimit.toLocaleString()}</span>
+          </div>
+          <div class="flex justify-between text-sm">
+            <span class="text-white/70">Expenses:</span>
+            <span class="text-white font-semibold">${(plan.expenses || []).length} items</span>
+          </div>
+        </div>
+        <button onclick="importPlan('${plan.id}', '${plan.userId}')" class="w-full px-4 py-2 bg-[#A7C69F] text-[#333333] font-bold rounded-lg hover:bg-white hover:shadow-[0_0_15px_#A7C69F] transition-all">
+          Import Plan
+        </button>
+      </div>
+    `;
+  }).join('');
+}
+
+// Load user's shared plans
+function loadMySharedPlans() {
+  const userId = localStorage.getItem('userId');
+  if (!userId) {
+    document.getElementById('mySharedPlansContainer').innerHTML = '';
+    document.getElementById('myEmptyState').classList.remove('hidden');
+    return;
+  }
+  
+  const sharedPlans = JSON.parse(localStorage.getItem('shared_plans_db') || '[]');
+  const mySharedPlans = sharedPlans.filter(plan => plan.userId === userId);
+  const container = document.getElementById('mySharedPlansContainer');
+  const emptyState = document.getElementById('myEmptyState');
+  
+  if (mySharedPlans.length === 0) {
+    container.innerHTML = '';
+    emptyState.classList.remove('hidden');
+    return;
+  }
+  
+  emptyState.classList.add('hidden');
+  
+  container.innerHTML = mySharedPlans.map(plan => {
+    const date = new Date(plan.sharedAt || plan.createdAt);
+    const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    
+    return `
+      <div class="plan-card bg-[#333333]/40 border border-[#a7c69f]/20 rounded-lg p-4 backdrop-blur-sm neon-glow-box-subtle">
+        <div class="flex justify-between items-start mb-3">
+          <div>
+            <h3 class="text-white font-bold text-lg mb-1">My Plan</h3>
+            <p class="text-white/60 text-sm">Shared on ${formattedDate}</p>
+          </div>
+        </div>
+        <div class="space-y-2 mb-4">
+          <div class="flex justify-between text-sm">
+            <span class="text-white/70">Salary:</span>
+            <span class="text-white font-semibold">$${plan.salary.toLocaleString()}</span>
+          </div>
+          <div class="flex justify-between text-sm">
+            <span class="text-white/70">Daily Limit:</span>
+            <span class="text-[#A7C69F] font-semibold">$${plan.dailyLimit.toLocaleString()}</span>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="removeSharedPlan('${plan.id}')" class="flex-1 px-4 py-2 bg-red-500/20 text-red-400 font-bold rounded-lg hover:bg-red-500/30 border border-red-500/50 transition-all">
+            Remove
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Import a shared plan
+async function importPlan(planId, planUserId) {
+  const userId = localStorage.getItem('userId');
+  if (!userId) {
+    if (window.showCustomModal) {
+      window.showCustomModal({
+        type: 'confirm',
+        title: 'Login Required',
+        message: 'Please log in to import a plan.',
+        confirmText: 'OK',
+        cancelText: '',
+        onConfirm: function() {
+          window.location.href = 'signin.html';
+        }
+      });
+    }
+    return;
+  }
+  
+  let planToImport = null;
+  
+  // Try to get plan from API first
+  try {
+    if (planUserId) {
+      const response = await fetch(`/api/user/${planUserId}/plans`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.plans) {
+          planToImport = data.plans.find(p => p.id === planId);
+        }
+      }
+    }
+  } catch (error) {
+    console.warn('API unavailable, trying localStorage:', error);
+  }
+  
+  // Fallback to localStorage
+  if (!planToImport) {
+    // Try shared_plans_db first
+    const sharedPlans = JSON.parse(localStorage.getItem('shared_plans_db') || '[]');
+    planToImport = sharedPlans.find(p => p.id === planId);
+    
+    // If not found, try financial_plans_db
+    if (!planToImport && planUserId) {
+      const allPlans = JSON.parse(localStorage.getItem('financial_plans_db') || '{}');
+      const userPlans = allPlans[planUserId] || [];
+      planToImport = userPlans.find(p => p.id === planId);
+    }
+  }
+  
+  if (!planToImport) {
+    alert('Plan not found');
+    return;
+  }
+  
+  // Create a new plan based on the shared plan
+  const importedPlan = {
+    id: Date.now().toString(),
+    userId: userId,
+    salary: planToImport.salary,
+    debts: planToImport.debts || 0,
+    expenses: [...(planToImport.expenses || [])],
+    totalExpenses: planToImport.totalExpenses || 0,
+    moneyLeft: planToImport.moneyLeft || 0,
+    dailyLimit: planToImport.dailyLimit || 0,
+    pinned: false,
+    name: planToImport.name || `Imported: ${planToImport.name || 'Plan'}`,
+    createdAt: new Date().toISOString(),
+    importedFrom: planId
+  };
+  
+  // Save to user's plans in localStorage
+  let allPlans = JSON.parse(localStorage.getItem('financial_plans_db') || '{}');
+  if (!allPlans[userId]) {
+    allPlans[userId] = [];
+  }
+  allPlans[userId].push(importedPlan);
+  localStorage.setItem('financial_plans_db', JSON.stringify(allPlans));
+  
+  // Also try to save to server
+  try {
+    await fetch(`/api/user/${userId}/plans`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(importedPlan)
+    });
+  } catch (error) {
+    console.warn('Failed to save plan to server:', error);
+  }
+  
+  if (window.showCustomModal) {
+    window.showCustomModal({
+      type: 'confirm',
+      title: 'Plan Imported',
+      message: 'Plan has been successfully imported to your plans!',
+      confirmText: 'OK',
+      cancelText: '',
+      onConfirm: function() {
+        window.location.href = 'myplans.html';
+      }
+    });
+  } else {
+    alert('Plan imported successfully!');
+    window.location.href = 'myplans.html';
+  }
+}
+
+// Remove shared plan
+function removeSharedPlan(planId) {
+  if (window.showCustomModal) {
+    window.showCustomModal({
+      type: 'confirm',
+      title: 'Remove Shared Plan',
+      message: 'Are you sure you want to remove this plan from sharing?',
+      confirmText: 'Remove',
+      cancelText: 'Cancel',
+      onConfirm: function() {
+        const sharedPlans = JSON.parse(localStorage.getItem('shared_plans_db') || '[]');
+        const filtered = sharedPlans.filter(p => p.id !== planId);
+        localStorage.setItem('shared_plans_db', JSON.stringify(filtered));
+        loadMySharedPlans();
+      }
+    });
+  } else {
+    if (confirm('Are you sure you want to remove this plan from sharing?')) {
+      const sharedPlans = JSON.parse(localStorage.getItem('shared_plans_db') || '[]');
+      const filtered = sharedPlans.filter(p => p.id !== planId);
+      localStorage.setItem('shared_plans_db', JSON.stringify(filtered));
+      loadMySharedPlans();
+    }
+  }
+}
+</script>
+</body>
+</html>
+

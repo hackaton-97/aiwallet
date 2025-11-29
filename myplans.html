@@ -105,7 +105,7 @@
             border-width: 2px;
         }
     </style>
-<script src="api-wrapper.js"></script>
+<script src="db-manager.js" defer></script>
 <script src="script.js" defer></script>
 </head>
 <body class="font-display" style="background-color: #000000;">
@@ -126,6 +126,7 @@
   <div class="flex items-center gap-9">
     <a id="createPlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="createplan.html">Create Plan</a>
     <a id="myPlansLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="myplans.html">My Plans</a>
+    <a id="sharePlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="share-plans.html">Share Plan</a>
     <a id="dashboardLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="profile.html">Dashboard</a>
     <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
   </div>
@@ -275,17 +276,22 @@ function loadPlans() {
       </div>`
     ).join('');
 
+    const planName = plan.name || `Plan from ${formattedDate}`;
+    
     return `
       <div class="plan-card bg-black/30 border border-white/10 rounded-lg p-6 ${plan.pinned ? 'pinned' : ''}" data-plan-id="${plan.id}">
         <div class="flex justify-between items-start mb-4">
           <div class="flex-1">
             <div class="flex items-center gap-2 mb-2">
               ${plan.pinned ? '<span class="material-symbols-outlined text-[#A7C69F]" style="font-size: 20px;">push_pin</span>' : ''}
-              <h3 class="text-xl font-bold text-white">Plan from ${formattedDate}</h3>
+              <h3 class="text-xl font-bold text-white" id="plan-name-${plan.id}">${planName}</h3>
             </div>
             <p class="text-white/60 text-sm">Created on ${formattedDate}</p>
           </div>
           <div class="flex gap-2">
+            <button onclick="editPlanName('${plan.id}')" class="p-2 rounded-lg hover:bg-[#A7C69F]/10 transition-colors text-[#A7C69F]" title="Edit Name">
+              <span class="material-symbols-outlined" style="font-size: 20px;">edit</span>
+            </button>
             <button onclick="togglePin('${plan.id}')" class="p-2 rounded-lg hover:bg-[#A7C69F]/10 transition-colors" title="${plan.pinned ? 'Unpin' : 'Pin'}">
               <span class="material-symbols-outlined ${plan.pinned ? 'text-[#A7C69F]' : 'text-white/60'}" style="font-size: 20px; font-variation-settings: 'FILL' ${plan.pinned ? 1 : 0};">
                 push_pin
@@ -346,6 +352,19 @@ function togglePin(planId) {
   allPlans[userId] = userPlans;
   localStorage.setItem('financial_plans_db', JSON.stringify(allPlans));
 
+  // Also save to server
+  try {
+    fetch(`/api/user/${userId}/plans`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userPlans[planIndex])
+    }).catch(err => console.warn('Failed to save plan to server:', err));
+  } catch (error) {
+    console.warn('Failed to save plan to server:', error);
+  }
+
   loadPlans();
 }
 
@@ -357,7 +376,7 @@ function deletePlan(planId) {
       message: 'Are you sure you want to delete this plan? This action cannot be undone.',
       confirmText: 'Delete',
       cancelText: 'Cancel',
-      onConfirm: function() {
+      onConfirm: async function() {
         const userId = localStorage.getItem('userId');
         if (!userId) return;
 
@@ -366,6 +385,15 @@ function deletePlan(planId) {
         
         allPlans[userId] = userPlans.filter(p => p.id !== planId);
         localStorage.setItem('financial_plans_db', JSON.stringify(allPlans));
+
+        // Also delete from server
+        try {
+          await fetch(`/api/user/${userId}/plans/${planId}`, {
+            method: 'DELETE'
+          }).catch(err => console.warn('Failed to delete plan from server:', err));
+        } catch (error) {
+          console.warn('Failed to delete plan from server:', error);
+        }
 
         loadPlans();
       }
@@ -386,9 +414,80 @@ function deletePlan(planId) {
   }
 }
 
+function editPlanName(planId) {
+  const userId = localStorage.getItem('userId');
+  if (!userId) return;
+
+  const allPlans = JSON.parse(localStorage.getItem('financial_plans_db') || '{}');
+  const userPlans = allPlans[userId] || [];
+  
+  const planIndex = userPlans.findIndex(p => p.id === planId);
+  if (planIndex === -1) return;
+
+  const plan = userPlans[planIndex];
+  const currentName = plan.name || '';
+  const date = new Date(plan.createdAt);
+  const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  const defaultName = `Plan from ${formattedDate}`;
+
+  if (window.showCustomModal) {
+    window.showCustomModal({
+      type: 'input',
+      title: 'Edit Plan Name',
+      message: 'Enter a name for this plan:',
+      inputLabel: 'Plan Name',
+      initialValue: currentName || defaultName,
+      confirmText: 'Save',
+      cancelText: 'Cancel',
+      validate: function(value) {
+        if (!value || value.trim().length === 0) {
+          return 'Plan name cannot be empty';
+        }
+        if (value.trim().length > 50) {
+          return 'Plan name must be 50 characters or less';
+        }
+        return '';
+      },
+      onConfirm: function(newName) {
+        if (!newName || newName.trim().length === 0) {
+          return;
+        }
+
+        userPlans[planIndex].name = newName.trim();
+        allPlans[userId] = userPlans;
+        localStorage.setItem('financial_plans_db', JSON.stringify(allPlans));
+
+        // Also try to save to server
+        try {
+          fetch(`/api/user/${userId}/plans`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userPlans[planIndex])
+          }).catch(err => console.warn('Failed to save plan name to server:', err));
+        } catch (error) {
+          console.warn('Failed to save plan name to server:', error);
+        }
+
+        loadPlans();
+      }
+    });
+  } else {
+    const newName = prompt('Enter a name for this plan:', currentName || defaultName);
+    if (newName && newName.trim().length > 0) {
+      userPlans[planIndex].name = newName.trim();
+      allPlans[userId] = userPlans;
+      localStorage.setItem('financial_plans_db', JSON.stringify(allPlans));
+      loadPlans();
+    }
+  }
+}
+
 // Make functions globally accessible
 window.togglePin = togglePin;
 window.deletePlan = deletePlan;
+window.editPlanName = editPlanName;
 </script>
 </body>
 </html>

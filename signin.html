@@ -100,7 +100,9 @@
         html:not(.dark) [class*="text-[#A7C69F]"], html:not(.dark) [class*="text-custom-accent"] { color: #5a7a4f !important; }
         html:not(.dark) svg { color: #1a1a1a !important; }
     </style>
-<script src="api-wrapper.js"></script>
+    <style>
+    </style>
+<script src="db-manager.js"></script>
 <script src="script.js" defer></script>
 </head>
 <body class="font-display">
@@ -117,6 +119,9 @@
 </a>
 <div class="flex flex-1 justify-end gap-8">
   <div class="flex items-center gap-9">
+    <a id="createPlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="createplan.html">Create Plan</a>
+    <a id="myPlansLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="myplans.html">My Plans</a>
+    <a id="sharePlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="share-plans.html">Share Plan</a>
     <a id="dashboardLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="profile.html">Dashboard</a>
     <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="overview.html">Overview</a>
     <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-primary hover:drop-shadow-[0_0_8px_primary]" href="features.html">Features</a>
@@ -338,7 +343,7 @@ document.getElementById('signinPasswordToggle')?.addEventListener('click', funct
 });
 
 // Form submission for signin
-document.getElementById('signinBtn').addEventListener('click', async function(e) {
+document.getElementById('signinBtn').addEventListener('click', function(e) {
   e.preventDefault();
   const emailOrUsername = document.getElementById('signinEmailOrUsername').value;
   const password = document.getElementById('signinPassword').value;
@@ -358,14 +363,14 @@ document.getElementById('signinBtn').addEventListener('click', async function(e)
     }
   }
   
-  // Disable button during request
+  // Disable button during process
   const signinBtn = document.getElementById('signinBtn');
   signinBtn.disabled = true;
   signinBtn.innerHTML = '<span class="truncate">LOGGING IN...</span>';
   
   try {
-    // Use API wrapper
-    const result = await window.apiWrapper.login(emailOrUsername, password);
+    // Use DBManager to login
+    const result = DBManager.loginUser(emailOrUsername, password);
     
     if (result.success) {
       messageDiv.innerHTML = '<p class="text-green-500 text-sm">Login successful! Redirecting...</p>';
@@ -373,39 +378,12 @@ document.getElementById('signinBtn').addEventListener('click', async function(e)
       localStorage.setItem('username', result.username);
       localStorage.setItem('email', result.email);
       
-      // Load subscription from result
-      if (result.userPlan) {
-        localStorage.setItem('userPlan', result.userPlan);
-      } else {
-        localStorage.removeItem('userPlan');
-      }
-      if (result.planPurchaseDate) {
-        localStorage.setItem('planPurchaseDate', result.planPurchaseDate);
-      } else {
-        localStorage.removeItem('planPurchaseDate');
-      }
-      
-      // Also try to load from server if available (for sync)
-      try {
-        const userData = await window.apiWrapper.getUser(result.userId);
-        if (userData.success && userData.user) {
-          if (userData.user.userPlan) {
-            localStorage.setItem('userPlan', userData.user.userPlan);
-          }
-          if (userData.user.planPurchaseDate) {
-            localStorage.setItem('planPurchaseDate', userData.user.planPurchaseDate);
-          }
-        }
-      } catch (err) {
-        console.warn('Failed to sync user data from server:', err);
-      }
-      
       setTimeout(() => {
         checkUserStatus();
         window.location.href = 'index.html';
       }, 1500);
     } else {
-      messageDiv.innerHTML = `<p class="text-red-500 text-sm">${result.message || 'Login failed'}</p>`;
+      messageDiv.innerHTML = `<p class="text-red-500 text-sm">${result.message}</p>`;
       signinBtn.disabled = false;
       signinBtn.innerHTML = '<span class="truncate">LOGIN</span>';
     }

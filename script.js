@@ -1,4 +1,4 @@
-// Initialize theme immediately (before DOMContentLoaded) for GitHub Pages
+// Initialize theme immediately (before DOMContentLoaded)
 (function() {
   if (typeof document !== 'undefined') {
     const savedTheme = localStorage.getItem('theme');
@@ -185,25 +185,34 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // FOURTH: Reset all element styles to allow CSS rules to apply
-    document.querySelectorAll('*').forEach(el => {
-      if (el.tagName === 'SCRIPT' || el.tagName === 'STYLE') return;
-      el.style.removeProperty('background-color');
-      el.style.removeProperty('color');
-      el.style.removeProperty('border-color');
-      el.style.removeProperty('background-image');
-      el.style.removeProperty('box-shadow');
-      el.style.removeProperty('text-shadow');
+    // Use requestAnimationFrame to ensure DOM is ready
+    requestAnimationFrame(() => {
+      document.querySelectorAll('*').forEach(el => {
+        if (el.tagName === 'SCRIPT' || el.tagName === 'STYLE') return;
+        el.style.removeProperty('background-color');
+        el.style.removeProperty('color');
+        el.style.removeProperty('border-color');
+        el.style.removeProperty('background-image');
+        el.style.removeProperty('box-shadow');
+        el.style.removeProperty('text-shadow');
+      });
+      
+      // FIFTH: Update body styles
+      document.body.style.backgroundColor = isDark ? '#0a0a0a' : '#ffffff';
+      document.body.style.color = isDark ? '#ffffff' : '#1a1a1a';
+      
+      // FINALLY: Apply additional styles for light mode only
+      if (!isDark) {
+        // Use setTimeout to ensure styles are reset first
+        setTimeout(() => {
+          updateAllElements(false);
+        }, 10);
+      }
     });
-    
-    // FIFTH: Update body styles
-    document.body.style.backgroundColor = isDark ? '#0a0a0a' : '#ffffff';
-    document.body.style.color = isDark ? '#ffffff' : '#1a1a1a';
-    
-    // FINALLY: Apply additional styles for light mode only
-    if (!isDark) {
-      updateAllElements(false);
-    }
   }
+  
+  // Make applyTheme globally available
+  window.applyTheme = applyTheme;
 
   // Update all UI elements based on theme
   function updateAllElements(isDark) {
@@ -321,11 +330,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Toggle theme on button click
   if (themeToggle) {
+    // Remove any existing attribute to ensure clean state
+    themeToggle.removeAttribute('data-theme-handler-attached');
+    
     themeToggle.addEventListener('click', function(e) {
       e.preventDefault();
+      e.stopPropagation();
       const isDark = html.classList.contains('dark');
       applyTheme(!isDark);
     });
+    
+    // Mark as attached
+    themeToggle.setAttribute('data-theme-handler-attached', 'true');
   }
 
   // Initialize on page load
@@ -333,6 +349,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize user status on all pages
   checkUserStatus();
+  
 });
 
 // Common profile menu functionality for all pages
@@ -652,12 +669,14 @@ function checkUserStatus() {
   const dashboardLink = document.getElementById('dashboardLink');
   const createPlanLink = document.getElementById('createPlanLink');
   const myPlansLink = document.getElementById('myPlansLink');
+  const sharePlanLink = document.getElementById('sharePlanLink');
 
   if (userId && username) {
     if (authButtons) authButtons.classList.add('hidden');
     if (dashboardLink) dashboardLink.classList.remove('hidden');
     if (createPlanLink) createPlanLink.classList.remove('hidden');
     if (myPlansLink) myPlansLink.classList.remove('hidden');
+    if (sharePlanLink) sharePlanLink.classList.remove('hidden');
     if (profileAvatar) {
       profileAvatar.classList.remove('hidden');
       // Update avatar image if exists
@@ -687,6 +706,7 @@ function checkUserStatus() {
     if (dashboardLink) dashboardLink.classList.add('hidden');
     if (createPlanLink) createPlanLink.classList.add('hidden');
     if (myPlansLink) myPlansLink.classList.add('hidden');
+    if (sharePlanLink) sharePlanLink.classList.add('hidden');
     if (profileAvatar) profileAvatar.classList.add('hidden');
     resetAuthButtons();
   }
@@ -743,9 +763,10 @@ function syncHeaderLinks() {
   const dashboardLink = document.getElementById('dashboardLink');
   const createPlanLink = document.getElementById('createPlanLink');
   const myPlansLink = document.getElementById('myPlansLink');
+  const sharePlanLink = document.getElementById('sharePlanLink');
   const headerLinksBlock = Array.from(document.querySelectorAll('header .flex.items-center.gap-9'))[0];
   
-  // Show/hide Dashboard, Create Plan, and My Plans links based on login status
+  // Show/hide Dashboard, Create Plan, My Plans, and Share Plan links based on login status
   if (dashboardLink) {
     if (isLoggedIn) {
       dashboardLink.classList.remove('hidden');
@@ -770,24 +791,52 @@ function syncHeaderLinks() {
     }
   }
   
+  if (sharePlanLink) {
+    if (isLoggedIn) {
+      sharePlanLink.classList.remove('hidden');
+    } else {
+      sharePlanLink.classList.add('hidden');
+    }
+  }
+  
   // Если не нашли — не трогаем
   if (!headerLinksBlock) return;
+  
   if (isLoggedIn) {
-    // Показываем только Pricing, Create Plan, My Plans и Dashboard (они есть у всех)
+    // Показываем Pricing, Create Plan, My Plans, Share Plan и Dashboard
     Array.from(headerLinksBlock.children).forEach(child=>{
       const text = child.textContent || '';
-      child.style.display = (text.includes('Pricing') || text.includes('Dashboard') || text.includes('Create Plan') || text.includes('My Plans')) ? '' : 'none';
+      const href = child.getAttribute('href') || '';
+      const isSharePlan = child.id === 'sharePlanLink' || href.includes('share-plans.html');
+      const shouldShow = text.includes('Pricing') || text.includes('Dashboard') || text.includes('Create Plan') || text.includes('My Plans') || isSharePlan;
+      child.style.display = shouldShow ? '' : 'none';
+      if (shouldShow) {
+        child.classList.remove('hidden');
+      } else {
+        child.classList.add('hidden');
+      }
     });
     if (infoDropdownButton) infoDropdownButton.style.display = '';
     if (infoDropdownMenu) infoDropdownMenu.classList.add('hidden');
   } else {
-    // Показывать Overview, Features, Resources (+ Pricing)
-    headerLinksBlock.innerHTML = `
-      <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="overview.html">Overview</a>
-      <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="features.html">Features</a>
-      <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="resources.html">Resources</a>
-      <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
-    `;
+    // Показывать только Overview, Features, Resources, Pricing (без Share Plan)
+    Array.from(headerLinksBlock.children).forEach(child => {
+      const href = child.getAttribute('href') || '';
+      const isSharePlan = child.id === 'sharePlanLink' || href.includes('share-plans.html');
+      // Явно скрываем Share Plan для незалогиненных
+      if (isSharePlan) {
+        child.style.display = 'none';
+        child.classList.add('hidden');
+        return;
+      }
+      const shouldShow = href.includes('overview.html') || href.includes('features.html') || href.includes('resources.html') || href.includes('pricing.html');
+      child.style.display = shouldShow ? '' : 'none';
+      if (shouldShow) {
+        child.classList.remove('hidden');
+      } else {
+        child.classList.add('hidden');
+      }
+    });
     if (infoDropdownButton) infoDropdownButton.style.display = 'none';
     if (infoDropdownMenu) infoDropdownMenu.classList.add('hidden');
   }
@@ -895,6 +944,7 @@ document.addEventListener('click', function(e) {
 // Update avatar from localStorage on load (for all pages)
 window.addEventListener('load', function() {
   checkUserStatus();
+  
   
   // Ensure all profile avatars have click handlers
   const profileAvatars = document.querySelectorAll('#profileAvatar');

@@ -160,7 +160,9 @@
             color: #5a7a4f;
         }
     </style>
-<script src="api-wrapper.js"></script>
+    <style>
+    </style>
+<script src="db-manager.js" defer></script>
 <script src="script.js" defer></script>
 </head>
 <body class="font-display" style="background-color: #000000;">
@@ -181,6 +183,7 @@
   <div class="flex items-center gap-9">
     <a id="createPlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="createplan.html">Create Plan</a>
     <a id="myPlansLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="myplans.html">My Plans</a>
+    <a id="sharePlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="share-plans.html">Share Plan</a>
     <a id="dashboardLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="profile.html">Dashboard</a>
     <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
   </div>
@@ -500,6 +503,22 @@ savePlanBtn.addEventListener("click", () => {
   }
   allPlans[userId].push(planData);
   localStorage.setItem('financial_plans_db', JSON.stringify(allPlans));
+  
+  // Also save to server (users.json)
+  try {
+    const response = await fetch(`/api/user/${userId}/plans`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(planData)
+    });
+    if (!response.ok) {
+      console.warn('Failed to save plan to server');
+    }
+  } catch (error) {
+    console.warn('Failed to save plan to server:', error);
+  }
 
   // Show success modal with countdown
   successModal.classList.add('show');

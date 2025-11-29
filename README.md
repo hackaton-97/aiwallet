@@ -4,24 +4,12 @@ Hackaton 9\_7 project - AI-powered financial management platform
 
 ## Особенности
 
-- ✅ Работает на GitHub Pages (статический хостинг)
 - ✅ Работает с Live Server (локальная разработка)
 - ✅ Работает с Express сервером (полный функционал)
 - ✅ Автоматический fallback на localStorage при отсутствии сервера
 - ✅ Универсальный API wrapper для всех режимов работы
 
 ## Развертывание
-
-### GitHub Pages
-
-1. Загрузите все файлы в репозиторий GitHub
-2. Перейдите в Settings → Pages
-3. Выберите ветку (обычно `main` или `master`)
-4. Выберите папку `/ (root)`
-5. Сохраните изменения
-6. Сайт будет доступен по адресу: `https://[username].github.io/[repository-name]`
-
-**Важно:** Файл `.nojekyll` уже создан для правильной работы на GitHub Pages.
 
 ### Live Server (локальная разработка)
 
@@ -59,7 +47,6 @@ Hackaton 9\_7 project - AI-powered financial management platform
 - `script.js` - Основной JavaScript
 - `server.js` - Express сервер (опционально)
 - `simple_server.js` - Простой HTTP сервер (опционально)
-- `.nojekyll` - Файл для GitHub Pages
 
 ## Как это работает
 
@@ -69,8 +56,7 @@ Hackaton 9\_7 project - AI-powered financial management platform
 2. **Автоматически переключается на localStorage** при отсутствии сервера
 3. **Синхронизирует данные** между сервером и localStorage
 
-Это позволяет проекту работать в трех режимах:
-- **GitHub Pages**: только localStorage
+Это позволяет проекту работать в двух режимах:
 - **Live Server**: только localStorage
 - **Express Server**: сервер + localStorage (синхронизация)
 

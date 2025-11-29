@@ -1,0 +1,46 @@
+{
+  "users": [
+    {
+      "id": "1234567890",
+      "email": "test@example.com",
+      "username": "testuser",
+      "password": "dGVzdHBhc3MxMjM=",
+      "createdAt": "2025-01-01T10:00:00Z",
+      "plans": ["plan1", "plan2"]
+    }
+  ],
+  "plans": [
+    {
+      "id": "plan1",
+      "userId": "1234567890",
+      "name": "Monthly Budget",
+      "description": "Track monthly expenses",
+      "content": "Expenses: $500",
+      "createdAt": "2025-01-01T10:00:00Z",
+      "sharedWith": []
+    },
+    {
+      "id": "plan2",
+      "userId": "1234567890",
+      "name": "Savings Goal",
+      "description": "Save $1000 this month",
+      "content": "Target: $1000",
+      "createdAt": "2025-01-01T10:00:00Z",
+      "sharedWith": []
+    }
+  ],
+  "sharedPlans": [
+    {
+      "id": "shared1",
+      "planId": "plan1",
+      "ownerId": "1234567890",
+      "ownerUsername": "testuser",
+      "sharedWithUserId": "1234567891",
+      "sharedWithEmail": "friend@example.com",
+      "accessLevel": "view",
+      "sharedAt": "2025-01-01T10:00:00Z"
+    }
+  ],
+  "apiVersion": "1.0",
+  "lastUpdated": "2025-01-01T10:00:00Z"
+}
