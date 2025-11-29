@@ -145,6 +145,7 @@
 <p class="font-semibold"><span id="profileUsername">User</span></p>
 <p class="text-xs text-gray-400"><span id="profileEmail">email@example.com</span></p>
 </div>
+<a href="profile.html" class="w-full text-left px-4 py-2 text-white hover:bg-primary/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">person</span> Profile</a>
 <button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-white hover:bg-primary/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">logout</span> Logout</button>
 <button onclick="handleDeleteAccount()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-500/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">delete</span> Delete Account</button>
 </div>
@@ -290,6 +291,22 @@ document.addEventListener('click', function(e) {
   }
 });
 
+// Update avatar from localStorage on load
+window.addEventListener('load', function() {
+  const userAvatar = localStorage.getItem('userAvatar');
+  const profileAvatar = document.getElementById('profileAvatar');
+  if (userAvatar && profileAvatar && profileAvatar.querySelector('span')) {
+    profileAvatar.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = userAvatar;
+    img.className = 'w-full h-full rounded-lg object-cover';
+    img.style.cursor = 'pointer';
+    img.onclick = () => toggleProfileMenu();
+    profileAvatar.appendChild(img);
+  }
+});
+
+
 function toggleSignupPassword() {
   const passwordInput = document.getElementById('signupPassword');
   const toggleIcon = document.getElementById('signupPasswordToggle');
@@ -314,6 +331,12 @@ document.getElementById('signupBtn').addEventListener('click', async function(e)
   // Валидация
   if (!email || !username || !password) {
     messageDiv.innerHTML = '<p class="text-red-500 text-sm">All fields are required</p>';
+    return;
+  }
+  
+  // Email validation
+  if (!/^([^\s@]+)@([^\s@]+)\.[^\s@]+$/.test(email)) {
+    messageDiv.innerHTML = '<p class="text-red-500 text-sm">Enter a valid email address</p>';
     return;
   }
   

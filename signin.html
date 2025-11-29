@@ -145,6 +145,7 @@
 <p class="font-semibold"><span id="profileUsername">User</span></p>
 <p class="text-xs text-gray-400"><span id="profileEmail">email@example.com</span></p>
 </div>
+<a href="profile.html" class="w-full text-left px-4 py-2 text-white hover:bg-primary/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">person</span> Profile</a>
 <button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-white hover:bg-primary/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">logout</span> Logout</button>
 <button onclick="handleDeleteAccount()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-500/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">delete</span> Delete Account</button>
 </div>
@@ -287,6 +288,21 @@ document.addEventListener('click', function(e) {
   }
 });
 
+// Update avatar from localStorage on load
+window.addEventListener('load', function() {
+  const userAvatar = localStorage.getItem('userAvatar');
+  const profileAvatar = document.getElementById('profileAvatar');
+  if (userAvatar && profileAvatar && profileAvatar.querySelector('span')) {
+    profileAvatar.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = userAvatar;
+    img.className = 'w-full h-full rounded-lg object-cover';
+    img.style.cursor = 'pointer';
+    img.onclick = () => toggleProfileMenu();
+    profileAvatar.appendChild(img);
+  }
+});
+
 // Password visibility toggle for signin
 document.getElementById('signinPasswordToggle')?.addEventListener('click', function() {
   const passwordInput = document.getElementById('signinPassword');
@@ -304,44 +320,38 @@ document.getElementById('signinPasswordToggle')?.addEventListener('click', funct
 // Form submission for signin
 document.getElementById('signinBtn').addEventListener('click', async function(e) {
   e.preventDefault();
-  
   const emailOrUsername = document.getElementById('signinEmailOrUsername').value;
   const password = document.getElementById('signinPassword').value;
   const messageDiv = document.getElementById('signinMessage');
-  
-  // Clear previous messages
   messageDiv.innerHTML = '';
-  
-  // Validation
   if (!emailOrUsername || !password) {
     messageDiv.innerHTML = '<p class="text-red-500 text-sm">All fields are required</p>';
     return;
   }
-  
+  // Если введён email — проверяем валидность
+  if(emailOrUsername.includes('@')){
+    if(!/^([^\s@]+)@([^\s@]+)\.[^\s@]+$/.test(emailOrUsername)){
+      messageDiv.innerHTML = '<p class="text-red-500 text-sm">Enter a valid email address</p>';
+      return;
+    }
+  }
   // Get users from localStorage
   let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
-  
-  // Find user
   const user = users.find(u => u.email === emailOrUsername || u.username === emailOrUsername);
-  
   if (!user) {
     messageDiv.innerHTML = '<p class="text-red-500 text-sm">User not found</p>';
     return;
   }
-  
-  // Verify password
   const storedPassword = atob(user.password); // Decode password
   if (storedPassword !== password) {
     messageDiv.innerHTML = '<p class="text-red-500 text-sm">Invalid password</p>';
     return;
   }
-  
   // Login successful
   messageDiv.innerHTML = '<p class="text-green-500 text-sm">Login successful! Redirecting...</p>';
   localStorage.setItem('userId', user.id);
   localStorage.setItem('username', user.username);
   localStorage.setItem('email', user.email);
-  
   setTimeout(() => {
     checkUserStatus();
     window.location.href = 'main.html';

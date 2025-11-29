@@ -83,17 +83,23 @@
       html:not(.dark) svg [fill="#A7C69F"] {
         fill: #5a7a4f !important;
       }
+      html:not(.dark) #profileModal {
+        background-color: transparent !important;
+      }
       html:not(.dark) #profileModal > div {
         background-color: #ffffff !important;
         border-color: #5a7a4f !important;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
       }
-      html:not(.dark) #profileModal button {
+      html:not(.dark) #profileModal button,
+      html:not(.dark) #profileModal a {
         color: #1a1a1a !important;
       }
       html:not(.dark) #profileModal button:last-child {
         color: #ef4444 !important;
       }
-      html:not(.dark) #profileModal button:hover {
+      html:not(.dark) #profileModal button:hover,
+      html:not(.dark) #profileModal a:hover {
         background-color: #f0f0f0 !important;
       }
       html:not(.dark) #profileAvatar {
@@ -150,6 +156,7 @@
 <p class="font-semibold"><span id="profileUsername">User</span></p>
 <p class="text-xs text-gray-400"><span id="profileEmail">email@example.com</span></p>
 </div>
+<a href="profile.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">person</span> Profile</a>
 <button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">logout</span> Logout</button>
 <button onclick="handleDeleteAccount()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-500/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">delete</span> Delete Account</button>
 </div>
@@ -286,96 +293,26 @@
 // Initialize on page load
 window.addEventListener('load', function() {
   checkUserStatus();
-});
-
-// Check if user is already logged in
-function checkUserStatus() {
-  const userId = localStorage.getItem('userId');
-  const username = localStorage.getItem('username');
-  const authButtons = document.getElementById('authButtons');
+  
+  // Ensure profile avatar has click handler
   const profileAvatar = document.getElementById('profileAvatar');
-  const avatarInitial = document.getElementById('avatarInitial');
+  if (profileAvatar && !profileAvatar.hasAttribute('data-listener-attached')) {
+    profileAvatar.addEventListener('click', toggleProfileMenu);
+    profileAvatar.setAttribute('data-listener-attached', 'true');
+  }
   
-  if (userId && username) {
-    // User is logged in
-    authButtons.classList.add('hidden');
-    profileAvatar.classList.remove('hidden');
-    avatarInitial.textContent = username.charAt(0).toUpperCase();
-  } else {
-    // User is not logged in
-    authButtons.classList.remove('hidden');
-    profileAvatar.classList.add('hidden');
-  }
-}
-
-function toggleProfileMenu() {
-  const profileModal = document.getElementById('profileModal');
-  const username = localStorage.getItem('username');
-  const email = localStorage.getItem('email');
-  
-  // Update profile info
-  document.getElementById('profileUsername').textContent = username || 'User';
-  document.getElementById('profileEmail').textContent = email || 'email@example.com';
-  
-  // Toggle modal
-  if (profileModal.classList.contains('hidden')) {
-    profileModal.classList.remove('hidden');
-  } else {
-    profileModal.classList.add('hidden');
-  }
-}
-
-function handleLogout() {
-  if (confirm('Are you sure you want to logout?')) {
-    localStorage.removeItem('userId');
-    localStorage.removeItem('username');
-    localStorage.removeItem('email');
-    document.getElementById('profileModal').classList.add('hidden');
-    // Ensure checkUserStatus updates UI immediately
-    setTimeout(function() {
-      checkUserStatus();
-      window.location.href = 'main.html';
-    }, 100);
-  }
-}
-
-function handleDeleteAccount() {
-  if (confirm('Are you sure you want to delete your account? This action cannot be undone!')) {
-    const userId = localStorage.getItem('userId');
-    const username = localStorage.getItem('username');
-    
-    // Remove user from database
-    let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
-    users = users.filter(u => u.id !== userId);
-    localStorage.setItem('aiwallet_users', JSON.stringify(users));
-    
-    // Clear session
-    localStorage.removeItem('userId');
-    localStorage.removeItem('username');
-    localStorage.removeItem('email');
-    
-    alert('Account deleted successfully');
-    document.getElementById('profileModal').classList.add('hidden');
-    // Ensure checkUserStatus updates UI immediately
-    setTimeout(function() {
-      checkUserStatus();
-      window.location.href = 'main.html';
-    }, 100);
-  }
-}
-
-// Close modal when clicking outside
-document.addEventListener('click', function(e) {
-  const profileModal = document.getElementById('profileModal');
-  const profileAvatar = document.getElementById('profileAvatar');
-  
-  if (profileModal && !profileModal.classList.contains('hidden')) {
-    if (!profileModal.contains(e.target) && !profileAvatar.contains(e.target)) {
-      profileModal.classList.add('hidden');
-    }
-  }
+  // Add click handlers to all auth buttons to check login status
+  const allAuthLinks = document.querySelectorAll('a[href="signup.html"], a[href="signin.html"]');
+  allAuthLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      const userId = localStorage.getItem('userId');
+      if (userId) {
+        e.preventDefault();
+        window.location.href = 'profile.html';
+      }
+    });
+  });
 });
-</script>
 </script>
 </body></html>
 

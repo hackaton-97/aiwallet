@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AIWallet Profile Page - Enhanced Data &amp; Notifications</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .glow-border {
+            box-shadow: 0 0 2px #A7C69F, 0 0 5px #A7C69F, 0 0 10px #A7C69F;
+        }
+        .glow-button {
+            box-shadow: 0 0 5px #A7C69F, 0 0 10px #A7C69F, 0 0 15px #A7C69F;
+        }
+        .glow-text {
+            text-shadow: 0 0 5px #A7C69F;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(167, 198, 159, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 90% 80%, rgba(167, 198, 159, 0.1) 0%, transparent 25%);
+            background-attachment: fixed;
+        }
+        .chart-glow {
+            filter: drop-shadow(0 0 5px #A7C69F);
+        }
+        .chart-point-glow {
+             filter: drop-shadow(0 0 8px #A7C69F);
+        }
+        .pie-chart-glow {
+             filter: drop-shadow(0 0 8px #ffffff);
+        }
+        /* Light mode styles */
+        html:not(.dark) { 
+            background-color: #ffffff !important;
+            color: #1a1a1a;
+        }
+        html:not(.dark) body { 
+            background-color: #ffffff !important;
+            color: #1a1a1a;
+        }
+        html:not(.dark) [style*="background-color: #000000"] {
+            background-color: #ffffff !important;
+        }
+        html:not(.dark) [style*="background-image"] {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), url('https://lh3.googleusercontent.com/aida-public/AB6AXuCpFh7OSUzEj0XKLJfBIIV04v-GovLLGjGnzDoQbT0ps0Df9oU8HHpWzi4FU3EgN14NBNziFl4HZcvrKRIUfrB1wovmysIFaTBEbmc8R-7C8ndna4mgfw2eBXQcnnGJmYoAv3r98aJO0Nn8M4fCw14NBF3PWea5A4IR7yc2kkzNdVtZh8_iOgzDSH1Tvn6i9pRDZszXGg4L7kGCz_NRI0F8qoAkp4S5JrV2-3XpTR15xeC-kj1YhQ82SbMUKY4K9_ngc4YGUunxrFQL') !important;
+        }
+        html:not(.dark) header {
+            background-color: #ffffff !important;
+            border-color: #e0e0e0 !important;
+            color: #1a1a1a;
+        }
+        html:not(.dark) [class*="text-white"] {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) [class*="text-white/"] {
+            color: rgba(26, 26, 26, 0.8) !important;
+        }
+        html:not(.dark) [class*="bg-black"] {
+            background-color: #ffffff !important;
+        }
+        html:not(.dark) [class*="bg-black/"] {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+        }
+        html:not(.dark) [class*="bg-custom-bg"],
+        html:not(.dark) [class*="bg-[#333333]"],
+        html:not(.dark) [class*="bg-[#0a0a0a]"] {
+            background-color: #f5f5f5 !important;
+        }
+        html:not(.dark) [class*="border-"] {
+            border-color: #e0e0e0 !important;
+        }
+        html:not(.dark) [class*="text-[#A7C69F]"],
+        html:not(.dark) [class*="text-custom-accent"] {
+            color: #5a7a4f !important;
+        }
+        html:not(.dark) svg {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) #profileModal {
+            background-color: transparent !important;
+        }
+        html:not(.dark) #profileModal > div {
+            background-color: #ffffff !important;
+            border-color: #5a7a4f !important;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+        }
+        html:not(.dark) #profileModal button,
+        html:not(.dark) #profileModal a {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) #profileModal button:last-child {
+            color: #ef4444 !important;
+        }
+        html:not(.dark) #profileModal button:hover,
+        html:not(.dark) #profileModal a:hover {
+            background-color: #f0f0f0 !important;
+        }
+        html:not(.dark) #profileAvatar {
+            border-color: #5a7a4f !important;
+        }
+        html:not(.dark) .bg-black\/20 {
+            background-color: rgba(245, 245, 245, 0.8) !important;
+        }
+        html:not(.dark) .border-white\/20 {
+            border-color: #e0e0e0 !important;
+        }
+        /* Pie chart styles for light theme */
+        html:not(.dark) .pie-chart-glow {
+            filter: drop-shadow(0 0 4px rgba(90, 122, 79, 0.3)) !important;
+        }
+        html:not(.dark) circle[stroke="#ffffff"] {
+            stroke: #5a7a4f !important;
+        }
+        html:not(.dark) circle[stroke="rgba(255,255,255,0.7)"] {
+            stroke: rgba(90, 122, 79, 0.6) !important;
+        }
+        html:not(.dark) circle[stroke="rgba(255,255,255,0.4)"] {
+            stroke: rgba(90, 122, 79, 0.4) !important;
+        }
+        html:not(.dark) circle[stroke="rgba(255,255,255,0.5)"] {
+            stroke: rgba(90, 122, 79, 0.5) !important;
+        }
+        html:not(.dark) circle[stroke="rgba(255,255,255,0.25)"] {
+            stroke: rgba(90, 122, 79, 0.3) !important;
+        }
+        html:not(.dark) .glow-text {
+            color: #1a1a1a !important;
+            text-shadow: 0 0 5px rgba(90, 122, 79, 0.3) !important;
+        }
+    </style>
+</head>
+<body class="font-display" style="background-color: #000000;">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden text-white" style="background-image: linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.95)), url('https://lh3.googleusercontent.com/aida-public/AB6AXuCpFh7OSUzEj0XKLJfBIIV04v-GovLLGjGnzDoQbT0ps0Df9oU8HHpWzi4FU3EgN14NBNziFl4HZcvrKRIUfrB1wovmysIFaTBEbmc8R-7C8ndna4mgfw2eBXQcnnGJmYoAv3r98aJO0Nn8M4fCw14NBF3PWea5A4IR7yc2kkzNdVtZh8_iOgzDSH1Tvn6i9pRDZszXGg4L7kGCz_NRI0F8qoAkp4S5JrV2-3XpTR15xeC-kj1YhQ82SbMUKY4K9_ngc4YGUunxrFQL'); background-size: cover; background-attachment: fixed;">
+<div class="layout-container flex h-full grow flex-col">
+<div class="flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col w-full max-w-[1100px] flex-1 px-4 sm:px-10">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-custom-accent/20 px-4 py-3 backdrop-blur-sm bg-custom-bg/30 rounded-t-lg">
+<a href="main.html" class="flex items-center gap-4 text-custom-accent cursor-pointer hover:opacity-80 transition-opacity">
+<div class="size-4 text-glow">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-custom-accent text-lg font-bold leading-tight tracking-[-0.015em] text-glow">AIWallet</h2>
+</a>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="overview.html">Overview</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="features.html">Features</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
+<a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="resources.html">Resources</a>
+</div>
+<div class="flex gap-2">
+<button id="themeToggle" class="flex min-w-[40px] w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent border border-[#A7C69F]/50 text-custom-accent font-bold transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]" title="Toggle theme">
+<span id="themeIcon">🌙</span>
+</button>
+<div id="profileAvatar" class="flex items-center justify-center w-10 h-10 rounded-lg bg-[#A7C69F] text-[#333333] font-bold text-lg cursor-pointer hover:shadow-[0_0_15px_#A7C69F] transition-all border border-[#A7C69F]" title="Profile" onclick="toggleProfileMenu()">
+<span id="avatarInitial">U</span>
+</div>
+</div>
+</div>
+</header>
+
+<!-- Profile Menu Modal -->
+<div id="profileModal" class="hidden fixed inset-0 z-50 flex items-start justify-end pt-20 pr-10" onclick="closeProfileMenuOnBackdrop(event)">
+<div class="bg-black/90 border border-[#A7C69F]/30 rounded-lg shadow-lg min-w-[200px] backdrop-blur-sm" onclick="event.stopPropagation()">
+<div class="p-4 space-y-3">
+<div class="text-white text-sm px-4 py-2 border-b border-[#A7C69F]/20">
+<p class="font-semibold"><span id="profileUsername">User</span></p>
+<p class="text-xs text-gray-400"><span id="profileEmail">email@example.com</span></p>
+</div>
+<a href="profile.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">person</span> Profile</a>
+<button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">logout</span> Logout</button>
+<button onclick="handleDeleteAccount()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-500/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">delete</span> Delete Account</button>
+</div>
+</div>
+</div>
+<div class="py-16 sm:py-24">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-1 flex flex-col items-center text-center p-8 bg-black/20 border border-white/20 rounded-lg backdrop-blur-sm">
+<div class="relative mb-6">
+<div id="profileLargeAvatar" class="size-32 rounded-full border-4 border-[#A7C69F] glow-border bg-[#A7C69F] flex items-center justify-center">
+<span id="profileLargeAvatarText" class="text-5xl font-bold text-[#333333]">U</span>
+</div>
+<div class="absolute bottom-1 right-1 size-5 rounded-full bg-[#A7C69F] border-2 border-[#000000] glow-button"></div>
+</div>
+<h1 id="profileName" class="text-2xl font-bold text-white glow-text">Loading...</h1>
+<p id="profileUserEmail" class="text-white/70">Loading...</p>
+<div class="relative mt-6 w-full">
+<button onclick="toggleEditMenu()" class="flex w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-white/10 text-white text-sm font-bold leading-normal tracking-[0.015em] border border-white/20 hover:bg-white/20 transition-colors">
+<span class="truncate">Edit Profile</span>
+<span class="material-symbols-outlined" style="font-size: 18px; display: inline-flex; margin-left: 8px;">expand_more</span>
+</button>
+<div id="editMenu" class="hidden absolute top-full mt-2 w-full bg-black/90 border border-[#A7C69F]/30 rounded-lg shadow-lg backdrop-blur-sm z-40">
+<div class="p-3 space-y-2">
+<label class="flex w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded cursor-pointer items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">image</span>
+<span>Edit Profile Image</span>
+<input type="file" id="avatarFileInput" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)">
+</label>
+<button onclick="handleEditUsername()" class="flex w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">badge</span>
+<span>Edit Username</span>
+</button>
+<button onclick="handleEditEmail()" class="flex w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">email</span>
+<span>Edit E-mail</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-2 flex flex-col p-8 bg-black/20 border border-white/20 rounded-lg backdrop-blur-sm">
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+<div>
+<h2 class="text-2xl font-bold text-white">AI Spending Analysis</h2>
+<p class="text-white/70">Your financial overview powered by AI.</p>
+</div>
+<div class="flex items-center gap-2 p-1 bg-[#333333] border border-white/10 rounded-md">
+<button class="timeframe-btn px-3 py-1 text-sm rounded-md bg-[#A7C69F] text-[#333333] font-semibold glow-button" data-timeframe="daily">Daily</button>
+<button class="timeframe-btn px-3 py-1 text-sm rounded-md text-white/60 hover:bg-white/10 transition-colors" data-timeframe="monthly">Monthly</button>
+<button class="timeframe-btn px-3 py-1 text-sm rounded-md text-white/60 hover:bg-white/10 transition-colors" data-timeframe="category">Category</button>
+</div>
+</div>
+<div class="grid grid-cols-1 w-full gap-8 flex-grow">
+<div class="md:col-span-2 w-full h-[300px] sm:h-auto">
+<svg height="100%" preserveAspectRatio="xMidYMid meet" viewBox="0 0 500 200" width="100%" xmlns="http://www.w3.org/2000/svg">
+<line stroke="rgba(255,255,255,0.1)" x1="30" x2="30" y1="10" y2="170"></line>
+<line stroke="rgba(255,255,255,0.1)" x1="30" x2="490" y1="170" y2="170"></line>
+<line stroke="rgba(255,255,255,0.05)" stroke-dasharray="2 2" x1="30" x2="490" y1="90" y2="90"></line>
+<line stroke="rgba(255,255,255,0.05)" stroke-dasharray="2 2" x1="30" x2="490" y1="10" y2="10"></line>
+<text fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="end" x="25" y="15">$2k</text>
+<text fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="end" x="25" y="95">$1k</text>
+<text fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="end" x="25" y="175">$0</text>
+<text fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="middle" x="50" y="190">Mon</text>
+<text fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="middle" x="120" y="190">Tue</text>
+<text fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="middle" x="190" y="190">Wed</text>
+<text fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="middle" x="260" y="190">Thu</text>
+<text fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="middle" x="330" y="190">Fri</text>
+<text fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="middle" x="400" y="190">Sat</text>
+<text fill="rgba(255,255,255,0.5)" font-family="Space Grotesk" font-size="10" text-anchor="middle" x="470" y="190">Sun</text>
+<defs>
+<linearGradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#A7C69F" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#A7C69F" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+<path class="chart-glow" d="M 50 120 C 85 90, 100 140, 120 130 S 155 40, 190 50 S 225 150, 260 110 S 295 20, 330 30 S 365 100, 400 90 S 435 50, 470 60" fill="url(#chartGradient)"></path>
+<path class="chart-glow" d="M 50 120 C 85 90, 100 140, 120 130 S 155 40, 190 50 S 225 150, 260 110 S 295 20, 330 30 S 365 100, 400 90 S 435 50, 470 60" fill="none" stroke="#A7C69F" stroke-width="2"></path>
+<circle class="chart-point-glow" cx="50" cy="120" fill="#A7C69F" r="3"></circle>
+<circle class="chart-point-glow" cx="120" cy="130" fill="#A7C69F" r="3"></circle>
+<circle class="chart-point-glow" cx="190" cy="50" fill="#A7C69F" r="3"></circle>
+<circle class="chart-point-glow" cx="260" cy="110" fill="#A7C69F" r="3"></circle>
+<circle class="chart-point-glow" cx="330" cy="30" fill="#A7C69F" r="3"></circle>
+<circle class="chart-point-glow" cx="400" cy="90" fill="#A7C69F" r="3"></circle>
+<circle class="chart-point-glow" cx="470" cy="60" fill="#A7C69F" r="3"></circle>
+</svg>
+</div>
+<div class="md:col-span-1 flex flex-col items-center justify-center">
+<h3 class="text-lg font-semibold text-white mb-4 text-center">Spending Summary</h3>
+<div class="text-sm text-white/70 space-y-2 w-full">
+<div class="flex justify-between"><span>This Week:</span><span class="text-white">$1,240</span></div>
+<div class="flex justify-between"><span>This Month:</span><span class="text-white">$5,890</span></div>
+<div class="flex justify-between"><span>Average Daily:</span><span class="text-white">$168</span></div>
+<div class="flex justify-between"><span>Budget Used:</span><span class="text-white">78%</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer class="flex flex-col items-center justify-between gap-6 border-t border-white/20 py-8 px-4 mt-8 text-center md:flex-row md:text-left">
+<div class="flex items-center gap-3">
+<div class="size-4">
+<svg class="text-[#A7C69F]" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<p class="text-sm text-white/60">© 2024 AIWallet. All rights reserved.</p>
+</div>
+<div class="flex items-center gap-6">
+<a class="text-sm text-white/60 hover:text-white transition-colors" href="#">Privacy Policy</a>
+<a class="text-sm text-white/60 hover:text-white transition-colors" href="#">Terms of Service</a>
+<a class="text-sm text-white/60 hover:text-white transition-colors" href="#">Contact</a>
+</div>
+</footer>
+</div>
+</div>
+</div>
+</div>
+<!-- Custom Modal for confirmations and editing -->
+<div id="customModal" class="fixed z-50 inset-0 flex items-center justify-center bg-black/70 hidden">
+  <div class="bg-[#181818] border border-[#A7C69F]/30 rounded-2xl shadow-2xl p-8 max-w-[94vw] w-full max-w-sm text-white relative">
+    <button id="modalCloseBtn" class="absolute top-4 right-4 text-white/50 hover:text-[#A7C69F] focus:outline-none">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <div id="modalContent" class="space-y-6"></div>
+    <div class="flex gap-3 mt-6 items-center justify-end" id="modalActions"></div>
+  </div>
+</div>
+<script>
+// Load profile data on page load
+window.addEventListener('load', function() {
+  loadProfileData();
+  checkUserStatus();
+  initializeTimeframeButtons();
+});
+
+function loadProfileData() {
+  const username = localStorage.getItem('username') || 'User';
+  const email = localStorage.getItem('email') || 'user@example.com';
+  const userAvatar = localStorage.getItem('userAvatar');
+  const firstLetter = username.charAt(0).toUpperCase();
+  
+  // Update profile information
+  document.getElementById('profileName').textContent = username;
+  document.getElementById('profileUserEmail').textContent = email;
+  document.getElementById('profileUsername').textContent = username;
+  document.getElementById('profileEmail').textContent = email;
+  document.getElementById('avatarInitial').textContent = firstLetter;
+  
+  // Update large avatar
+  const profileLargeAvatar = document.getElementById('profileLargeAvatar');
+  if (userAvatar) {
+    profileLargeAvatar.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = userAvatar;
+    img.className = 'w-full h-full rounded-full object-cover';
+    profileLargeAvatar.appendChild(img);
+  } else {
+    profileLargeAvatar.innerHTML = `<span id="profileLargeAvatarText" class="text-5xl font-bold text-[#333333]">${firstLetter}</span>`;
+  }
+}
+
+function checkUserStatus() {
+  const userId = localStorage.getItem('userId');
+  if (!userId) {
+    window.location.href = 'signin.html';
+  }
+  
+  // Load avatar in header
+  const userAvatar = localStorage.getItem('userAvatar');
+  const profileAvatar = document.getElementById('profileAvatar');
+  if (userAvatar && profileAvatar) {
+    profileAvatar.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = userAvatar;
+    img.className = 'w-full h-full rounded-lg object-cover';
+    img.style.cursor = 'pointer';
+    img.addEventListener('click', toggleProfileMenu);
+    profileAvatar.appendChild(img);
+  }
+  
+  // Ensure profile avatar has click handler
+  if (profileAvatar && !profileAvatar.hasAttribute('data-listener-attached')) {
+    profileAvatar.addEventListener('click', toggleProfileMenu);
+    profileAvatar.setAttribute('data-listener-attached', 'true');
+  }
+}
+
+// Use global toggleProfileMenu function from script.js
+// If it doesn't exist, define a local one
+if (typeof toggleProfileMenu === 'undefined') {
+  function toggleProfileMenu() {
+    const profileModal = document.getElementById('profileModal');
+    const editMenu = document.getElementById('editMenu');
+    if (editMenu) editMenu.classList.add('hidden');
+    if (profileModal) {
+      if (profileModal.classList.contains('hidden')) {
+        profileModal.classList.remove('hidden');
+      } else {
+        profileModal.classList.add('hidden');
+      }
+    }
+  }
+  window.toggleProfileMenu = toggleProfileMenu;
+}
+
+function closeProfileMenuOnBackdrop(event) {
+  if (event.target === event.currentTarget) {
+    document.getElementById('profileModal').classList.add('hidden');
+  }
+}
+
+function toggleEditMenu() {
+  const editMenu = document.getElementById('editMenu');
+  editMenu.classList.toggle('hidden');
+}
+
+function handleEditUsername() {
+  const currentUsername = localStorage.getItem('username') || 'User';
+  window.showCustomModal({
+    type:'input',
+    title: 'Edit Username',
+    inputLabel:'New username:',
+    initialValue: currentUsername,
+    confirmText: 'Save',
+    cancelText: 'Cancel',
+    validate: (val) => val.length === 0 ? 'Username cannot be empty' : '',
+    onConfirm: (newUsername) => {
+      if(newUsername !== currentUsername) {
+        localStorage.setItem('username', newUsername);
+        loadProfileData();
+        checkUserStatus();
+      }
+    }
+  });
+}
+
+function handleEditEmail() {
+  const currentEmail = localStorage.getItem('email') || 'user@example.com';
+  window.showCustomModal({
+    type:'input',
+    title:'Edit E-mail',
+    inputLabel:'New e-mail:',
+    initialValue: currentEmail,
+    confirmText: 'Save',
+    cancelText: 'Cancel',
+    validate: (val)=>{
+      if(!val.match(/^([^\s@]+)@([^\s@]+)\.[^\s@]+$/)) return 'Enter a valid email';
+      return '';
+    },
+    onConfirm: (newEmail) => {
+      if(newEmail !== currentEmail) {
+        localStorage.setItem('email', newEmail);
+        loadProfileData();
+        checkUserStatus();
+      }
+    }
+  });
+}
+
+function handleAvatarUpload(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const avatarData = e.target.result;
+      localStorage.setItem('userAvatar', avatarData);
+      
+      // Update avatar in profile
+      const profileLargeAvatar = document.getElementById('profileLargeAvatar');
+      profileLargeAvatar.innerHTML = '';
+      const img = document.createElement('img');
+      img.src = avatarData;
+      img.className = 'w-full h-full rounded-full object-cover';
+      profileLargeAvatar.appendChild(img);
+      
+      // Update avatar in header
+      const headerAvatar = document.querySelector('#profileAvatar');
+      if (headerAvatar && !headerAvatar.querySelector('img')) {
+        headerAvatar.innerHTML = '';
+        const headerImg = document.createElement('img');
+        headerImg.src = avatarData;
+        headerImg.className = 'w-full h-full rounded-lg object-cover';
+        headerAvatar.appendChild(headerImg);
+      }
+      
+      document.getElementById('editMenu').classList.add('hidden');
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function handleLogout() {
+  window.showCustomModal({
+    type: 'confirm',
+    title: 'Log Out',
+    message: 'Are you sure you want to log out?',
+    confirmText: 'Log Out',
+    cancelText: 'Cancel',
+    onConfirm: () => {
+      localStorage.removeItem('userId');
+      localStorage.removeItem('username');
+      localStorage.removeItem('email');
+      document.getElementById('profileModal').classList.add('hidden');
+      setTimeout(function () {
+        window.location.href = 'overview.html';
+      }, 100);
+    }
+  });
+}
+
+function handleDeleteAccount() {
+  window.showCustomModal({
+    type: 'confirm',
+    title: 'Delete Account',
+    message: '<span style="color:#ef4444">This action cannot be undone!<br>Are you sure you want to delete your account?</span>',
+    confirmText: 'Delete',
+    cancelText: 'Cancel',
+    onConfirm: () => {
+      const userId = localStorage.getItem('userId');
+      let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
+      users = users.filter(u => u.id !== userId);
+      localStorage.setItem('aiwallet_users', JSON.stringify(users));
+      localStorage.removeItem('userId');
+      localStorage.removeItem('username');
+      localStorage.removeItem('email');
+      document.getElementById('profileModal').classList.add('hidden');
+      setTimeout(function () {
+        window.location.href = 'overview.html';
+      }, 100);
+    }
+  });
+}
+
+// Initialize timeframe buttons functionality
+function initializeTimeframeButtons() {
+  // Spending Analysis timeframe buttons
+  const timeframeBtns = document.querySelectorAll('.timeframe-btn');
+  timeframeBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      // Remove active class from all buttons
+      timeframeBtns.forEach(b => {
+        b.classList.remove('bg-[#A7C69F]', 'text-[#333333]', 'font-semibold', 'glow-button');
+        b.classList.add('text-white/60', 'hover:bg-white/10');
+      });
+      
+      // Add active class to clicked button
+      this.classList.remove('text-white/60', 'hover:bg-white/10');
+      this.classList.add('bg-[#A7C69F]', 'text-[#333333]', 'font-semibold', 'glow-button');
+      
+      // Here you would update the chart based on the selected timeframe
+      const timeframe = this.getAttribute('data-timeframe');
+      updateChart(timeframe);
+    });
+  });
+  
+}
+
+function updateChart(timeframe) {
+  const svg = document.querySelector('svg[viewBox="0 0 500 200"]');
+  if (!svg) return;
+  
+  // Sample data for different timeframes
+  const data = {
+    daily: {
+      days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      values: [120, 130, 50, 110, 30, 90, 60],
+      maxValue: 2000
+    },
+    monthly: {
+      days: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      values: [1200, 1500, 800, 1100, 900, 1300, 1000],
+      maxValue: 2000
+    },
+    category: {
+      days: ['Food', 'Trans', 'Util', 'Enter', 'Shop', 'Health', 'Other'],
+      values: [140, 100, 60, 80, 120, 70, 90],
+      maxValue: 2000
+    }
+  };
+  
+  const chartData = data[timeframe] || data.daily;
+  const maxVal = Math.max(...chartData.values);
+  const scale = 160 / maxVal; // Scale to fit in 160px height (170 - 10)
+  
+  // Update x-axis labels
+  const textElements = svg.querySelectorAll('text[text-anchor="middle"]');
+  chartData.days.forEach((day, i) => {
+    if (textElements[i] && i < 7) {
+      textElements[i].textContent = day;
+    }
+  });
+  
+  // Calculate new path points
+  const points = chartData.values.map((val, i) => {
+    const x = 50 + (i * 70);
+    const y = 170 - (val * scale);
+    return { x, y };
+  });
+  
+  // Create smooth curve path
+  let pathD = `M ${points[0].x} ${points[0].y}`;
+  for (let i = 1; i < points.length; i++) {
+    const prev = points[i - 1];
+    const curr = points[i];
+    const cp1x = prev.x + (curr.x - prev.x) / 3;
+    const cp1y = prev.y;
+    const cp2x = curr.x - (curr.x - prev.x) / 3;
+    const cp2y = curr.y;
+    pathD += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${curr.x} ${curr.y}`;
+  }
+  
+  // Update path elements
+  const paths = svg.querySelectorAll('path.chart-glow');
+  if (paths[0]) {
+    paths[0].setAttribute('d', pathD);
+    paths[0].setAttribute('fill', 'url(#chartGradient)');
+  }
+  if (paths[1]) {
+    paths[1].setAttribute('d', pathD);
+    paths[1].setAttribute('fill', 'none');
+    paths[1].setAttribute('stroke', '#A7C69F');
+  }
+  
+  // Update circles
+  const circles = svg.querySelectorAll('circle.chart-point-glow');
+  points.forEach((point, i) => {
+    if (circles[i]) {
+      circles[i].setAttribute('cx', point.x);
+      circles[i].setAttribute('cy', point.y);
+    }
+  });
+  
+  // Update summary values
+  const summaryDiv = document.querySelector('.md\\:col-span-1');
+  if (summaryDiv) {
+    const weekTotal = timeframe === 'daily' ? chartData.values.reduce((a, b) => a + b, 0) : chartData.values[chartData.values.length - 1] * 7;
+    const monthTotal = timeframe === 'monthly' ? chartData.values.reduce((a, b) => a + b, 0) : weekTotal * 4;
+    const avgDaily = weekTotal / 7;
+    const budgetUsed = Math.min(100, Math.round((monthTotal / 7500) * 100));
+    
+    const spans = summaryDiv.querySelectorAll('span.text-white');
+    if (spans[0]) spans[0].textContent = `$${Math.round(weekTotal).toLocaleString()}`;
+    if (spans[1]) spans[1].textContent = `$${Math.round(monthTotal).toLocaleString()}`;
+    if (spans[2]) spans[2].textContent = `$${Math.round(avgDaily)}`;
+    if (spans[3]) spans[3].textContent = `${budgetUsed}%`;
+  }
+}
+
+
+// Close modal when clicking outside
+document.addEventListener('click', function(e) {
+  const profileModal = document.getElementById('profileModal');
+  const profileAvatar = document.getElementById('profileAvatar');
+  
+  if (profileModal && !profileModal.classList.contains('hidden')) {
+    // Check if click is on a button or link inside the modal
+    const clickedButton = e.target.closest('button, a');
+    const isInsideModal = profileModal.contains(e.target);
+    const isOnAvatar = profileAvatar && profileAvatar.contains(e.target);
+    
+    // Close only if clicking outside the modal and not on the avatar
+    if (!isInsideModal && !isOnAvatar) {
+      profileModal.classList.add('hidden');
+    }
+    // Don't close if clicking on buttons/links inside the modal
+  }
+});
+
+// Theme toggle
+document.getElementById('themeToggle')?.addEventListener('click', function() {
+  const html = document.documentElement;
+  html.classList.toggle('dark');
+  const isDark = html.classList.contains('dark');
+  document.getElementById('themeIcon').textContent = isDark ? '🌙' : '☀️';
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});
+
+// Check saved theme preference
+window.addEventListener('load', function() {
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  const html = document.documentElement;
+  if (savedTheme === 'light') {
+    html.classList.remove('dark');
+    document.getElementById('themeIcon').textContent = '☀️';
+  }
+});
+
+// === Custom Modal Logic ===
+(function(){
+  const modal = document.getElementById('customModal');
+  const modalContent = document.getElementById('modalContent');
+  const modalActions = document.getElementById('modalActions');
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
+  let resolveAction = null;
+
+  function closeModal() {
+    modal.classList.add('hidden');
+    modalContent.innerHTML = '';
+    modalActions.innerHTML = '';
+    resolveAction = null;
+  }
+  // Close on click on backdrop
+  modal.addEventListener('mousedown', (e) => { if(e.target===modal) closeModal(); });
+  // Close on click X
+  modalCloseBtn.onclick = closeModal;
+  // Close on esc
+  document.addEventListener('keydown', (e) => { if(!modal.classList.contains('hidden') && e.key==='Escape') closeModal(); });
+
+  // Main API:
+  window.showCustomModal = function({type = 'confirm', title = '', message = '', inputLabel = '', initialValue = '', confirmText = 'OK', cancelText = 'Cancel', onConfirm, onCancel, validate}) {
+    modalContent.innerHTML = '';
+    modalActions.innerHTML = '';
+    let inputEl = null;
+    if (title) modalContent.innerHTML += `<div class='text-xl font-bold text-[#A7C69F] mb-2'>${title}</div>`;
+    if (message) modalContent.innerHTML += `<div class='text-white/80'>${message}</div>`;
+    if (type === 'input') {
+      modalContent.innerHTML += `
+        <label class='block mt-4'>
+          <span class='text-white/60'>${inputLabel || ''}</span>
+          <input id='customModalInput' class='w-full mt-2 rounded bg-[#232323] border border-[#A7C69F]/30 p-2 text-base text-white outline-none focus:border-[#A7C69F]' type='text' autocomplete='off' value='${initialValue||''}' />
+        </label>
+        <span id='customModalError' class='text-red-400 block text-sm mt-1'></span>
+      `;
+      setTimeout(()=>{
+        document.getElementById('customModalInput').focus();
+        document.getElementById('customModalInput').select();
+      }, 90);
+    }
+    // Buttons
+    const confirmBtn = document.createElement('button');
+    confirmBtn.className = 'rounded bg-[#A7C69F] text-[#232323] font-bold px-5 py-2 hover:bg-[#89b788] transition-colors';
+    confirmBtn.textContent = confirmText;
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'rounded border border-[#A7C69F] text-[#A7C69F] px-5 py-2 hover:bg-[#232323]/60 hover:text-[#e5ffe8] transition-colors';
+    cancelBtn.textContent = cancelText;
+    modalActions.appendChild(cancelBtn);
+    modalActions.appendChild(confirmBtn);
+
+    confirmBtn.onclick = ()=>{
+      if(type==='input') {
+        const val = document.getElementById('customModalInput').value.trim();
+        if(validate && !validate(val)) {
+          document.getElementById('customModalError').textContent = typeof validate==='function'? validate(val)||'Ошибка': 'Ошибка';
+          return;
+        }
+        closeModal();
+        if (onConfirm) onConfirm(val);
+        return;
+      }
+      closeModal();
+      if (onConfirm) onConfirm();
+    };
+    cancelBtn.onclick = ()=>{ closeModal(); if(onCancel) onCancel(); };
+    modal.classList.remove('hidden');
+  }
+})();
+// === END Custom Modal Logic ===
+</script>
+</body></html>
