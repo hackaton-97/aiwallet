@@ -80,7 +80,8 @@
             border-color: #5a7a4f !important;
         }
     </style>
-<script src="../script.js" defer></script>
+<script src="api-wrapper.js"></script>
+<script src="script.js" defer></script>
 </head>
 <body class="bg-[#333333] font-display">
 <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden text-white">
@@ -767,24 +768,19 @@ function processPayment(planName) {
     const userId = localStorage.getItem('userId');
     const purchaseDate = new Date().toISOString();
     
-    // Save plan to localStorage with normalized name
-    localStorage.setItem('userPlan', normalizedPlanName);
-    localStorage.setItem('planPurchaseDate', purchaseDate);
-
-    // Save to server database
-    if (userId) {
-      fetch(`/api/user/${userId}/subscription`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          userPlan: normalizedPlanName,
-          planPurchaseDate: purchaseDate
+    // Use API wrapper to save subscription
+    if (userId && window.apiWrapper) {
+      window.apiWrapper.updateSubscription(userId, normalizedPlanName, purchaseDate)
+        .then(result => {
+          if (result.success) {
+            console.log('Subscription saved successfully');
+          }
         })
-      }).catch(err => console.error('Failed to save subscription:', err));
-      
-      // Also save to localStorage users array
+        .catch(err => console.error('Failed to save subscription:', err));
+    } else {
+      // Fallback if API wrapper not available
+      localStorage.setItem('userPlan', normalizedPlanName);
+      localStorage.setItem('planPurchaseDate', purchaseDate);
       let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
       const user = users.find(u => u.id === userId);
       if (user) {

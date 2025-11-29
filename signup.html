@@ -100,7 +100,8 @@
         html:not(.dark) [class*="text-[#A7C69F]"], html:not(.dark) [class*="text-custom-accent"] { color: #5a7a4f !important; }
         html:not(.dark) svg { color: #1a1a1a !important; }
     </style>
-<script src="../script.js" defer></script>
+<script src="api-wrapper.js"></script>
+<script src="script.js" defer></script>
 </head>
 <body class="font-display">
 <div class="relative flex h-auto min-h-screen w-full flex-col bg-[#333333] group/design-root overflow-hidden">
@@ -364,36 +365,36 @@ document.getElementById('signupBtn').addEventListener('click', async function(e)
     return;
   }
   
-  // Get existing users from localStorage
-  let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
+  // Disable button during request
+  const signupBtn = document.getElementById('signupBtn');
+  signupBtn.disabled = true;
+  signupBtn.textContent = 'CREATING...';
   
-  // Check if user already exists
-  if (users.find(u => u.email === email || u.username === username)) {
-    messageDiv.innerHTML = '<p class="text-red-500 text-sm">Email or username already exists</p>';
-    return;
+  try {
+    // Use API wrapper
+    const result = await window.apiWrapper.register(email, username, password);
+    
+    if (result.success) {
+      messageDiv.innerHTML = '<p class="text-green-500 text-sm">Registration successful! Redirecting...</p>';
+      localStorage.setItem('userId', result.userId);
+      localStorage.setItem('username', username);
+      localStorage.setItem('email', email);
+      
+      setTimeout(() => {
+        checkUserStatus();
+        window.location.href = 'index.html';
+      }, 1500);
+    } else {
+      messageDiv.innerHTML = `<p class="text-red-500 text-sm">${result.message || 'Registration failed'}</p>`;
+      signupBtn.disabled = false;
+      signupBtn.innerHTML = '<span class="truncate">CREATE ACCOUNT</span>';
+    }
+  } catch (error) {
+    console.error('Registration error:', error);
+    messageDiv.innerHTML = '<p class="text-red-500 text-sm">An error occurred. Please try again.</p>';
+    signupBtn.disabled = false;
+    signupBtn.innerHTML = '<span class="truncate">CREATE ACCOUNT</span>';
   }
-  
-  // Create new user
-  const newUser = {
-    id: Date.now().toString(),
-    email,
-    username,
-    password: btoa(password), // Simple encoding for demo
-    createdAt: new Date().toISOString()
-  };
-  
-  users.push(newUser);
-  localStorage.setItem('aiwallet_users', JSON.stringify(users));
-  
-  messageDiv.innerHTML = '<p class="text-green-500 text-sm">Registration successful! Redirecting...</p>';
-  localStorage.setItem('userId', newUser.id);
-  localStorage.setItem('username', username);
-  localStorage.setItem('email', email);
-  
-  setTimeout(() => {
-    checkUserStatus();
-    window.location.href = 'index.html';
-  }, 1500);
 });
 </script>
 </body></html>

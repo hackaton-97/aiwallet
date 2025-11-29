@@ -1,4 +1,4 @@
-<html><head>
+<html class="dark"><head>
   <meta charset="utf-8"/>
   <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
   <link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Space+Grotesk%3Awght%40400%3B500%3B700" onload="this.rel='stylesheet'" rel="stylesheet"/>
@@ -106,7 +106,8 @@
           border-color: #5a7a4f !important;
         }
       </style>
-  <script src="../script.js" defer></script>
+  <script src="api-wrapper.js"></script>
+  <script src="script.js" defer></script>
   </head>
   <body>
   <div class="relative flex h-auto min-h-screen w-full flex-col bg-[#111] dark group/design-root overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif; background-image: radial-gradient(circle at 25% 25%, rgba(167, 198, 159, 0.05) 0%, rgba(167, 198, 159, 0) 25%), radial-gradient(circle at 75% 75%, rgba(167, 198, 159, 0.05) 0%, rgba(167, 198, 159, 0) 25%);'>
@@ -297,6 +298,17 @@
   </div>
   </div>
   <script>
+  // Initialize theme immediately (before DOMContentLoaded)
+  (function() {
+    const savedTheme = localStorage.getItem('theme');
+    const isDark = savedTheme ? savedTheme === 'dark' : true;
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  })();
+  
   // Initialize on page load
   window.addEventListener('load', function() {
     checkUserStatus();
@@ -319,6 +331,30 @@
         }
       });
     });
+    
+    // Ensure theme toggle works even if script.js loads late
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle && !themeToggle.hasAttribute('data-theme-handler-attached')) {
+      themeToggle.setAttribute('data-theme-handler-attached', 'true');
+      themeToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        const html = document.documentElement;
+        const isDark = html.classList.contains('dark');
+        if (isDark) {
+          html.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+          const themeIcon = document.getElementById('themeIcon');
+          if (themeIcon) themeIcon.textContent = '🌙';
+        } else {
+          html.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+          const themeIcon = document.getElementById('themeIcon');
+          if (themeIcon) themeIcon.textContent = '☀️';
+        }
+        // Trigger custom event for script.js if it's loaded
+        window.dispatchEvent(new CustomEvent('themechange', { detail: { isDark: !isDark } }));
+      });
+    }
   });
   </script>
   </body></html>

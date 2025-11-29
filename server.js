@@ -153,6 +153,11 @@ app.delete('/api/user/:userId/subscription', (req, res) => {
   return res.json({ success: true, message: 'Subscription cancelled' });
 });
 
+// Health check endpoint for API wrapper
+app.get('/api/health', (req, res) => {
+  return res.json({ status: 'ok', server: 'available' });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

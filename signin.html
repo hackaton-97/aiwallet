@@ -100,7 +100,8 @@
         html:not(.dark) [class*="text-[#A7C69F]"], html:not(.dark) [class*="text-custom-accent"] { color: #5a7a4f !important; }
         html:not(.dark) svg { color: #1a1a1a !important; }
     </style>
-<script src="../script.js" defer></script>
+<script src="api-wrapper.js"></script>
+<script src="script.js" defer></script>
 </head>
 <body class="font-display">
 <div class="relative flex h-auto min-h-screen w-full flex-col bg-[#333333] group/design-root overflow-hidden">
@@ -343,10 +344,12 @@ document.getElementById('signinBtn').addEventListener('click', async function(e)
   const password = document.getElementById('signinPassword').value;
   const messageDiv = document.getElementById('signinMessage');
   messageDiv.innerHTML = '';
+  
   if (!emailOrUsername || !password) {
     messageDiv.innerHTML = '<p class="text-red-500 text-sm">All fields are required</p>';
     return;
   }
+  
   // Если введён email — проверяем валидность
   if(emailOrUsername.includes('@')){
     if(!/^([^\s@]+)@([^\s@]+)\.[^\s@]+$/.test(emailOrUsername)){
@@ -354,62 +357,64 @@ document.getElementById('signinBtn').addEventListener('click', async function(e)
       return;
     }
   }
-  // Get users from localStorage
-  let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
-  const user = users.find(u => u.email === emailOrUsername || u.username === emailOrUsername);
-  if (!user) {
-    messageDiv.innerHTML = '<p class="text-red-500 text-sm">User not found</p>';
-    return;
-  }
-  const storedPassword = atob(user.password); // Decode password
-  if (storedPassword !== password) {
-    messageDiv.innerHTML = '<p class="text-red-500 text-sm">Invalid password</p>';
-    return;
-  }
-  // Login successful
-  messageDiv.innerHTML = '<p class="text-green-500 text-sm">Login successful! Redirecting...</p>';
-  localStorage.setItem('userId', user.id);
-  localStorage.setItem('username', user.username);
-  localStorage.setItem('email', user.email);
   
-  // Load subscription from user data (prioritize user data over localStorage)
-  if (user.userPlan) {
-    localStorage.setItem('userPlan', user.userPlan);
-  } else {
-    localStorage.removeItem('userPlan');
-  }
-  if (user.planPurchaseDate) {
-    localStorage.setItem('planPurchaseDate', user.planPurchaseDate);
-  } else {
-    localStorage.removeItem('planPurchaseDate');
-  }
+  // Disable button during request
+  const signinBtn = document.getElementById('signinBtn');
+  signinBtn.disabled = true;
+  signinBtn.innerHTML = '<span class="truncate">LOGGING IN...</span>';
   
-  // Also try to load from server if available
-  fetch(`/api/user/${user.id}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.success && data.user) {
-        if (data.user.userPlan) {
-          localStorage.setItem('userPlan', data.user.userPlan);
-          // Update localStorage users array
-          const userIndex = users.findIndex(u => u.id === user.id);
-          if (userIndex !== -1) {
-            users[userIndex].userPlan = data.user.userPlan;
-            users[userIndex].planPurchaseDate = data.user.planPurchaseDate;
-            localStorage.setItem('aiwallet_users', JSON.stringify(users));
+  try {
+    // Use API wrapper
+    const result = await window.apiWrapper.login(emailOrUsername, password);
+    
+    if (result.success) {
+      messageDiv.innerHTML = '<p class="text-green-500 text-sm">Login successful! Redirecting...</p>';
+      localStorage.setItem('userId', result.userId);
+      localStorage.setItem('username', result.username);
+      localStorage.setItem('email', result.email);
+      
+      // Load subscription from result
+      if (result.userPlan) {
+        localStorage.setItem('userPlan', result.userPlan);
+      } else {
+        localStorage.removeItem('userPlan');
+      }
+      if (result.planPurchaseDate) {
+        localStorage.setItem('planPurchaseDate', result.planPurchaseDate);
+      } else {
+        localStorage.removeItem('planPurchaseDate');
+      }
+      
+      // Also try to load from server if available (for sync)
+      try {
+        const userData = await window.apiWrapper.getUser(result.userId);
+        if (userData.success && userData.user) {
+          if (userData.user.userPlan) {
+            localStorage.setItem('userPlan', userData.user.userPlan);
+          }
+          if (userData.user.planPurchaseDate) {
+            localStorage.setItem('planPurchaseDate', userData.user.planPurchaseDate);
           }
         }
-        if (data.user.planPurchaseDate) {
-          localStorage.setItem('planPurchaseDate', data.user.planPurchaseDate);
-        }
+      } catch (err) {
+        console.warn('Failed to sync user data from server:', err);
       }
-    })
-    .catch(err => console.error('Failed to load user data from server:', err));
-  
-  setTimeout(() => {
-    checkUserStatus();
-    window.location.href = 'index.html';
-  }, 1500);
+      
+      setTimeout(() => {
+        checkUserStatus();
+        window.location.href = 'index.html';
+      }, 1500);
+    } else {
+      messageDiv.innerHTML = `<p class="text-red-500 text-sm">${result.message || 'Login failed'}</p>`;
+      signinBtn.disabled = false;
+      signinBtn.innerHTML = '<span class="truncate">LOGIN</span>';
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    messageDiv.innerHTML = '<p class="text-red-500 text-sm">An error occurred. Please try again.</p>';
+    signinBtn.disabled = false;
+    signinBtn.innerHTML = '<span class="truncate">LOGIN</span>';
+  }
 });
 </script>
 </html>

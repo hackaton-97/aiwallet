@@ -1,3 +1,16 @@
+// Initialize theme immediately (before DOMContentLoaded) for GitHub Pages
+(function() {
+  if (typeof document !== 'undefined') {
+    const savedTheme = localStorage.getItem('theme');
+    const isDark = savedTheme ? savedTheme === 'dark' : true;
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }
+})();
+
 // Add floating animation to buttons and logo
 function addFloatingAnimation() {
   // Add CSS for floating animation if not already added
