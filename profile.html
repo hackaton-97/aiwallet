@@ -853,9 +853,17 @@ function handleEditPassword() {
     return;
   }
 
-  // Get current password from users array
-  let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
-  const user = users.find(u => u.id === userId);
+  // Get current password from users array using DBManager
+  let db = { users: [] };
+  try {
+    const dbData = localStorage.getItem('aiwallet_db');
+    if (dbData) {
+      db = JSON.parse(dbData);
+    }
+  } catch (e) {
+    console.error('Error loading database:', e);
+  }
+  const user = db.users ? db.users.find(u => u.id === userId) : null;
   if (!user) {
     if (window.showCustomModal) {
       window.showCustomModal({
@@ -973,8 +981,21 @@ function savePasswordChange() {
 
   // Verify old password
   const userId = localStorage.getItem('userId');
-  let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
-  const user = users.find(u => u.id === userId);
+  let db = { users: [] };
+  try {
+    const dbData = localStorage.getItem('aiwallet_db');
+    if (dbData) {
+      db = JSON.parse(dbData);
+    }
+  } catch (e) {
+    console.error('Error loading database:', e);
+  }
+  
+  if (!db.users) {
+    db.users = [];
+  }
+  
+  const user = db.users.find(u => u.id === userId);
   
   if (!user) {
     if (oldPasswordError) {
@@ -995,7 +1016,8 @@ function savePasswordChange() {
 
   // Update password
   user.password = btoa(newPassword.trim()); // Encode new password
-  localStorage.setItem('aiwallet_users', JSON.stringify(users));
+  db.lastUpdated = new Date().toISOString();
+  localStorage.setItem('aiwallet_db', JSON.stringify(db));
 
   // Close modal
   closePasswordChangeModal();
@@ -1289,12 +1311,24 @@ function handleCancelSubscription() {
         // Fallback if API wrapper not available
         localStorage.removeItem('userPlan');
         localStorage.removeItem('planPurchaseDate');
-        let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
-        const user = users.find(u => u.id === userId);
+        let db = { users: [] };
+        try {
+          const dbData = localStorage.getItem('aiwallet_db');
+          if (dbData) {
+            db = JSON.parse(dbData);
+          }
+        } catch (e) {
+          console.error('Error loading database:', e);
+        }
+        if (!db.users) {
+          db.users = [];
+        }
+        const user = db.users.find(u => u.id === userId);
         if (user) {
           user.userPlan = null;
           user.planPurchaseDate = null;
-          localStorage.setItem('aiwallet_users', JSON.stringify(users));
+          db.lastUpdated = new Date().toISOString();
+          localStorage.setItem('aiwallet_db', JSON.stringify(db));
         }
       }
       
@@ -1324,9 +1358,21 @@ function handleDeleteAccount() {
     cancelText: 'Cancel',
     onConfirm: () => {
       const userId = localStorage.getItem('userId');
-      let users = JSON.parse(localStorage.getItem('aiwallet_users') || '[]');
-      users = users.filter(u => u.id !== userId);
-      localStorage.setItem('aiwallet_users', JSON.stringify(users));
+      let db = { users: [] };
+      try {
+        const dbData = localStorage.getItem('aiwallet_db');
+        if (dbData) {
+          db = JSON.parse(dbData);
+        }
+      } catch (e) {
+        console.error('Error loading database:', e);
+      }
+      if (!db.users) {
+        db.users = [];
+      }
+      db.users = db.users.filter(u => u.id !== userId);
+      db.lastUpdated = new Date().toISOString();
+      localStorage.setItem('aiwallet_db', JSON.stringify(db));
       localStorage.removeItem('userId');
       localStorage.removeItem('username');
       localStorage.removeItem('email');

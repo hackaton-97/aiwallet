@@ -1128,11 +1128,15 @@ function syncHeaderLinks() {
     // Show only: Overview, Features, Resources, Pricing (no Share Plan, no Add Purchase)
     Array.from(headerLinksBlock.children).forEach(child => {
       const href = child.getAttribute('href') || '';
+      const text = child.textContent || '';
       const isSharePlan = child.id === 'sharePlanLink' || href.includes('share-plans.html');
       const isAddPurchase = child.id === 'addPurchaseLink' || href.includes('addpurchase.html');
+      const isDashboard = child.id === 'dashboardLink' || href.includes('profile.html');
+      const isCreatePlan = child.id === 'createPlanLink' || href.includes('createplan.html');
+      const isMyPlans = child.id === 'myPlansLink' || href.includes('myplans.html');
       
-      // Hide Share Plan and Add Purchase for non-logged-in users
-      if (isSharePlan || isAddPurchase) {
+      // Hide authenticated-only links for non-logged-in users
+      if (isSharePlan || isAddPurchase || isDashboard || isCreatePlan || isMyPlans) {
         child.style.display = 'none';
         child.classList.add('hidden');
         return;
@@ -1144,10 +1148,11 @@ function syncHeaderLinks() {
                         href.includes('resources.html') || 
                         href.includes('pricing.html');
       
-      child.style.display = shouldShow ? '' : 'none';
       if (shouldShow) {
+        child.style.display = '';
         child.classList.remove('hidden');
       } else {
+        child.style.display = 'none';
         child.classList.add('hidden');
       }
     });
