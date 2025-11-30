@@ -300,6 +300,7 @@
 <script src="script.js" defer></script>
 </head>
 <body class="font-display" style="background-color: #000000;">
+<!-- РУССКИЙ КОММЕНТАРИЙ: Главный контейнер страницы профиля пользователя -->
 <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden text-white" style="background-image: linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.95)), url('https://lh3.googleusercontent.com/aida-public/AB6AXuCpFh7OSUzEj0XKLJfBIIV04v-GovLLGjGnzDoQbT0ps0Df9oU8HHpWzi4FU3EgN14NBNziFl4HZcvrKRIUfrB1wovmysIFaTBEbmc8R-7C8ndna4mgfw2eBXQcnnGJmYoAv3r98aJO0Nn8M4fCw14NBF3PWea5A4IR7yc2kkzNdVtZh8_iOgzDSH1Tvn6i9pRDZszXGg4L7kGCz_NRI0F8qoAkp4S5JrV2-3XpTR15xeC-kj1YhQ82SbMUKY4K9_ngc4YGUunxrFQL'); background-size: cover; background-attachment: fixed;">
 <div class="layout-container flex h-full grow flex-col">
 <div class="flex flex-1 justify-center py-5">
@@ -315,6 +316,7 @@
 </a>
 <div class="flex flex-1 justify-end gap-8">
   <div class="flex items-center gap-9">
+    <a id="addPurchaseLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="addpurchase.html">Add Purchase</a>
     <a id="createPlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="createplan.html">Create Plan</a>
     <a id="myPlansLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="myplans.html">My Plans</a>
     <a id="sharePlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="share-plans.html">Share Plan</a>
@@ -434,6 +436,16 @@
 <button class="timeframe-btn px-3 py-1 text-sm rounded-md text-white/60 hover:bg-white/10 transition-colors" data-timeframe="category">Category</button>
 </div>
 </div>
+<!-- РУССКИЙ КОММЕНТАРИЙ: Контроли навигации по месяцам для месячного графика -->
+<div id="monthNavigation" class="flex items-center gap-2 mb-4 hidden">
+<button id="prevMonthBtn" class="p-2 rounded-lg border border-[#A7C69F]/30 text-[#A7C69F] hover:bg-[#A7C69F]/10 transition-colors" title="Previous month">
+<span class="material-symbols-outlined text-base">chevron_left</span>
+</button>
+<span id="monthDisplay" class="text-white/80 font-semibold min-w-[100px] text-center text-sm">January 2025</span>
+<button id="nextMonthBtn" class="p-2 rounded-lg border border-[#A7C69F]/30 text-[#A7C69F] hover:bg-[#A7C69F]/10 transition-colors" title="Next month">
+<span class="material-symbols-outlined text-base">chevron_right</span>
+</button>
+</div>
 <div class="grid grid-cols-1 w-full gap-8 flex-grow">
 <div class="md:col-span-2 w-full h-[300px] sm:h-auto">
 <svg height="100%" preserveAspectRatio="xMidYMid meet" viewBox="0 0 500 200" width="100%" xmlns="http://www.w3.org/2000/svg">
@@ -469,11 +481,10 @@
 </svg>
 </div>
 <div class="md:col-span-1 flex flex-col items-center justify-center">
-<h3 class="text-lg font-semibold text-white mb-4 text-center">Spending Summary</h3>
+<h3 class="text-lg font-semibold text-white mb-4 text-center">Savings Summary</h3>
 <div class="text-sm text-white/70 space-y-2 w-full">
-<div class="flex justify-between"><span>This Week:</span><span class="text-white">$1,240</span></div>
-<div class="flex justify-between"><span>This Month:</span><span class="text-white">$5,890</span></div>
-<div class="flex justify-between"><span>Average Daily:</span><span class="text-white">$168</span></div>
+<div class="flex justify-between"><span>Saved This Month:</span><span class="text-white">$5,890</span></div>
+<div class="flex justify-between"><span>Daily Limit:</span><span class="text-white">$168</span></div>
 <div class="flex justify-between"><span>Budget Used:</span><span class="text-white">78%</span></div>
 </div>
 </div>
@@ -521,6 +532,7 @@ window.addEventListener('load', function() {
   // Initialize timeframe buttons after a small delay to ensure DOM is ready
   setTimeout(function() {
     initializeTimeframeButtons();
+    initializeMonthNavigation();
     // Initialize chart with actual data
     updateChart('daily');
     updateChartPlanName();
@@ -1470,11 +1482,12 @@ function updateChart(timeframe) {
   const svg = document.querySelector('svg[viewBox="0 0 500 200"]');
   if (!svg) return;
   
-  // Load actual plan data
+  // Load actual plan data and purchase records
   const userId = localStorage.getItem('userId');
   const allPlans = JSON.parse(localStorage.getItem('financial_plans_db') || '{}');
   const userPlans = allPlans[userId] || [];
   const selectedPlanId = localStorage.getItem('selectedPlanId');
+  const purchaseRecords = JSON.parse(localStorage.getItem('purchase_records_db') || '[]');
   
   // Get selected plan or use latest plan
   let selectedPlan = null;
@@ -1487,35 +1500,108 @@ function updateChart(timeframe) {
   }
   
   let chartData;
+  const monthNavDiv = document.getElementById('monthNavigation');
+  const monthDisplay = document.getElementById('monthDisplay');
+  let currentDisplayMonth = parseInt(localStorage.getItem('chartDisplayMonth')) || new Date().getMonth();
+  let currentDisplayYear = parseInt(localStorage.getItem('chartDisplayYear')) || new Date().getFullYear();
+  
+  // Store current month/year for navigation
+  localStorage.setItem('chartDisplayMonth', currentDisplayMonth);
+  localStorage.setItem('chartDisplayYear', currentDisplayYear);
   
   if (!selectedPlan || userPlans.length === 0) {
     // No plans - show empty/default data
+    monthNavDiv.classList.add('hidden');
     chartData = {
       days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
       values: [0, 0, 0, 0, 0, 0, 0],
       maxValue: 100
     };
   } else {
-    // Use selected plan data based on timeframe
+    // РУССКИЙ КОММЕНТАРИЙ: Получение сэкономленных денег для пользователя
+    const userPurchases = purchaseRecords.filter(p => p.userId === userId);
+    
     if (timeframe === 'daily') {
-      // Show daily limit repeated for each day
+      // Show 7 days of the week with saved money per day
+      monthNavDiv.classList.add('hidden');
       const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-      const dailyLimit = selectedPlan.dailyLimit || 0;
-      const values = days.map(() => dailyLimit);
-      chartData = { days, values, maxValue: Math.max(dailyLimit, 100) };
+      const today = new Date();
+      const currentWeekStart = new Date(today);
+      currentWeekStart.setDate(today.getDate() - today.getDay());
+      
+      const values = days.map((_, i) => {
+        const dayDate = new Date(currentWeekStart);
+        dayDate.setDate(currentWeekStart.getDate() + i);
+        
+        // Calculate daily limit - spent = saved
+        const dailyLimit = selectedPlan.dailyLimit || 0;
+        const daySpent = userPurchases
+          .filter(p => {
+            const pDate = new Date(p.date);
+            return pDate.toDateString() === dayDate.toDateString();
+          })
+          .reduce((sum, p) => sum + (p.totalSpent || 0), 0);
+        
+        const saved = Math.max(0, dailyLimit - daySpent);
+        return saved;
+      });
+      
+      chartData = { days, values, maxValue: Math.max(...values, selectedPlan.dailyLimit || 100) };
     } else if (timeframe === 'monthly') {
-      // Show monthly data - distribute expenses across months
-      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
-      const totalExpenses = selectedPlan.totalExpenses || 0;
-      const avgMonthly = totalExpenses / 7;
-      const values = months.map(() => avgMonthly);
-      chartData = { days: months, values, maxValue: Math.max(totalExpenses, 100) };
+      // Show days of selected month with saved money per day
+      monthNavDiv.classList.remove('hidden');
+      
+      // Update month display
+      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      monthDisplay.textContent = `${monthNames[currentDisplayMonth]} ${currentDisplayYear}`;
+      
+      // Get days in the selected month
+      const daysInMonth = new Date(currentDisplayYear, currentDisplayMonth + 1, 0).getDate();
+      const days = [];
+      const monthValues = [];
+      
+      // Show every 5th day (or every 4th to fit 7 points on chart)
+      const step = Math.ceil(daysInMonth / 7);
+      
+      for (let i = 0; i < 7; i++) {
+        const dayOfMonth = Math.min(i * step + 1, daysInMonth);
+        if (dayOfMonth <= daysInMonth) {
+          days.push(dayOfMonth.toString());
+          
+          // Calculate monthly daily limit - spent = saved for that day
+          const dailyLimit = selectedPlan.dailyLimit || 0;
+          const daySpent = userPurchases
+            .filter(p => {
+              const pDate = new Date(p.date);
+              return pDate.getMonth() === currentDisplayMonth && 
+                     pDate.getFullYear() === currentDisplayYear &&
+                     pDate.getDate() === dayOfMonth;
+            })
+            .reduce((sum, p) => sum + (p.totalSpent || 0), 0);
+          
+          const saved = Math.max(0, dailyLimit - daySpent);
+          monthValues.push(saved);
+        } else {
+          break;
+        }
+      }
+      
+      // Pad to 7 if needed
+      while (days.length < 7) {
+        days.push('');
+        monthValues.push(0);
+      }
+      
+      chartData = { days, values: monthValues, maxValue: Math.max(...monthValues, selectedPlan.dailyLimit || 100) };
     } else if (timeframe === 'category') {
-      // Show expenses by category from selected plan
+      // Show expenses by category from purchase records
+      monthNavDiv.classList.add('hidden');
+      
       const categoryMap = {};
-      selectedPlan.expenses.forEach(exp => {
-        const category = exp.name || 'Other';
-        categoryMap[category] = (categoryMap[category] || 0) + exp.amount;
+      userPurchases.forEach(purchase => {
+        Object.entries(purchase.expenses).forEach(([category, amount]) => {
+          categoryMap[category] = (categoryMap[category] || 0) + amount;
+        });
       });
       
       // Get top 7 categories
@@ -1535,10 +1621,29 @@ function updateChart(timeframe) {
       chartData = { days, values, maxValue: Math.max(...values, 100) };
     } else {
       // Default to daily
+      monthNavDiv.classList.add('hidden');
       const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-      const dailyLimit = selectedPlan.dailyLimit || 0;
-      const values = days.map(() => dailyLimit);
-      chartData = { days, values, maxValue: Math.max(dailyLimit, 100) };
+      const today = new Date();
+      const currentWeekStart = new Date(today);
+      currentWeekStart.setDate(today.getDate() - today.getDay());
+      
+      const values = days.map((_, i) => {
+        const dayDate = new Date(currentWeekStart);
+        dayDate.setDate(currentWeekStart.getDate() + i);
+        
+        const dailyLimit = selectedPlan.dailyLimit || 0;
+        const daySpent = userPurchases
+          .filter(p => {
+            const pDate = new Date(p.date);
+            return pDate.toDateString() === dayDate.toDateString();
+          })
+          .reduce((sum, p) => sum + (p.totalSpent || 0), 0);
+        
+        const saved = Math.max(0, dailyLimit - daySpent);
+        return saved;
+      });
+      
+      chartData = { days, values, maxValue: Math.max(...values, selectedPlan.dailyLimit || 100) };
     }
   }
   
@@ -1553,8 +1658,11 @@ function updateChart(timeframe) {
     yAxisTexts[2].textContent = '$0';
   }
   
-  // Update x-axis labels
-  const textElements = svg.querySelectorAll('text[text-anchor="middle"]');
+  // Update x-axis labels (only the 7 labels at y="190")
+  const textElements = Array.from(svg.querySelectorAll('text[text-anchor="middle"]')).filter(text => {
+    const y = parseFloat(text.getAttribute('y'));
+    return y === 190; // Only x-axis labels
+  });
   chartData.days.forEach((day, i) => {
     if (textElements[i] && i < 7) {
       textElements[i].textContent = day;
@@ -1568,16 +1676,60 @@ function updateChart(timeframe) {
     return { x, y };
   });
   
-  // Create smooth curve path
+  // Create smooth curve path using cubic Bezier curves
+  // This creates a more natural, flowing curve that passes through all points
   let pathD = `M ${points[0].x} ${points[0].y}`;
-  for (let i = 1; i < points.length; i++) {
-    const prev = points[i - 1];
-    const curr = points[i];
-    const cp1x = prev.x + (curr.x - prev.x) / 3;
-    const cp1y = prev.y;
-    const cp2x = curr.x - (curr.x - prev.x) / 3;
-    const cp2y = curr.y;
-    pathD += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${curr.x} ${curr.y}`;
+  
+  if (points.length === 1) {
+    // Single point - just move to it
+    pathD = `M ${points[0].x} ${points[0].y}`;
+  } else if (points.length === 2) {
+    // Two points - simple line
+    pathD = `M ${points[0].x} ${points[0].y} L ${points[1].x} ${points[1].y}`;
+  } else {
+    // Multiple points - create smooth curve
+    for (let i = 1; i < points.length; i++) {
+      const prev = points[i - 1];
+      const curr = points[i];
+      const next = points[i + 1];
+      
+      // Calculate control points for smooth curve
+      // Use previous and next points to create more natural curves
+      let cp1x, cp1y, cp2x, cp2y;
+      
+      if (i === 1) {
+        // First segment - use current point direction
+        const dx = curr.x - prev.x;
+        const dy = curr.y - prev.y;
+        cp1x = prev.x + dx * 0.3;
+        cp1y = prev.y + dy * 0.3;
+        cp2x = curr.x - (next ? (next.x - prev.x) * 0.2 : dx * 0.3);
+        cp2y = curr.y - (next ? (next.y - prev.y) * 0.2 : dy * 0.3);
+      } else if (i === points.length - 1) {
+        // Last segment - use previous point direction
+        const prevPrev = points[i - 2];
+        const dx = curr.x - prev.x;
+        const dy = curr.y - prev.y;
+        cp1x = prev.x + (curr.x - prevPrev.x) * 0.2;
+        cp1y = prev.y + (curr.y - prevPrev.y) * 0.2;
+        cp2x = curr.x - dx * 0.3;
+        cp2y = curr.y - dy * 0.3;
+      } else {
+        // Middle segments - use both directions for smooth transition
+        const prevPrev = points[i - 2];
+        const dx1 = curr.x - prev.x;
+        const dy1 = curr.y - prev.y;
+        const dx2 = next.x - prev.x;
+        const dy2 = next.y - prev.y;
+        
+        cp1x = prev.x + (curr.x - prevPrev.x) * 0.2;
+        cp1y = prev.y + (curr.y - prevPrev.y) * 0.2;
+        cp2x = curr.x - (next.x - prev.x) * 0.2;
+        cp2y = curr.y - (next.y - prev.y) * 0.2;
+      }
+      
+      pathD += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${curr.x} ${curr.y}`;
+    }
   }
   
   // Update path elements
@@ -1601,33 +1753,54 @@ function updateChart(timeframe) {
     }
   });
   
-  // Animate the chart - wait a bit for browser to recalculate path length
+  // Animate the chart
   setTimeout(() => {
     animateChart(paths, circles, pathD);
   }, 50);
   
-  // Update summary values based on selected plan
+  // Update summary values based on selected plan and actual spending
   const summaryDiv = document.querySelector('.md\\:col-span-1');
   if (summaryDiv && selectedPlan) {
-    // Calculate from selected plan
-    const weekTotal = selectedPlan.dailyLimit * 7;
-    const monthTotal = selectedPlan.totalExpenses || 0;
-    const avgDaily = selectedPlan.dailyLimit || 0;
-    const totalBudget = selectedPlan.salary || 1;
-    const budgetUsed = Math.min(100, Math.round((monthTotal / totalBudget) * 100));
+    const weekStart = new Date();
+    weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 6);
+    
+    const today = new Date();
+    const thisMonth = today.getMonth();
+    const thisYear = today.getFullYear();
+    
+    // Calculate week spent
+    const weekSpent = userPurchases
+      .filter(p => {
+        const pDate = new Date(p.date);
+        return pDate >= weekStart && pDate <= weekEnd;
+      })
+      .reduce((sum, p) => sum + (p.totalSpent || 0), 0);
+    
+    // Calculate month spent
+    const monthSpent = userPurchases
+      .filter(p => {
+        const pDate = new Date(p.date);
+        return pDate.getMonth() === thisMonth && pDate.getFullYear() === thisYear;
+      })
+      .reduce((sum, p) => sum + (p.totalSpent || 0), 0);
+    
+    const weekLimit = selectedPlan.dailyLimit * 7;
+    const monthLimit = selectedPlan.dailyLimit * 30;
+    const weekSaved = Math.max(0, weekLimit - weekSpent);
+    const monthSaved = Math.max(0, monthLimit - monthSpent);
     
     const spans = summaryDiv.querySelectorAll('span.text-white');
-    if (spans[0]) spans[0].textContent = `$${Math.round(weekTotal).toLocaleString()}`;
-    if (spans[1]) spans[1].textContent = `$${Math.round(monthTotal).toLocaleString()}`;
-    if (spans[2]) spans[2].textContent = `$${Math.round(avgDaily).toLocaleString()}`;
-    if (spans[3]) spans[3].textContent = `${budgetUsed}%`;
+    if (spans[0]) spans[0].textContent = `$${Math.round(monthSaved).toLocaleString()}`;
+    if (spans[1]) spans[1].textContent = `$${Math.round(selectedPlan.dailyLimit).toLocaleString()}`;
+    if (spans[2]) spans[2].textContent = `${Math.min(100, Math.round((monthSpent / monthLimit) * 100))}%`;
   } else if (summaryDiv) {
     // No plans - show zeros
     const spans = summaryDiv.querySelectorAll('span.text-white');
     if (spans[0]) spans[0].textContent = '$0';
     if (spans[1]) spans[1].textContent = '$0';
-    if (spans[2]) spans[2].textContent = '$0';
-    if (spans[3]) spans[3].textContent = '0%';
+    if (spans[2]) spans[2].textContent = '0%';
   }
   
   // Update plan name under chart
@@ -1976,6 +2149,46 @@ setTimeout(overrideScriptJsThemeHandler, 2000);
   }
 })();
 // === END Custom Modal Logic ===
+
+// РУССКИЙ КОММЕНТАРИЙ: Обработчики для навигации по месяцам в графике
+function initializeMonthNavigation() {
+  const prevBtn = document.getElementById('prevMonthBtn');
+  const nextBtn = document.getElementById('nextMonthBtn');
+  
+  if (!prevBtn || !nextBtn) return;
+  
+  prevBtn.addEventListener('click', () => {
+    let month = parseInt(localStorage.getItem('chartDisplayMonth')) || new Date().getMonth();
+    let year = parseInt(localStorage.getItem('chartDisplayYear')) || new Date().getFullYear();
+    
+    month--;
+    if (month < 0) {
+      month = 11;
+      year--;
+    }
+    
+    localStorage.setItem('chartDisplayMonth', month);
+    localStorage.setItem('chartDisplayYear', year);
+    
+    updateChart('monthly');
+  });
+  
+  nextBtn.addEventListener('click', () => {
+    let month = parseInt(localStorage.getItem('chartDisplayMonth')) || new Date().getMonth();
+    let year = parseInt(localStorage.getItem('chartDisplayYear')) || new Date().getFullYear();
+    
+    month++;
+    if (month > 11) {
+      month = 0;
+      year++;
+    }
+    
+    localStorage.setItem('chartDisplayMonth', month);
+    localStorage.setItem('chartDisplayYear', year);
+    
+    updateChart('monthly');
+  });
+}
 
 // Info dropdown button handler is added by script.js via event delegation
 </script>

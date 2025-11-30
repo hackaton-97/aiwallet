@@ -63,7 +63,10 @@
             color: #5a7a4f !important;
         }
         html:not(.dark) svg {
-            color: #1a1a1a !important;
+            color: inherit !important;
+        }
+        html:not(.dark) a[href="index.html"] svg {
+            color: #5a7a4f !important;
         }
         html:not(.dark) #profileModal {
             background-color: transparent !important;
@@ -124,6 +127,48 @@
         html:not(.dark) .bg-\[#232323\] {
             background-color: #f5f5f5 !important;
         }
+        html:not(.dark) textarea {
+            background-color: #f5f5f5 !important;
+            color: #1a1a1a !important;
+            border-color: rgba(90, 122, 79, 0.3) !important;
+        }
+        html:not(.dark) textarea::placeholder {
+            color: #999 !important;
+        }
+        html:not(.dark) textarea:focus {
+            background-color: #ffffff !important;
+            border-color: #5a7a4f !important;
+        }
+        html:not(.dark) .success-content {
+            background-color: #ffffff;
+            border-color: #5a7a4f;
+        }
+        html:not(.dark) .success-content h2 {
+            color: #5a7a4f !important;
+        }
+        html:not(.dark) .success-content p {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) #aiModal button {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) #aiCancelBtn {
+            border-color: #5a7a4f !important;
+            color: #5a7a4f !important;
+        }
+        html:not(.dark) #aiSubmitBtn {
+            background-color: #5a7a4f !important;
+            color: #ffffff !important;
+        }
+        html:not(.dark) #aiSubmitBtn:hover {
+            background-color: #4a6a3f !important;
+        }
+        html:not(.dark) #aiError {
+            color: #dc2626 !important;
+        }
+        html:not(.dark) #aiLoading {
+            color: #1a1a1a !important;
+        }
         .success-modal {
             position: fixed;
             top: 0;
@@ -166,6 +211,7 @@
 <script src="script.js" defer></script>
 </head>
 <body class="font-display" style="background-color: #000000;">
+<!-- РУССКИЙ КОММЕНТАРИЙ: Главный контейнер страницы создания финансовых планов -->
 <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden text-white" style="background-image: linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.95)), url('https://lh3.googleusercontent.com/aida-public/AB6AXuCpFh7OSUzEj0XKLJfBIIV04v-GovLLGjGnzDoQbT0ps0Df9oU8HHpWzi4FU3EgN14NBNziFl4HZcvrKRIUfrB1wovmysIFaTBEbmc8R-7C8ndna4mgfw2eBXQcnnGJmYoAv3r98aJO0Nn8M4fCw14NBF3PWea5A4IR7yc2kkzNdVtZh8_iOgzDSH1Tvn6i9pRDZszXGg4L7kGCz_NRI0F8qoAkp4S5JrV2-3XpTR15xeC-kj1YhQ82SbMUKY4K9_ngc4YGUunxrFQL'); background-size: cover; background-attachment: fixed;">
 <div class="layout-container flex h-full grow flex-col">
 <div class="flex flex-1 justify-center py-5">
@@ -180,8 +226,9 @@
 <h2 class="text-custom-accent text-lg font-bold leading-tight tracking-[-0.015em] text-glow">AIWallet</h2>
 </a>
 <div class="flex flex-1 justify-end gap-8">
-  <div class="flex items-center gap-9">
-    <a id="createPlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="createplan.html">Create Plan</a>
+    <div class="flex items-center gap-9">
+      <a id="addPurchaseLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="addpurchase.html">Add Purchase</a>
+      <a id="createPlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="createplan.html">Create Plan</a>
     <a id="myPlansLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="myplans.html">My Plans</a>
     <a id="sharePlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="share-plans.html">Share Plan</a>
     <a id="dashboardLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="profile.html">Dashboard</a>
@@ -232,7 +279,13 @@
 <div class="py-16 sm:py-24">
 <div class="max-w-4xl mx-auto">
 <div class="bg-black/20 border border-white/20 rounded-lg backdrop-blur-sm p-8">
-<h1 class="text-3xl font-bold text-white glow-text mb-8 text-center">Create Financial Plan</h1>
+<div class="flex items-center justify-between mb-8">
+  <h1 class="text-3xl font-bold text-white glow-text">Create Financial Plan</h1>
+  <button id="fillWithAiBtn" class="flex items-center gap-2 px-4 py-2 bg-[#A7C69F] text-[#333333] font-bold rounded-lg hover:bg-[#89b788] transition-colors glow-button">
+    <span class="material-symbols-outlined" style="font-size: 20px;">smart_toy</span>
+    Fill with AI
+  </button>
+</div>
 
 <div class="space-y-6">
   <!-- Income Section -->
@@ -316,6 +369,21 @@
     <h2 class="text-2xl font-bold text-white mb-2" style="color: #A7C69F;">Successfully added</h2>
     <p class="text-white/80">Your financial plan has been saved!</p>
     <p id="redirect_message" class="text-white/60 mt-4 text-sm">Redirecting in <span id="countdown">3</span> sec...</p>
+  </div>
+</div>
+
+<!-- AI Fill Modal -->
+<div id="aiModal" class="success-modal">
+  <div class="success-content" style="min-width: 400px; max-width: 500px;">
+    <h2 class="text-2xl font-bold text-white mb-4" style="color: #A7C69F;">Fill with AI</h2>
+    <p class="text-white/80 mb-4">Describe your financial situation and let AI fill out your plan:</p>
+    <textarea id="aiPrompt" class="w-full rounded-lg bg-[#232323] border border-[#A7C69F]/30 p-3 text-white outline-none focus:border-[#A7C69F] transition-colors" rows="6" placeholder="Example: My monthly salary is $3000, I have $5000 in debts, I spend $500 on groceries, $200 on utilities, $300 on rent, etc."></textarea>
+    <div id="aiError" class="text-red-400 text-sm mt-2" style="display:none;"></div>
+    <div id="aiLoading" style="display:none;" class="text-white/60 text-sm mt-2">Processing with AI...</div>
+    <div class="flex gap-3 justify-end mt-4">
+      <button id="aiCancelBtn" class="px-5 py-2 border border-[#A7C69F] text-[#A7C69F] rounded hover:bg-[#232323]/60 transition-colors">Cancel</button>
+      <button id="aiSubmitBtn" class="px-5 py-2 bg-[#A7C69F] text-[#232323] font-bold rounded hover:bg-[#89b788] transition-colors">Process with AI</button>
+    </div>
   </div>
 </div>
 
@@ -443,7 +511,7 @@ function updateResult() {
 }
 
 // Save plan
-savePlanBtn.addEventListener("click", () => {
+savePlanBtn.addEventListener("click", async () => {
   const salary = Number(salaryInput.value) || 0;
   const debts = Number(debtsInput.value) || 0;
 
@@ -540,6 +608,159 @@ savePlanBtn.addEventListener("click", () => {
 // Initialize
 addEnterKeyHandlers();
 updateResult();
+
+// ====== AI FILL FUNCTIONALITY ======
+const API_KEY = "AIzaSyBazN2j3ijc14PgsUZcmo-i2bIQqwfheTM";
+const MODEL_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
+
+const aiModal = document.getElementById('aiModal');
+const fillWithAiBtn = document.getElementById('fillWithAiBtn');
+const aiPrompt = document.getElementById('aiPrompt');
+const aiSubmitBtn = document.getElementById('aiSubmitBtn');
+const aiCancelBtn = document.getElementById('aiCancelBtn');
+const aiError = document.getElementById('aiError');
+const aiLoading = document.getElementById('aiLoading');
+
+// Open AI modal
+fillWithAiBtn.addEventListener('click', () => {
+  aiModal.classList.add('show');
+  aiPrompt.focus();
+  aiPrompt.value = '';
+  aiError.style.display = 'none';
+  aiLoading.style.display = 'none';
+});
+
+// Close AI modal
+aiCancelBtn.addEventListener('click', () => {
+  aiModal.classList.remove('show');
+});
+
+// Close modal on backdrop click
+aiModal.addEventListener('click', (e) => {
+  if (e.target === aiModal) {
+    aiModal.classList.remove('show');
+  }
+});
+
+// Process with AI
+aiSubmitBtn.addEventListener('click', async () => {
+  const prompt = aiPrompt.value.trim();
+  if (!prompt) {
+    aiError.textContent = 'Please describe your financial situation';
+    aiError.style.display = 'block';
+    return;
+  }
+
+  aiSubmitBtn.disabled = true;
+  aiLoading.style.display = 'block';
+  aiError.style.display = 'none';
+
+  try {
+    // Create a structured prompt for AI to extract financial data
+    const systemPrompt = `You are a financial assistant. Extract financial information from the user's description and respond ONLY with valid JSON (no markdown, no code blocks, just pure JSON) in this exact format:
+{
+  "salary": 0,
+  "debts": 0,
+  "expenses": [
+    {"name": "rent", "amount": 500},
+    {"name": "groceries", "amount": 200}
+  ]
+}
+
+All values must be numbers. If a value is not mentioned, use 0. Extract all mentioned expenses. Respond ONLY with the JSON object, nothing else.`;
+
+    const userMessage = `Extract financial data from this description: "${prompt}"`;
+
+    const payload = {
+      contents: [
+        {
+          role: "user",
+          parts: [
+            { text: userMessage }
+          ]
+        }
+      ],
+      systemInstruction: {
+        parts: [
+          { text: systemPrompt }
+        ]
+      }
+    };
+
+    const resp = await fetch(MODEL_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": API_KEY
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!resp.ok) {
+      throw new Error("Failed to call AI API: " + resp.statusText);
+    }
+
+    const data = await resp.json();
+    const responseText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!responseText) {
+      throw new Error("No response from AI");
+    }
+
+    // Parse the JSON response
+    let parsedData;
+    try {
+      // Try to extract JSON from the response (in case there's extra text)
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) {
+        throw new Error("No JSON found in response");
+      }
+      parsedData = JSON.parse(jsonMatch[0]);
+    } catch (e) {
+      console.error("Failed to parse AI response:", responseText);
+      throw new Error("Invalid response from AI: " + String(e.message));
+    }
+
+    // Fill the form with extracted data
+    if (parsedData.salary) {
+      salaryInput.value = parsedData.salary;
+    }
+    if (parsedData.debts) {
+      debtsInput.value = parsedData.debts;
+    }
+
+    // Clear existing expenses
+    expenses = [];
+    renderExpenses();
+
+    // Add expenses from AI
+    if (parsedData.expenses && Array.isArray(parsedData.expenses)) {
+      parsedData.expenses.forEach(exp => {
+        if (exp.name && exp.amount) {
+          expenses.push({
+            name: exp.name,
+            amount: parseFloat(exp.amount) || 0
+          });
+        }
+      });
+      renderExpenses();
+    }
+
+    // Update results
+    updateResult();
+
+    // Close modal
+    aiModal.classList.remove('show');
+
+  } catch (err) {
+    aiError.textContent = 'Error: ' + String(err.message);
+    aiError.style.display = 'block';
+    console.error("AI Error:", err);
+  } finally {
+    aiSubmitBtn.disabled = false;
+    aiLoading.style.display = 'none';
+  }
+});
 </script>
 </body>
 </html>

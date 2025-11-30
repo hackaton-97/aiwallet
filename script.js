@@ -1,7 +1,90 @@
-// Initialize theme immediately (before DOMContentLoaded)
+/**
+ * ================================================================================
+ * РУССКИЕ КОММЕНТАРИИ - ОСНОВНАЯ АРХИТЕКТУРА ПРИЛОЖЕНИЯ
+ * ================================================================================
+ * 
+ * ОБОЗНАЧЕНИЕ МОДУЛЯ: AIWallet - Главный скрипт приложения
+ * 
+ * НАЗНАЧЕНИЕ: Этот файл управляет основной функциональностью приложения:
+ *   - Система управления темой (тёмная/светлая)
+ *   - Система аутентификации пользователей (вход/выход/удаление)
+ *   - Система управления навбаром (показ/скрытие ссылок)
+ *   - Система анимаций (плавающие эффекты, переходы)
+ *   - Система модальных окон (пользовательские диалоги)
+ *   - Система меню профиля (выпадающее меню пользователя)
+ *
+ * ОСНОВНЫЕ СИСТЕМЫ:
+ *
+ * 1. СИСТЕМА УПРАВЛЕНИЯ ТЕМОЙ (Theme Management System)
+ *    - Сохранение выбранной темы в localStorage
+ *    - Применение 'dark' класса к элементу html
+ *    - Переключение между тёмным и светлым режимами
+ *    - Загрузка сохранённой темы ДО загрузки страницы (предотвращает вспышку)
+ *
+ * 2. СИСТЕМА АУТЕНТИФИКАЦИИ (Authentication System)
+ *    - Проверка статуса входа пользователя (checkUserStatus)
+ *    - Обработка входа (handleLogin)
+ *    - Обработка выхода (handleLogout)
+ *    - Удаление аккаунта (handleDeleteAccount)
+ *    - Валидация данных пользователя
+ *
+ * 3. СИСТЕМА УПРАВЛЕНИЯ НАВБАРОМ (Navbar Management System)
+ *    - syncHeaderLinks(): синхронизация видимости ссылок на основе статуса входа
+ *    - Скрытие/показ ссылок: Add Purchase, Create Plan, My Plans, Share Plan, Dashboard
+ *    - Показ/скрытие кнопок auth (Get Started, Login) в зависимости от статуса
+ *    - Показ/скрытие профиля пользователя
+ *
+ * 4. СИСТЕМА АНИМАЦИЙ (Animation System)
+ *    - addFloatingAnimation(): добавление плавающих эффектов на элементы
+ *    - Анимация наведения для кнопок (floating up effect)
+ *    - Специальная анимация для логотипа AIWallet
+ *    - Плавные переходы между состояниями
+ *
+ * 5. СИСТЕМА МОДАЛЬНЫХ ОКОН (Modal System)
+ *    - showCustomModal(): отображение пользовательского модального окна
+ *    - closeModal(): закрытие модального окна
+ *    - Обработка кликов вне модального окна
+ *    - Поддержка callback функций при закрытии
+ *
+ * 6. СИСТЕМА МЕНЮ ПРОФИЛЯ (Profile Menu System)
+ *    - toggleProfileMenu(): включение/отключение меню профиля
+ *    - Отображение инициалов пользователя в профиле
+ *    - Логин при клике на аватар (если вышли из аккаунта)
+ *    - Кнопки: Посмотреть профиль, Выход, Удалить аккаунт
+ *
+ * ================================================================================
+ */
+
+/**
+ * ================================================================================
+ * AIWALLET APPLICATION - MAIN SCRIPT
+ * ================================================================================
+ * 
+ * OVERVIEW:
+ * This script manages the core functionality of the AIWallet application,
+ * including authentication, theme management, UI interactions, and navbar updates.
+ * 
+ * KEY MODULES:
+ * 1. Theme Management - Dark/Light mode switching with localStorage persistence
+ * 2. Animation Effects - Floating animations for UI elements
+ * 3. Authentication Handlers - Login/Logout/Account deletion flows
+ * 4. Navbar Management - Dynamic link visibility based on auth status
+ * 5. Modal Management - Custom modals for user interactions
+ * 6. Profile Dropdown - User menu functionality
+ * 
+ * ================================================================================
+ */
+
+/**
+ * INITIALIZATION: Theme Detection
+ * Runs before DOMContentLoaded to prevent theme flash
+ * Checks localStorage for saved theme preference, defaults to dark mode
+ * Adds 'dark' class to html element if dark theme is active
+ */
 (function() {
   if (typeof document !== 'undefined') {
     const savedTheme = localStorage.getItem('theme');
+    // Default to dark theme if no preference saved
     const isDark = savedTheme ? savedTheme === 'dark' : true;
     if (isDark) {
       document.documentElement.classList.add('dark');
@@ -11,14 +94,29 @@
   }
 })();
 
-// Add floating animation to buttons and logo
+/**
+ * FUNCTION: addFloatingAnimation()
+ * PURPOSE: Applies floating/hover animations to interactive elements
+ * ANIMATION EFFECTS:
+ * - Buttons: Smooth upward translation on hover
+ * - Logo: Subtle upward movement with slight rotation
+ * EXCLUSIONS: Header elements, profile menu, auth buttons (these have fixed styling)
+ * 
+ * TRIGGERS:
+ * - Called after page load
+ * - Called again after short delays to catch dynamically loaded elements
+ */
 function addFloatingAnimation() {
-  // Add CSS for floating animation if not already added
+  // SECTION: Create and inject CSS animation styles if not already present
   if (!document.getElementById('floatingAnimationStyle')) {
     const style = document.createElement('style');
     style.id = 'floatingAnimationStyle';
     style.textContent = `
-      /* Floating animation for buttons and logo */
+      /**
+       * FLOATING HOVER ANIMATION
+       * Applied to main content buttons and interactive elements
+       * Creates smooth upward floating effect on hover
+       */
       .floating-hover {
         transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out !important;
         will-change: transform;
@@ -38,7 +136,11 @@ function addFloatingAnimation() {
         }
       }
       
-      /* Logo specific animation */
+      /**
+       * LOGO FLOATING ANIMATION
+       * Special animation for AIWallet logo
+       * Combines subtle vertical movement with slight rotation
+       */
       .logo-floating {
         transition: transform 0.3s ease-in-out !important;
         will-change: transform;
@@ -66,10 +168,12 @@ function addFloatingAnimation() {
     document.head.appendChild(style);
   }
   
-  // Apply to logo (only if not in header)
+  /**
+   * SECTION: Apply animation to logos
+   * Only apply to logos NOT in header (headers have their own styling)
+   */
   const logos = document.querySelectorAll('a[href="index.html"]');
   logos.forEach(logo => {
-    // Check if logo is NOT in header
     const header = logo.closest('header');
     if (!header) {
       if (!logo.classList.contains('logo-floating')) {
@@ -78,25 +182,28 @@ function addFloatingAnimation() {
     }
   });
   
-  // Apply to all buttons (excluding header, profile menu, and profile avatar)
+  /**
+   * SECTION: Apply animation to buttons
+   * Excludes header buttons, profile menu items, and special UI elements
+   */
   const allButtons = document.querySelectorAll('button, a[role="button"]');
   allButtons.forEach(button => {
-    // Skip if in header
+    // Skip if in header - header has fixed styling
     if (button.closest('header')) return;
     
-    // Skip if in profile modal/menu
+    // Skip if in profile modal/menu - these have custom styling
     if (button.closest('#profileModal')) return;
     
-    // Skip profile avatar
+    // Skip profile avatar button - uses special styling
     if (button.id === 'profileAvatar' || button.closest('#profileAvatar')) return;
     
-    // Skip theme toggle (it's in header)
+    // Skip theme toggle - positioned in header
     if (button.id === 'themeToggle') return;
     
-    // Skip auth buttons (they're in header)
+    // Skip auth buttons (Get Started/Login) - positioned in header
     if (button.closest('#authButtons')) return;
     
-    // Skip info dropdown button (it's in profile menu)
+    // Skip info dropdown button - custom styling in profile menu
     if (button.id === 'infoDropdownButton') return;
     
     // Add floating class if not already added
@@ -352,6 +459,23 @@ document.addEventListener('DOMContentLoaded', function() {
   
 });
 
+/**
+ * FUNCTION: toggleProfileMenu(e)
+ * PURPOSE: Opens/closes the profile dropdown menu
+ * 
+ * TRIGGERED BY:
+ * - Clicking profile avatar button
+ * - Called from profile dropdown toggle
+ * 
+ * ACTIONS:
+ * 1. Prevents event propagation (stops bubbling to document)
+ * 2. Retrieves current user info (username, email, plan)
+ * 3. Gets plan prefix badge if user has a plan
+ * 4. Updates profile modal with user details
+ * 5. Toggles visibility of profile modal (hidden/shown)
+ * 
+ * @param {Event} e - Click event (optional, may be undefined if called programmatically)
+ */
 // Common profile menu functionality for all pages
 function toggleProfileMenu(e) {
   if (e) e.stopPropagation();
@@ -364,24 +488,26 @@ function toggleProfileMenu(e) {
     return;
   }
   
-  // Update profile info
+  // SECTION: Update profile information display
   const profileUsername = document.getElementById('profileUsername');
   const profileEmail = document.getElementById('profileEmail');
   
-  // Get plan prefix
+  // Get user's current plan and create badge
   const userPlan = localStorage.getItem('userPlan');
   const planPrefix = getPlanPrefix(userPlan);
   
   if (profileUsername) {
     if (planPrefix) {
+      // Show username with plan badge
       profileUsername.innerHTML = (username || 'User') + ' ' + planPrefix;
     } else {
+      // Show username only if no plan
       profileUsername.textContent = username || 'User';
     }
   }
   if (profileEmail) profileEmail.textContent = email || 'email@example.com';
   
-  // Toggle modal
+  // SECTION: Toggle profile modal visibility
   if (profileModal.classList.contains('hidden')) {
     profileModal.classList.remove('hidden');
   } else {
@@ -392,6 +518,23 @@ function toggleProfileMenu(e) {
 // Make toggleProfileMenu globally accessible
 window.toggleProfileMenu = toggleProfileMenu;
 
+/**
+ * FUNCTION: getPlanPrefix(planName)
+ * PURPOSE: Creates a styled plan badge HTML for the profile menu
+ * 
+ * INPUT:
+ * @param {string} planName - The user's plan type (basic, pro, enterprise, etc.)
+ * 
+ * RETURNS:
+ * - Empty string if no plan name provided
+ * - HTML button badge with plan name styled in green accent color
+ * 
+ * PLAN TYPES:
+ * - 'basic' -> "Basic" (green badge)
+ * - 'pro' -> "Pro" (green badge)
+ * - 'enterprise' -> "Enterprise" (green badge)
+ * - Any other value is returned as-is with green badge styling
+ */
 function getPlanPrefix(planName) {
   if (!planName) return '';
   const plan = planName.toLowerCase();
@@ -477,6 +620,60 @@ function closeProfileMenuOnBackdrop(event) {
         </div>
       </div>`;
     document.body.insertAdjacentHTML('beforeend', modalHTML);
+    
+    // Add light theme styles to modal
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+      html:not(.dark) #customModal > div {
+        background-color: #ffffff !important;
+        border-color: rgba(90, 122, 79, 0.3) !important;
+      }
+      html:not(.dark) #customModal {
+        background-color: rgba(0, 0, 0, 0.5) !important;
+      }
+      html:not(.dark) #modalContent {
+        color: #1a1a1a !important;
+      }
+      html:not(.dark) #modalContent .text-\[#A7C69F\] {
+        color: #5a7a4f !important;
+      }
+      html:not(.dark) #modalContent .text-white\/80 {
+        color: rgba(26, 26, 26, 0.9) !important;
+      }
+      html:not(.dark) #modalContent input {
+        background-color: #f5f5f5 !important;
+        color: #1a1a1a !important;
+        border-color: rgba(90, 122, 79, 0.3) !important;
+      }
+      html:not(.dark) #modalContent input:focus {
+        background-color: #ffffff !important;
+        border-color: #5a7a4f !important;
+      }
+      html:not(.dark) #modalContent .text-white\/60 {
+        color: rgba(26, 26, 26, 0.7) !important;
+      }
+      html:not(.dark) #modalContent .text-red-400 {
+        color: #dc2626 !important;
+      }
+      html:not(.dark) #modalActions button.bg-\[#A7C69F\] {
+        background-color: #5a7a4f !important;
+        color: #ffffff !important;
+      }
+      html:not(.dark) #modalActions button.bg-\[#A7C69F\]:hover {
+        background-color: #4a6a3f !important;
+      }
+      html:not(.dark) #modalActions button.border-\[#A7C69F\] {
+        border-color: #5a7a4f !important;
+        color: #5a7a4f !important;
+      }
+      html:not(.dark) #modalCloseBtn {
+        color: rgba(26, 26, 26, 0.5) !important;
+      }
+      html:not(.dark) #modalCloseBtn:hover {
+        color: #5a7a4f !important;
+      }
+    `;
+    document.head.appendChild(styleElement);
   }
   const modal = document.getElementById('customModal');
   const modalContent = document.getElementById('modalContent');
@@ -593,6 +790,26 @@ function closeProfileMenuOnBackdrop(event) {
 
 // ==== END Custom Modal ====
 
+/**
+ * FUNCTION: handleLogout()
+ * PURPOSE: Handles user logout process with confirmation
+ * 
+ * WORKFLOW:
+ * 1. Shows confirmation modal asking if user really wants to logout
+ * 2. On confirmation:
+ *    - Removes all user data from localStorage (userId, username, email, etc.)
+ *    - Closes profile modal if open
+ *    - Updates UI by calling checkUserStatus()
+ *    - Redirects to home page
+ * 
+ * CLEARS:
+ * - userId (unique user identifier)
+ * - username (display name)
+ * - email (user email address)
+ * - userAvatar (profile picture)
+ * - userPlan (active financial plan)
+ * - planPurchaseDate (when plan was purchased)
+ */
 function handleLogout() {
   window.showCustomModal({
     type: 'confirm',
@@ -601,22 +818,50 @@ function handleLogout() {
     confirmText: 'Log Out',
     cancelText: 'Cancel',
     onConfirm: function() {
+      // SECTION: Clear all user data from localStorage
       localStorage.removeItem('userId');
       localStorage.removeItem('username');
       localStorage.removeItem('email');
       localStorage.removeItem('userAvatar');
       localStorage.removeItem('userPlan');
       localStorage.removeItem('planPurchaseDate');
+      
+      // Close profile modal if it's open
       const profileModal = document.getElementById('profileModal');
       if (profileModal) profileModal.classList.add('hidden');
+      
+      // Update UI and redirect after short delay to allow UI updates
       setTimeout(function() {
-        checkUserStatus();
+        checkUserStatus(); // Updates navbar based on auth status
         window.location.href = 'index.html';
       }, 100);
     }
   });
 }
 
+/**
+ * FUNCTION: handleDeleteAccount()
+ * PURPOSE: Handles permanent account deletion with strong confirmation
+ * 
+ * WORKFLOW:
+ * 1. Shows warning modal with red text (cannot be undone)
+ * 2. On confirmation:
+ *    - Finds user in aiwallet_users array
+ *    - Removes user from database
+ *    - Clears all user localStorage data
+ *    - Closes profile modal
+ *    - Redirects to home page
+ * 
+ * WARNING: This action is permanent and cannot be recovered
+ * User data deleted:
+ * - User account from aiwallet_users database
+ * - All localStorage user data (same as logout)
+ * 
+ * NOTE: For production, should also delete:
+ * - All user's financial plans
+ * - All user's shared plans
+ * - All user's purchase history
+ */
 function handleDeleteAccount() {
   window.showCustomModal({
     type: 'confirm',
@@ -625,31 +870,55 @@ function handleDeleteAccount() {
     confirmText: 'Delete',
     cancelText: 'Cancel',
     onConfirm: function() {
+      // Get current user's ID
       const userId = localStorage.getItem('userId');
+      
+      // SECTION: Remove user from database
       let users = JSON.parse(localStorage.getItem('aiwallet_users')||'[]');
+      // Filter out the user being deleted
       users = users.filter(u => u.id !== userId);
+      // Save updated user list back to localStorage
       localStorage.setItem('aiwallet_users', JSON.stringify(users));
+      
+      // SECTION: Clear user data from localStorage (same as logout)
       localStorage.removeItem('userId');
       localStorage.removeItem('username');
       localStorage.removeItem('email');
       localStorage.removeItem('userAvatar');
+      
+      // Close profile modal if open
       const profileModal = document.getElementById('profileModal');
       if (profileModal) profileModal.classList.add('hidden');
+      
+      // Update UI and redirect after delay
       setTimeout(function() {
-        checkUserStatus();
+        checkUserStatus(); // Updates navbar based on new auth status
         window.location.href = 'index.html';
       }, 100);
     }
   });
 }
 
+/**
+ * FUNCTION: setProfileAvatarMenuHandler()
+ * PURPOSE: Attaches click event handler to profile avatar button
+ * Manages profile dropdown menu toggle
+ * 
+ * FUNCTIONALITY:
+ * - Removes old event listeners to prevent duplicates
+ * - Attaches new click listener to profile avatar
+ * - Handles both img and span child elements
+ * - Prevents event bubbling to allow modal click-outside close
+ */
 function setProfileAvatarMenuHandler() {
   const profileAvatar = document.getElementById('profileAvatar');
   if (!profileAvatar) return;
-  // Remove all previous listeners
+  
+  // SECTION: Clean up old event listeners to prevent duplicates
   profileAvatar.onclick = null;
   profileAvatar.removeEventListener('click', toggleProfileMenu);
-  // Remove old handlers for img/span
+  
+  // Remove old handlers from img/span elements
   const newAvatarImg = profileAvatar.querySelector('img');
   const avatarSpan = profileAvatar.querySelector('span');
   if (newAvatarImg) newAvatarImg.removeEventListener('click', toggleProfileMenu);
@@ -756,17 +1025,28 @@ function resetAuthButtons() {
   });
 }
 
+/**
+ * NAVBAR SYNCHRONIZATION FUNCTION
+ * Manages visibility of navbar links based on authentication status
+ * Shows different menu options for logged-in vs logged-out users
+ * Also manages "Add Purchase" button visibility (only for logged-in users)
+ */
 function syncHeaderLinks() {
+  // Check if user is currently logged in
   const isLoggedIn = !!(localStorage.getItem('userId') && localStorage.getItem('username'));
+  
+  // Get references to UI elements in header
   const infoDropdownButton = document.getElementById('infoDropdownButton');
   const infoDropdownMenu = document.getElementById('infoDropdownMenu');
   const dashboardLink = document.getElementById('dashboardLink');
   const createPlanLink = document.getElementById('createPlanLink');
   const myPlansLink = document.getElementById('myPlansLink');
   const sharePlanLink = document.getElementById('sharePlanLink');
+  const addPurchaseLink = document.getElementById('addPurchaseLink');
   const headerLinksBlock = Array.from(document.querySelectorAll('header .flex.items-center.gap-9'))[0];
   
-  // Show/hide Dashboard, Create Plan, My Plans, and Share Plan links based on login status
+  // SECTION: Manage individual header link visibility
+  // These links should only show when user is logged in
   if (dashboardLink) {
     if (isLoggedIn) {
       dashboardLink.classList.remove('hidden');
@@ -799,16 +1079,39 @@ function syncHeaderLinks() {
     }
   }
   
-  // Если не нашли — не трогаем
+  /**
+   * NEW: Add Purchase button visibility
+   * Shows "Add Purchase" button when user is logged in
+   * This is the main button for recording daily expenses
+   */
+  if (addPurchaseLink) {
+    if (isLoggedIn) {
+      addPurchaseLink.classList.remove('hidden');
+    } else {
+      addPurchaseLink.classList.add('hidden');
+    }
+  }
+  
+  // Exit early if header links block not found
   if (!headerLinksBlock) return;
   
   if (isLoggedIn) {
-    // Показываем Pricing, Create Plan, My Plans, Share Plan и Dashboard
+    // SECTION: Logged-in user navbar
+    // Show: Dashboard, Create Plan, My Plans, Share Plan, Add Purchase, Pricing
     Array.from(headerLinksBlock.children).forEach(child=>{
       const text = child.textContent || '';
       const href = child.getAttribute('href') || '';
       const isSharePlan = child.id === 'sharePlanLink' || href.includes('share-plans.html');
-      const shouldShow = text.includes('Pricing') || text.includes('Dashboard') || text.includes('Create Plan') || text.includes('My Plans') || isSharePlan;
+      const isAddPurchase = child.id === 'addPurchaseLink' || href.includes('addpurchase.html');
+      
+      // Determine if this link should be visible for logged-in users
+      const shouldShow = text.includes('Pricing') || 
+                        text.includes('Dashboard') || 
+                        text.includes('Create Plan') || 
+                        text.includes('My Plans') || 
+                        isSharePlan || 
+                        isAddPurchase;
+      
       child.style.display = shouldShow ? '' : 'none';
       if (shouldShow) {
         child.classList.remove('hidden');
@@ -816,20 +1119,31 @@ function syncHeaderLinks() {
         child.classList.add('hidden');
       }
     });
+    
+    // Show user info dropdown when logged in
     if (infoDropdownButton) infoDropdownButton.style.display = '';
     if (infoDropdownMenu) infoDropdownMenu.classList.add('hidden');
   } else {
-    // Показывать только Overview, Features, Resources, Pricing (без Share Plan)
+    // SECTION: Logged-out user navbar
+    // Show only: Overview, Features, Resources, Pricing (no Share Plan, no Add Purchase)
     Array.from(headerLinksBlock.children).forEach(child => {
       const href = child.getAttribute('href') || '';
       const isSharePlan = child.id === 'sharePlanLink' || href.includes('share-plans.html');
-      // Явно скрываем Share Plan для незалогиненных
-      if (isSharePlan) {
+      const isAddPurchase = child.id === 'addPurchaseLink' || href.includes('addpurchase.html');
+      
+      // Hide Share Plan and Add Purchase for non-logged-in users
+      if (isSharePlan || isAddPurchase) {
         child.style.display = 'none';
         child.classList.add('hidden');
         return;
       }
-      const shouldShow = href.includes('overview.html') || href.includes('features.html') || href.includes('resources.html') || href.includes('pricing.html');
+      
+      // Show public pages only
+      const shouldShow = href.includes('overview.html') || 
+                        href.includes('features.html') || 
+                        href.includes('resources.html') || 
+                        href.includes('pricing.html');
+      
       child.style.display = shouldShow ? '' : 'none';
       if (shouldShow) {
         child.classList.remove('hidden');
@@ -837,6 +1151,8 @@ function syncHeaderLinks() {
         child.classList.add('hidden');
       }
     });
+    
+    // Hide user info dropdown when not logged in
     if (infoDropdownButton) infoDropdownButton.style.display = 'none';
     if (infoDropdownMenu) infoDropdownMenu.classList.add('hidden');
   }

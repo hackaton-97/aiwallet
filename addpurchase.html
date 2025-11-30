@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Wallet | Add Purchase</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+        /**
+         * GLOW EFFECTS
+         * Provides visual emphasis with glowing borders and text shadows
+         */
+        .glow-border {
+            box-shadow: 0 0 2px #A7C69F, 0 0 5px #A7C69F, 0 0 10px #A7C69F;
+        }
+        .glow-button {
+            box-shadow: 0 0 5px #A7C69F, 0 0 10px #A7C69F, 0 0 15px #A7C69F;
+        }
+        .glow-text {
+            text-shadow: 0 0 5px #A7C69F;
+        }
+        
+        /**
+         * MATERIAL ICONS
+         * Styles for Material Design icon display
+         */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /**
+         * BODY STYLING
+         * Background gradients and typography for dark mode
+         */
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(167, 198, 159, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 90% 80%, rgba(167, 198, 159, 0.1) 0%, transparent 25%);
+            background-attachment: fixed;
+        }
+        
+        /**
+         * LIGHT MODE STYLES
+         * Overrides dark theme for users in light mode
+         */
+        html:not(.dark) { 
+            background-color: #ffffff !important;
+            color: #1a1a1a;
+        }
+        html:not(.dark) body { 
+            background-color: #ffffff !important;
+            color: #1a1a1a;
+        }
+        html:not(.dark) [style*="background-color: #000000"] {
+            background-color: #ffffff !important;
+        }
+        html:not(.dark) header {
+            background-color: #ffffff !important;
+            border-color: #e0e0e0 !important;
+            color: #1a1a1a;
+        }
+        html:not(.dark) [class*="text-white"] {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) [class*="text-white/"] {
+            color: rgba(26, 26, 26, 0.8) !important;
+        }
+        html:not(.dark) [class*="bg-black"] {
+            background-color: #ffffff !important;
+        }
+        html:not(.dark) [class*="bg-black/"] {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+        }
+        html:not(.dark) [class*="bg-custom-bg"],
+        html:not(.dark) [class*="bg-[#333333]"],
+        html:not(.dark) [class*="bg-[#0a0a0a]"] {
+            background-color: #f5f5f5 !important;
+        }
+        html:not(.dark) [class*="border-"] {
+            border-color: #e0e0e0 !important;
+        }
+        html:not(.dark) [class*="text-[#A7C69F]"],
+        html:not(.dark) [class*="text-custom-accent"] {
+            color: #5a7a4f !important;
+        }
+        html:not(.dark) svg {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) .bg-black\/20 {
+            background-color: rgba(245, 245, 245, 0.8) !important;
+        }
+        html:not(.dark) .border-white\/20 {
+            border-color: #e0e0e0 !important;
+        }
+        html:not(.dark) .border-white\/10 {
+            border-color: rgba(26, 26, 26, 0.1) !important;
+        }
+        html:not(.dark) input,
+        html:not(.dark) textarea {
+            background-color: #f5f5f5 !important;
+            color: #1a1a1a !important;
+            border-color: rgba(90, 122, 79, 0.3) !important;
+        }
+        html:not(.dark) input:focus,
+        html:not(.dark) textarea:focus {
+            background-color: #ffffff !important;
+            border-color: #5a7a4f !important;
+        }
+        html:not(.dark) input::placeholder,
+        html:not(.dark) textarea::placeholder {
+            color: rgba(26, 26, 26, 0.5) !important;
+        }
+        html:not(.dark) button[class*="bg-\[#A7C69F\]"] {
+            background-color: #5a7a4f !important;
+            color: #ffffff !important;
+        }
+        html:not(.dark) button[class*="border-\[#A7C69F\]"] {
+            border-color: #5a7a4f !important;
+            color: #5a7a4f !important;
+        }
+        html:not(.dark) .glow-text {
+            color: #1a1a1a !important;
+            text-shadow: 0 0 5px rgba(90, 122, 79, 0.3) !important;
+        }
+        html:not(.dark) footer {
+            border-color: rgba(26, 26, 26, 0.2) !important;
+        }
+        html:not(.dark) footer p,
+        html:not(.dark) footer a {
+            color: rgba(26, 26, 26, 0.6) !important;
+        }
+        html:not(.dark) footer a:hover {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) h1, 
+        html:not(.dark) h2, 
+        html:not(.dark) h3 {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) #profileModal {
+            background-color: transparent !important;
+        }
+        html:not(.dark) #profileModal > div {
+            background-color: #ffffff !important;
+            border-color: #5a7a4f !important;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+        }
+        html:not(.dark) #profileModal button,
+        html:not(.dark) #profileModal a {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) #profileAvatar {
+            border-color: #5a7a4f !important;
+        }
+        /* Button styles for light theme */
+        html:not(.dark) button[class*="border-\[#A7C69F\]"] {
+            border-color: #5a7a4f !important;
+            color: #1a1a1a !important;
+            background-color: #ffffff !important;
+        }
+        html:not(.dark) button[class*="border-\[#A7C69F\]"]:hover {
+            background-color: rgba(90, 122, 79, 0.1) !important;
+            border-color: #5a7a4f !important;
+        }
+        html:not(.dark) button[class*="bg-\[#A7C69F\]"] {
+            background-color: #5a7a4f !important;
+            color: #ffffff !important;
+        }
+        html:not(.dark) button[class*="bg-\[#A7C69F\]"]:hover {
+            background-color: #4a6a3f !important;
+        }
+        /* Month and day buttons */
+        html:not(.dark) button[class*="text-white"][class*="border-\[#A7C69F\]"],
+        html:not(.dark) button.text-white[class*="border-\[#A7C69F\]"] {
+            color: #1a1a1a !important;
+            background-color: #ffffff !important;
+        }
+        html:not(.dark) button[class*="text-white"][class*="border-\[#A7C69F\]"]:hover,
+        html:not(.dark) button.text-white[class*="border-\[#A7C69F\]"]:hover {
+            background-color: rgba(90, 122, 79, 0.1) !important;
+        }
+        html:not(.dark) button[class*="bg-\[#A7C69F\]/20"],
+        html:not(.dark) button.bg-\[#A7C69F\]\/20 {
+            background-color: rgba(90, 122, 79, 0.2) !important;
+            color: #1a1a1a !important;
+        }
+        /* All buttons with text-white in light mode */
+        html:not(.dark) button.text-white {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) button.text-white.font-semibold {
+            color: #1a1a1a !important;
+        }
+        /* Plan cards */
+        html:not(.dark) div[class*="bg-black/20"] {
+            background-color: rgba(245, 245, 245, 0.9) !important;
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) div[class*="bg-black/20"] h3,
+        html:not(.dark) div[class*="bg-black/20"] p {
+            color: #1a1a1a !important;
+        }
+        /* Back buttons */
+        html:not(.dark) button[class*="text-\[#A7C69F\]"] {
+            color: #5a7a4f !important;
+        }
+        html:not(.dark) button[class*="text-\[#A7C69F\]"]:hover {
+            color: #4a6a3f !important;
+        }
+        /* Expense category step container */
+        html:not(.dark) div[class*="bg-black/20"][class*="border-white/20"] {
+            background-color: rgba(245, 245, 245, 0.9) !important;
+            border-color: #e0e0e0 !important;
+        }
+        html:not(.dark) div[class*="bg-black/20"][class*="border-white/20"] h3,
+        html:not(.dark) div[class*="bg-black/20"][class*="border-white/20"] label,
+        html:not(.dark) div[class*="bg-black/20"][class*="border-white/20"] span {
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) div[class*="bg-black/30"] {
+            background-color: rgba(245, 245, 245, 0.95) !important;
+        }
+        html:not(.dark) div[class*="bg-black/30"] h4,
+        html:not(.dark) div[class*="bg-black/30"] span {
+            color: #1a1a1a !important;
+        }
+        /* Summary section */
+        html:not(.dark) div[class*="border-white/10"] {
+            border-color: rgba(26, 26, 26, 0.1) !important;
+        }
+        
+        /**
+         * MODAL ANIMATIONS
+         * Smooth entrance animations for step transitions
+         */
+        .modal-enter {
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /**
+         * GRID ANIMATIONS
+         * Staggered animation for month/day grid items
+         */
+        .grid-item {
+            animation: fadeIn 0.2s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+</style>
+<script src="db-manager.js" defer></script>
+<script src="script.js" defer></script>
+</head>
+<body class="font-display" style="background-color: #000000;">
+<!-- РУССКИЙ КОММЕНТАРИЙ: Главный контейнер страницы добавления покупок -->
+<!-- NAVBAR SECTION -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-custom-accent/20 px-4 py-3 backdrop-blur-sm bg-custom-bg/30 rounded-t-lg">
+<a href="index.html" class="flex items-center gap-4 text-custom-accent cursor-pointer hover:opacity-80 transition-opacity">
+<div class="size-4 text-glow">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-custom-accent text-lg font-bold leading-tight tracking-[-0.015em] text-glow">AIWallet</h2>
+</a>
+<div class="flex flex-1 justify-end gap-8">
+  <div class="flex items-center gap-9">
+    <a id="addPurchaseLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="addpurchase.html">Add Purchase</a>
+    <a id="createPlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="createplan.html">Create Plan</a>
+    <a id="myPlansLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="myplans.html">My Plans</a>
+    <a id="sharePlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="share-plans.html">Share Plan</a>
+    <a id="dashboardLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="profile.html">Dashboard</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="overview.html">Overview</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="features.html">Features</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="resources.html">Resources</a>
+    <a class="text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="pricing.html">Pricing</a>
+  </div>
+  <div class="flex gap-2">
+    <button id="themeToggle" class="flex min-w-[40px] w-10 h-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-transparent border border-[#A7C69F]/50 text-custom-accent font-bold transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]" title="Toggle theme">
+      <span id="themeIcon">🌙</span>
+    </button>
+    <div id="authButtons" class="flex gap-2">
+      <a id="getStartedBtn" href="signup.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#A7C69F] text-[#333333] text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-white hover:shadow-[0_0_15px_#A7C69F] border border-[#A7C69F]">
+        <span class="truncate">Get Started</span>
+      </a>
+      <a href="signin.html" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-[#A7C69F]/50 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] hover:shadow-[0_0_8px_#A7C69F_inset]">
+        <span class="truncate">Login</span>
+      </a>
+    </div>
+    <div id="profileAvatar" class="hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#A7C69F] text-[#333333] font-bold text-lg cursor-pointer hover:shadow-[0_0_15px_#A7C69F] transition-all border border-[#A7C69F]" title="Profile" onclick="toggleProfileMenu()">
+      <span id="avatarInitial">U</span>
+    </div>
+  </div>
+</div>
+</header>
+
+<!-- Profile Menu Modal -->
+<div id="profileModal" class="hidden fixed inset-0 z-50 flex items-start justify-end pt-20 pr-10" onclick="closeProfileMenuOnBackdrop(event)">
+  <div class="bg-black/90 border border-[#A7C69F]/30 rounded-lg shadow-lg min-w-[220px] w-[250px] max-w-xs backdrop-blur-sm" onclick="event.stopPropagation()">
+    <div class="p-4 space-y-3">
+      <div class="text-white text-sm px-4 py-2 border-b border-[#A7C69F]/20">
+        <p class="font-semibold"><span id="profileUsername">User</span></p>
+        <p class="text-xs text-gray-400"><span id="profileEmail">email@example.com</span></p>
+      </div>
+      <button type="button" id="infoDropdownButton" class="w-full text-left px-4 py-2 text-white flex items-center gap-2 hover:bg-[#A7C69F]/10 transition-colors rounded justify-between">
+        <span class="flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">info</span>Info</span>
+        <span class="material-symbols-outlined transition-transform" id="infoDropdownArrow" style="font-size:19px;">expand_more</span>
+      </button>
+      <div id="infoDropdownMenu" class="hidden flex flex-col gap-1 mb-1 px-2 pt-1 ">
+          <a href="overview.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size:18px;">subject</span>Overview</a>
+          <a href="features.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size:18px;">star</span>Features</a>
+          <a href="resources.html" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size:18px;">book</span>Resources</a>
+      </div>
+      <button onclick="handleLogout()" class="w-full text-left px-4 py-2 text-white hover:bg-[#A7C69F]/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">logout</span> Logout</button>
+      <button onclick="handleDeleteAccount()" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-500/10 transition-colors rounded flex items-center gap-2"><span class="material-symbols-outlined" style="font-size: 20px; display: inline-flex;">delete</span> Delete Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTAINER -->
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden text-white">
+<div class="layout-container flex h-full grow flex-col">
+<div class="flex flex-1 justify-center py-10">
+<div class="layout-content-container flex flex-col w-full max-w-4xl flex-1 px-4 sm:px-10">
+
+<!-- PAGE HEADER -->
+<div class="text-center mb-10">
+    <h1 class="text-4xl font-bold text-white glow-text mb-4">Add Purchase</h1>
+    <p class="text-white/60">Track your spending and get AI-powered insights</p>
+</div>
+
+<!-- MAIN PURCHASE FLOW CONTAINER -->
+<div id="purchaseFlowContainer">
+    
+    <!-- STEP 1: MONTH SELECTION -->
+    <div id="monthSelectionStep" class="space-y-6">
+        <h2 class="text-2xl font-bold text-white mb-8 text-center">Select Month</h2>
+        <div id="monthsGrid" class="grid grid-cols-3 md:grid-cols-4 gap-3 mb-6">
+        </div>
+        <div class="text-center">
+            <p class="text-white/60 text-sm">Choose a month from the current year</p>
+        </div>
+    </div>
+
+    <!-- STEP 2: DAY SELECTION -->
+    <div id="daySelectionStep" class="hidden space-y-6">
+        <div class="flex items-center justify-between mb-6">
+            <button onclick="goBackToMonthSelection()" class="flex items-center gap-2 text-[#A7C69F] hover:text-white transition-colors">
+                <span class="material-symbols-outlined">arrow_back</span>
+                Back
+            </button>
+            <h2 id="monthTitle" class="text-2xl font-bold text-white"></h2>
+            <div class="w-10"></div>
+        </div>
+        <div id="daysGrid" class="grid grid-cols-7 gap-2">
+        </div>
+    </div>
+
+    <!-- STEP 3: PLAN SELECTION -->
+    <div id="planSelectionStep" class="hidden space-y-6">
+        <div class="flex items-center justify-between mb-6">
+            <button onclick="goBackToDaySelection()" class="flex items-center gap-2 text-[#A7C69F] hover:text-white transition-colors">
+                <span class="material-symbols-outlined">arrow_back</span>
+                Back
+            </button>
+            <h2 id="dateTitle" class="text-2xl font-bold text-white"></h2>
+            <div class="w-10"></div>
+        </div>
+        <div id="plansList" class="space-y-3">
+        </div>
+    </div>
+
+    <!-- STEP 4: EXPENSE CATEGORY ENTRY -->
+    <div id="expenseCategoryStep" class="hidden space-y-6">
+        <div class="flex items-center justify-between mb-6">
+            <button onclick="goBackToPlanSelection()" class="flex items-center gap-2 text-[#A7C69F] hover:text-white transition-colors">
+                <span class="material-symbols-outlined">arrow_back</span>
+                Back
+            </button>
+            <h2 id="planTitle" class="text-2xl font-bold text-white"></h2>
+            <div class="w-10"></div>
+        </div>
+        
+        <div class="bg-black/20 border border-white/20 rounded-lg p-6">
+            <h3 class="text-xl font-bold text-white mb-6">Record Expenses</h3>
+            
+            <div id="expenseCategoriesContainer" class="space-y-4">
+            </div>
+            
+            <div class="mt-6 pt-6 border-t border-white/20">
+                <label class="block text-white/80 text-sm font-medium mb-2">Other / Miscellaneous ($)</label>
+                <input type="number" 
+                       id="otherExpenseInput" 
+                       class="w-full rounded-lg bg-[#232323] border border-[#A7C69F]/30 p-3 text-base text-white outline-none focus:border-[#A7C69F] transition-colors" 
+                       placeholder="Expenses not in any category" 
+                       value="0" 
+                       min="0" 
+                       step="0.01">
+            </div>
+
+            <div class="mt-6 pt-6 border-t border-white/20">
+                <div class="bg-black/30 rounded-lg p-4 space-y-3">
+                    <h4 class="text-white font-semibold mb-4">Summary</h4>
+                    <div id="expenseSummary" class="space-y-2">
+                    </div>
+                    <div class="flex justify-between items-center pt-4 border-t border-white/10">
+                        <span class="text-white/80">Total Spent:</span>
+                        <span id="totalSpent" class="text-2xl font-bold text-[#A7C69F]">$0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-3 mt-8">
+                <button onclick="cancelPurchaseFlow()" class="flex-1 px-4 py-3 border border-[#A7C69F] text-[#A7C69F] rounded-lg hover:bg-[#A7C69F]/10 transition-colors font-bold">
+                    Cancel
+                </button>
+                <button onclick="savePurchaseRecord()" class="flex-1 px-4 py-3 bg-[#A7C69F] text-[#333333] rounded-lg hover:bg-[#89b788] transition-colors font-bold glow-button">
+                    Save & Analyze
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- FOOTER SECTION -->
+<footer class="flex flex-col items-center justify-between gap-6 border-t border-white/10 py-8 px-4 text-center md:flex-row md:text-left">
+<div class="flex items-center gap-3">
+<div class="size-4">
+<svg class="text-primary" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H6V17.3333V30.6667H24V44H42V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<p class="text-sm text-white/60">© 2024 AIWallet. All rights reserved.</p>
+</div>
+<div class="flex items-center gap-6">
+<a class="text-sm text-white/60 hover:text-white transition-colors" href="#">Privacy Policy</a>
+<a class="text-sm text-white/60 hover:text-white transition-colors" href="#">Terms of Service</a>
+<a class="text-sm text-white/60 hover:text-white transition-colors" href="#">Contact</a>
+</div>
+</footer>
+</div>
+
+<script>
+// Initialize theme immediately (before DOMContentLoaded)
+(function() {
+  const savedTheme = localStorage.getItem('theme');
+  const isDark = savedTheme ? savedTheme === 'dark' : true;
+  if (isDark) {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+})();
+
+// Initialize on page load
+window.addEventListener('load', function() {
+  checkUserStatus();
+  
+  const profileAvatar = document.getElementById('profileAvatar');
+  if (profileAvatar && !profileAvatar.hasAttribute('data-listener-attached')) {
+    profileAvatar.addEventListener('click', toggleProfileMenu);
+    profileAvatar.setAttribute('data-listener-attached', 'true');
+  }
+  
+  const allAuthLinks = document.querySelectorAll('a[href="signup.html"], a[href="signin.html"]');
+  allAuthLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      const userId = localStorage.getItem('userId');
+      if (userId) {
+        e.preventDefault();
+        window.location.href = 'profile.html';
+      }
+    });
+  });
+});
+
+/**
+ * ================================================================================
+ * РУССКИЕ КОММЕНТАРИИ - СИСТЕМА ЗАПИСИ ПОКУПОК И ТРЕКИНГА РАСХОДОВ
+ * ================================================================================
+ * 
+ * МОДУЛЬ: Многоэтапная система записи расходов (Multi-Step Purchase Recording)
+ * 
+ * НАЗНАЧЕНИЕ: 
+ *   Этот модуль реализует 4-этапный процесс записи расходов пользователя:
+ *   1. Выбор месяца - выбор месяца, для которого записываются расходы
+ *   2. Выбор дня - выбор дня в выбранном месяце
+ *   3. Выбор плана - выбор финансового плана пользователя для записи
+ *   4. Ввод расходов - ввод сумм расходов по категориям из плана
+ *
+ * ОСНОВНЫЕ КОМПОНЕНТЫ СИСТЕМЫ:
+ *   - purchaseState: объект состояния, хранящий текущее состояние процесса
+ *   - initializeMonthSelection(): инициализация сетки месяцев
+ *   - selectMonth(), selectDay(), selectPlan(): функции переходов между этапами
+ *   - loadUserPlansForSelection(): загрузка планов пользователя из localStorage
+ *   - initializeExpenseCategoryInputs(): создание полей ввода для каждой категории
+ *   - updateExpenseSummary(): обновление итоговой суммы и разбивки расходов
+ *   - savePurchaseRecord(): сохранение записи о расходе в локальное хранилище
+ *
+ * ПОТОК ДАННЫХ И ХРАНЕНИЯ:
+ *   localStorage (financial_plans_db) -> выбор плана -> ввод расходов
+ *   -> создание записи (purchase_records_db) -> сохранение в localStorage
+ *
+ * КЛЮЧИ ЛОКАЛЬНОГО ХРАНИЛИЩА:
+ *   - userId: идентификатор текущего пользователя
+ *   - financial_plans_db: объект с планами всех пользователей
+ *   - purchase_records_db: массив всех записей о расходах
+ *
+ * ================================================================================
+ */
+
+// ===== УПРАВЛЕНИЕ СОСТОЯНИЕМ =====
+// Объект для хранения состояния многоэтапного процесса записи покупок
+const purchaseState = {
+    selectedMonth: null,      // Индекс выбранного месяца (0-11)
+    selectedDay: null,        // Номер выбранного дня (1-31)
+    selectedPlan: null,       // Объект выбранного финансового плана
+    expenses: {},             // Словарь расходов по категориям
+    existingRecordId: null    // ID существующей записи (если редактируем)
+};
+
+// ===== ЭТА 1: ВЫБОР МЕСЯЦА =====
+/**
+ * РУС: Инициализирует сетку для выбора месяца
+ * Создаёт интерактивные кнопки для всех 12 месяцев
+ * Подсвечивает текущий месяц
+ */
+function initializeMonthSelection() {
+    const monthsGrid = document.getElementById('monthsGrid');
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    
+    monthsGrid.innerHTML = '';
+    
+    months.forEach((month, index) => {
+        const monthBtn = document.createElement('button');
+        monthBtn.className = 'p-4 rounded-lg border border-[#A7C69F]/30 dark:text-white text-[#1a1a1a] font-semibold transition-all grid-item hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] dark:bg-transparent bg-white';
+        monthBtn.textContent = month;
+        
+        if (index === currentMonth) {
+            monthBtn.classList.add('bg-[#A7C69F]/20', 'border-[#A7C69F]');
+        }
+        
+        monthBtn.style.animationDelay = `${index * 0.05}s`;
+        monthBtn.addEventListener('click', () => selectMonth(index));
+        
+        monthsGrid.appendChild(monthBtn);
+    });
+}
+
+/**
+ * РУС: Обработчик выбора месяца
+ * Переводит интерфейс на следующий этап (выбор дня)
+ * @param {number} monthIndex - индекс месяца от 0 до 11
+ */
+function selectMonth(monthIndex) {
+    purchaseState.selectedMonth = monthIndex;
+    
+    document.getElementById('monthSelectionStep').classList.add('hidden');
+    document.getElementById('daySelectionStep').classList.remove('hidden');
+    
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    document.getElementById('monthTitle').textContent = months[monthIndex];
+    
+    initializeDaySelection(monthIndex);
+}
+
+// ===== ЭТАП 2: ВЫБОР ДНЯ =====
+/**
+ * РУС: Инициализирует сетку для выбора дня
+ * Создаёт кнопки для всех дней в выбранном месяце
+ * Подсвечивает сегодняшний день (если он в выбранном месяце)
+ * @param {number} monthIndex - индекс месяца
+ */
+function initializeDaySelection(monthIndex) {
+    const daysGrid = document.getElementById('daysGrid');
+    const currentYear = new Date().getFullYear();
+    
+    // Вычисляем количество дней в месяце
+    const daysInMonth = new Date(currentYear, monthIndex + 1, 0).getDate();
+    
+    daysGrid.innerHTML = '';
+    
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dayBtn = document.createElement('button');
+        dayBtn.className = 'p-3 rounded-lg border border-[#A7C69F]/30 dark:text-white text-[#1a1a1a] font-semibold transition-all grid-item hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] dark:bg-transparent bg-white';
+        dayBtn.textContent = day;
+        
+        const today = new Date();
+        if (monthIndex === today.getMonth() && day === today.getDate()) {
+            dayBtn.classList.add('bg-[#A7C69F]/20', 'border-[#A7C69F]');
+        }
+        
+        dayBtn.style.animationDelay = `${(day - 1) * 0.02}s`;
+        dayBtn.addEventListener('click', () => selectDay(day));
+        
+        daysGrid.appendChild(dayBtn);
+    }
+}
+
+/**
+ * РУС: Обработчик выбора дня
+ * Переводит интерфейс на следующий этап (выбор плана)
+ * @param {number} day - номер дня от 1 до 31
+ */
+function selectDay(day) {
+    purchaseState.selectedDay = day;
+    
+    document.getElementById('daySelectionStep').classList.add('hidden');
+    document.getElementById('planSelectionStep').classList.remove('hidden');
+    
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const monthName = months[purchaseState.selectedMonth];
+    document.getElementById('dateTitle').textContent = `${monthName} ${day}`;
+    
+    loadUserPlansForSelection();
+}
+
+// ===== ЭТАП 3: ВЫБОР ПЛАНА =====
+/**
+ * РУС: Загружает и отображает финансовые планы пользователя
+ * Получает планы из localStorage и показывает их как выбираемые карточки
+ */
+function loadUserPlansForSelection() {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+        alert('Please log in first');
+        return;
+    }
+    
+    const allPlans = JSON.parse(localStorage.getItem('financial_plans_db') || '{}');
+    const userPlans = allPlans[userId] || [];
+    
+    const plansList = document.getElementById('plansList');
+    plansList.innerHTML = '';
+    
+    if (userPlans.length === 0) {
+        plansList.innerHTML = '<p class="text-white/60 text-center py-8">No plans found. Create a plan first.</p>';
+        return;
+    }
+    
+    userPlans.forEach(plan => {
+        const planCard = document.createElement('div');
+        planCard.className = 'p-4 rounded-lg border border-[#A7C69F]/30 cursor-pointer transition-all hover:bg-[#A7C69F]/10 hover:border-[#A7C69F] bg-black/20';
+        
+        const date = new Date(plan.createdAt);
+        const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        
+        planCard.innerHTML = `
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 class="text-white font-semibold mb-1">Plan from ${formattedDate}</h3>
+                    <p class="text-white/60 text-sm">Daily Limit: <span class="text-[#A7C69F] font-semibold">$${plan.dailyLimit.toLocaleString()}</span></p>
+                </div>
+                <span class="text-[#A7C69F] material-symbols-outlined">check_circle_outline</span>
+            </div>
+        `;
+        
+        planCard.addEventListener('click', () => selectPlan(plan));
+        
+        plansList.appendChild(planCard);
+    });
+}
+
+/**
+ * РУС: Обработчик выбора плана
+ * Переводит интерфейс на последний этап (ввод расходов)
+ * Проверяет, есть ли уже запись на эту дату, и загружает её для редактирования
+ * @param {object} plan - объект выбранного финансового плана
+ */
+function selectPlan(plan) {
+    purchaseState.selectedPlan = plan;
+    purchaseState.expenses = {};
+    
+    // Проверяем, есть ли уже запись на выбранную дату
+    const userId = localStorage.getItem('userId');
+    const selectedDate = new Date(new Date().getFullYear(), purchaseState.selectedMonth, purchaseState.selectedDay);
+    const purchaseRecords = JSON.parse(localStorage.getItem('purchase_records_db') || '[]');
+    
+    // Ищем существующую запись на эту дату с этим планом
+    const existingRecord = purchaseRecords.find(p => {
+        const pDate = new Date(p.date);
+        return p.userId === userId && 
+               p.planId === plan.id &&
+               pDate.getFullYear() === selectedDate.getFullYear() &&
+               pDate.getMonth() === selectedDate.getMonth() &&
+               pDate.getDate() === selectedDate.getDate();
+    });
+    
+    // Если запись найдена, загружаем её значения
+    if (existingRecord) {
+        purchaseState.existingRecordId = existingRecord.id;
+        purchaseState.expenses = { ...existingRecord.expenses };
+    } else {
+        purchaseState.existingRecordId = null;
+    }
+    
+    document.getElementById('planSelectionStep').classList.add('hidden');
+    document.getElementById('expenseCategoryStep').classList.remove('hidden');
+    
+    document.getElementById('planTitle').textContent = existingRecord ? 'Edit Expenses' : 'Record Expenses';
+    
+    initializeExpenseCategoryInputs(plan, existingRecord);
+}
+
+// ===== ЭТАП 4: ВВОД РАСХОДОВ ПО КАТЕГОРИЯМ =====
+/**
+ * РУС: Создаёт поля ввода для каждой категории расходов в выбранном плане
+ * Динамически генерирует input элементы на основе категорий плана
+ * Загружает существующие значения, если запись найдена
+ * @param {object} plan - объект финансового плана с массивом категорий расходов
+ * @param {object} existingRecord - существующая запись о расходах (если есть)
+ */
+function initializeExpenseCategoryInputs(plan, existingRecord = null) {
+    const container = document.getElementById('expenseCategoriesContainer');
+    container.innerHTML = '';
+    
+    const categories = plan.expenses || [];
+    
+    if (categories.length === 0) {
+        container.innerHTML = '<p class="text-white/60 text-center py-4">No expense categories in this plan.</p>';
+        return;
+    }
+    
+    categories.forEach((expense, index) => {
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'space-y-2';
+        
+        // Получаем значение из существующей записи или 0
+        const existingValue = existingRecord && existingRecord.expenses && existingRecord.expenses[expense.name] 
+            ? existingRecord.expenses[expense.name] 
+            : (purchaseState.expenses[expense.name] || 0);
+        
+        categoryDiv.innerHTML = `
+            <label class="block text-white/80 text-sm font-medium">${expense.name} ($)</label>
+            <input type="number" 
+                   class="w-full rounded-lg bg-[#232323] border border-[#A7C69F]/30 p-3 text-base text-white outline-none focus:border-[#A7C69F] transition-colors category-input" 
+                   data-category="${expense.name}" 
+                   placeholder="Amount spent" 
+                   value="${existingValue}" 
+                   min="0" 
+                   step="0.01">
+        `;
+        
+        container.appendChild(categoryDiv);
+    });
+    
+    // Загружаем значение "Other" если есть
+    const otherValue = existingRecord && existingRecord.expenses && existingRecord.expenses['Other'] 
+        ? existingRecord.expenses['Other'] 
+        : (purchaseState.expenses['Other'] || 0);
+    document.getElementById('otherExpenseInput').value = otherValue;
+    
+    document.querySelectorAll('.category-input').forEach(input => {
+        input.addEventListener('input', updateExpenseSummary);
+    });
+    
+    updateExpenseSummary();
+}
+
+/**
+ * РУС: Обновляет сводку расходов и итоговую сумму
+ * Вычисляет общую сумму расходов и показывает разбивку по категориям
+ */
+function updateExpenseSummary() {
+    const summaryContainer = document.getElementById('expenseSummary');
+    summaryContainer.innerHTML = '';
+    
+    let totalAmount = 0;
+    
+    document.querySelectorAll('.category-input').forEach(input => {
+        const category = input.getAttribute('data-category');
+        const amount = parseFloat(input.value) || 0;
+        
+        purchaseState.expenses[category] = amount;
+        totalAmount += amount;
+        
+        if (amount > 0) {
+            const summaryItem = document.createElement('div');
+            summaryItem.className = 'flex justify-between text-sm text-white/80';
+            summaryItem.innerHTML = `
+                <span>${category}:</span>
+                <span class="text-white font-semibold">$${amount.toFixed(2)}</span>
+            `;
+            summaryContainer.appendChild(summaryItem);
+        }
+    });
+    
+    const otherAmount = parseFloat(document.getElementById('otherExpenseInput').value) || 0;
+    if (otherAmount > 0) {
+        purchaseState.expenses['Other'] = otherAmount;
+        totalAmount += otherAmount;
+        
+        const summaryItem = document.createElement('div');
+        summaryItem.className = 'flex justify-between text-sm text-white/80';
+        summaryItem.innerHTML = `
+            <span>Other:</span>
+            <span class="text-white font-semibold">$${otherAmount.toFixed(2)}</span>
+        `;
+        summaryContainer.appendChild(summaryItem);
+    }
+    
+    document.getElementById('totalSpent').textContent = `$${totalAmount.toFixed(2)}`;
+}
+
+/**
+ * РУС: Сохраняет запись о расходе
+ * Создаёт новую запись о покупке и сохраняет её в localStorage
+ * Валидирует, что введена хотя бы одна сумма расходов
+ */
+async function savePurchaseRecord() {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+        if (window.showCustomModal) {
+            window.showCustomModal({
+                type: 'confirm',
+                title: 'Login Required',
+                message: 'Please log in first to record expenses.',
+                confirmText: 'OK',
+                cancelText: '',
+                onConfirm: function() {}
+            });
+        } else {
+            alert('Please log in first');
+        }
+        return;
+    }
+    
+    const totalAmount = Object.values(purchaseState.expenses).reduce((sum, val) => sum + (val || 0), 0);
+    if (totalAmount === 0) {
+        if (window.showCustomModal) {
+            window.showCustomModal({
+                type: 'confirm',
+                title: 'No Expenses Entered',
+                message: 'Please enter at least one expense before saving.',
+                confirmText: 'OK',
+                cancelText: '',
+                onConfirm: function() {}
+            });
+        } else {
+            alert('Please enter at least one expense');
+        }
+        return;
+    }
+    
+    // Сохранение в localStorage
+    let purchaseRecords = JSON.parse(localStorage.getItem('purchase_records_db') || '[]');
+    
+    // Проверяем, есть ли уже запись на эту дату
+    if (purchaseState.existingRecordId) {
+        // Обновляем существующую запись
+        const recordIndex = purchaseRecords.findIndex(p => p.id === purchaseState.existingRecordId);
+        if (recordIndex !== -1) {
+            purchaseRecords[recordIndex].expenses = { ...purchaseState.expenses };
+            purchaseRecords[recordIndex].totalSpent = totalAmount;
+            purchaseRecords[recordIndex].updatedAt = new Date().toISOString();
+        }
+    } else {
+        // Создаём новую запись
+        const purchaseRecord = {
+            id: Date.now().toString(),
+            userId: userId,
+            date: new Date(new Date().getFullYear(), purchaseState.selectedMonth, purchaseState.selectedDay),
+            planId: purchaseState.selectedPlan.id,
+            expenses: { ...purchaseState.expenses },
+            totalSpent: totalAmount,
+            createdAt: new Date().toISOString()
+        };
+        purchaseRecords.push(purchaseRecord);
+    }
+    
+    localStorage.setItem('purchase_records_db', JSON.stringify(purchaseRecords));
+    
+    // Показать модальное окно успеха вместо alert
+    const isUpdate = !!purchaseState.existingRecordId;
+    if (window.showCustomModal) {
+      window.showCustomModal({
+        type: 'confirm',
+        title: isUpdate ? 'Purchase Updated Successfully!' : 'Purchase Recorded Successfully!',
+        message: isUpdate ? 'Your expense has been updated in your records.' : 'Your expense has been saved to your records.',
+        confirmText: 'OK',
+        cancelText: '',
+        onConfirm: () => {
+          resetPurchaseFlow();
+        }
+      });
+    } else {
+      alert(isUpdate ? 'Purchase Updated Successfully! Your expense has been updated in your records.' : 'Purchase Recorded Successfully! Your expense has been saved to your records.');
+      resetPurchaseFlow();
+    }
+}
+
+// ===== ФУНКЦИИ НАВИГАЦИИ =====
+/**
+ * РУС: Возврат с выбора дня на выбор месяца
+ */
+function goBackToMonthSelection() {
+    purchaseState.selectedMonth = null;
+    document.getElementById('monthSelectionStep').classList.remove('hidden');
+    document.getElementById('daySelectionStep').classList.add('hidden');
+}
+
+/**
+ * РУС: Возврат с выбора плана на выбор дня
+ */
+function goBackToDaySelection() {
+    purchaseState.selectedDay = null;
+    document.getElementById('daySelectionStep').classList.remove('hidden');
+    document.getElementById('planSelectionStep').classList.add('hidden');
+}
+
+/**
+ * РУС: Возврат с ввода расходов на выбор плана
+ */
+function goBackToPlanSelection() {
+    purchaseState.selectedPlan = null;
+    purchaseState.expenses = {};
+    document.getElementById('planSelectionStep').classList.remove('hidden');
+    document.getElementById('expenseCategoryStep').classList.add('hidden');
+}
+
+/**
+ * РУС: Отмена процесса записи покупки
+ * Возвращает интерфейс в исходное состояние
+ */
+function cancelPurchaseFlow() {
+    resetPurchaseFlow();
+}
+
+/**
+ * РУС: Сброс состояния процесса записи
+ * Очищает все выбранные данные и возвращает на первый этап
+ */
+function resetPurchaseFlow() {
+    purchaseState.selectedMonth = null;
+    purchaseState.selectedDay = null;
+    purchaseState.selectedPlan = null;
+    purchaseState.expenses = {};
+    purchaseState.existingRecordId = null;
+    
+    document.getElementById('monthSelectionStep').classList.remove('hidden');
+    document.getElementById('daySelectionStep').classList.add('hidden');
+    document.getElementById('planSelectionStep').classList.add('hidden');
+    document.getElementById('expenseCategoryStep').classList.add('hidden');
+    
+    initializeMonthSelection();
+}
+
+// ===== ФУНКЦИИ ДЛЯ МОДАЛЬНОГО ОКНА ПРОФИЛЯ =====
+function closeProfileMenuOnBackdrop(event) {
+  const profileModal = document.getElementById('profileModal');
+  if (event.target === event.currentTarget && profileModal) {
+    profileModal.classList.add('hidden');
+  }
+}
+
+// Make functions globally accessible
+window.closeProfileMenuOnBackdrop = closeProfileMenuOnBackdrop;
+
+// ===== ИНИЦИАЛИЗАЦИЯ =====
+document.addEventListener('DOMContentLoaded', () => {
+    initializeMonthSelection();
+    
+    document.getElementById('otherExpenseInput').addEventListener('input', updateExpenseSummary);
+});
+</script>
+</body>
+</html>

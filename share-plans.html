@@ -176,6 +176,44 @@
         html:not(.dark) .border-red-500\/50 {
             border-color: rgba(239, 68, 68, 0.5) !important;
         }
+        /* Logo styles for light mode */
+        html:not(.dark) a[href="index.html"] svg {
+            color: #5a7a4f !important;
+        }
+        html:not(.dark) a[href="index.html"] {
+            color: #5a7a4f !important;
+        }
+        /* Modal styles for light mode */
+        html:not(.dark) .bg-\[#181818\] {
+            background-color: #ffffff !important;
+        }
+        html:not(.dark) .bg-\[#232323\] {
+            background-color: #f5f5f5 !important;
+        }
+        html:not(.dark) select {
+            background-color: #f9f9f9 !important;
+            color: #1a1a1a !important;
+            border-color: rgba(90, 122, 79, 0.3) !important;
+        }
+        html:not(.dark) select option {
+            background-color: #ffffff !important;
+            color: #1a1a1a !important;
+        }
+        html:not(.dark) .bg-black\/70 {
+            background-color: rgba(0, 0, 0, 0.5) !important;
+        }
+        html:not(.dark) #imageViewerModal {
+            background-color: rgba(0, 0, 0, 0.8) !important;
+        }
+        html:not(.dark) #modalImage {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        html:not(.dark) #imageViewerModal button {
+            color: #ffffff !important;
+        }
+        html:not(.dark) #imageViewerModal button:hover {
+            color: #5a7a4f !important;
+        }
         .plan-card {
             transition: transform 0.2s, box-shadow 0.2s;
         }
@@ -203,6 +241,7 @@
     </style>
 </head>
 <body>
+<!-- РУССКИЙ КОММЕНТАРИЙ: Главный контейнер страницы с совместным доступом к планам -->
 <div class="relative flex h-auto min-h-screen w-full flex-col bg-[#111] dark group/design-root overflow-x-hidden">
 <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-custom-accent/20 px-4 py-3 backdrop-blur-sm bg-custom-bg/30 rounded-t-lg">
 <a href="index.html" class="flex items-center gap-4 text-custom-accent cursor-pointer hover:opacity-80 transition-opacity">
@@ -214,8 +253,9 @@
 <h2 class="text-custom-accent text-lg font-bold leading-tight tracking-[-0.015em] text-glow">AIWallet</h2>
 </a>
 <div class="flex flex-1 justify-end gap-8">
-  <div class="flex items-center gap-9">
-    <a id="createPlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="createplan.html">Create Plan</a>
+    <div class="flex items-center gap-9">
+      <a id="addPurchaseLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="addpurchase.html">Add Purchase</a>
+      <a id="createPlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="createplan.html">Create Plan</a>
     <a id="myPlansLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="myplans.html">My Plans</a>
     <a id="sharePlanLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="share-plans.html">Share Plan</a>
     <a id="dashboardLink" class="hidden text-white/80 text-sm font-medium leading-normal transition-colors hover:text-[#A7C69F] hover:drop-shadow-[0_0_8px_#A7C69F]" href="profile.html">Dashboard</a>
@@ -419,17 +459,26 @@ function showSharePlanModal() {
     return `<option value="${plan.id}">Plan from ${formattedDate} (Daily: $${plan.dailyLimit.toLocaleString()})</option>`;
   }).join('');
 
+  const isDark = document.documentElement.classList.contains('dark');
+  const modalBgColor = isDark ? '#181818' : '#ffffff';
+  const selectBgColor = isDark ? '#232323' : '#f5f5f5';
+  const textColor = isDark ? '#ffffff' : '#1a1a1a';
+  const borderColor = isDark ? '#A7C69F' : '#5a7a4f';
+  const buttonBgColor = isDark ? '#A7C69F' : '#5a7a4f';
+  const buttonHoverBgColor = isDark ? '#89b788' : '#4a6a3f';
+  const borderBgColor = isDark ? '#232323' : '#f0f0f0';
+
   const modal = document.createElement('div');
   modal.className = 'fixed z-50 inset-0 flex items-center justify-center bg-black/70';
   modal.innerHTML = `
-    <div class="bg-[#181818] border border-[#A7C69F]/30 rounded-2xl shadow-2xl p-8 max-w-md w-full text-white">
-      <h3 class="text-xl font-bold text-[#A7C69F] mb-4">Select Plan to Share</h3>
-      <select id="planSelect" class="w-full mt-2 rounded bg-[#232323] border border-[#A7C69F]/30 p-2 text-base text-white outline-none focus:border-[#A7C69F] mb-4">
+    <div class="bg-[#181818] border border-[#A7C69F]/30 rounded-2xl shadow-2xl p-8 max-w-md w-full text-white" style="background-color: ${modalBgColor} !important; color: ${textColor} !important;">
+      <h3 class="text-xl font-bold text-[#A7C69F] mb-4" style="color: ${borderColor} !important;">Select Plan to Share</h3>
+      <select id="planSelect" class="w-full mt-2 rounded bg-[#232323] border border-[#A7C69F]/30 p-2 text-base text-white outline-none focus:border-[#A7C69F] mb-4" style="background-color: ${selectBgColor} !important; color: ${textColor} !important; border-color: rgba(${isDark ? '167, 198, 159' : '90, 122, 79'}, 0.3) !important;">
         ${planOptions}
       </select>
       <div class="flex gap-3 justify-end">
-        <button id="cancelShareBtn" class="px-5 py-2 border border-[#A7C69F] text-[#A7C69F] rounded hover:bg-[#232323]/60 transition-colors">Cancel</button>
-        <button id="confirmShareBtn" class="px-5 py-2 bg-[#A7C69F] text-[#232323] font-bold rounded hover:bg-[#89b788] transition-colors">Share</button>
+        <button id="cancelShareBtn" class="px-5 py-2 border border-[#A7C69F] text-[#A7C69F] rounded hover:bg-[#232323]/60 transition-colors" style="border-color: ${borderColor} !important; color: ${borderColor} !important;" onmouseover="this.style.backgroundColor='${borderBgColor}'" onmouseout="this.style.backgroundColor='transparent'">Cancel</button>
+        <button id="confirmShareBtn" class="px-5 py-2 bg-[#A7C69F] text-[#232323] font-bold rounded hover:bg-[#89b788] transition-colors" style="background-color: ${buttonBgColor} !important; color: ${isDark ? '#232323' : '#ffffff'} !important;" onmouseover="this.style.backgroundColor='${buttonHoverBgColor}'" onmouseout="this.style.backgroundColor='${buttonBgColor}'">Share</button>
       </div>
     </div>
   `;
@@ -593,12 +642,15 @@ async function loadSharedPlans() {
     const planName = plan.name || `Plan from ${formattedDate}`;
     
     return `
-      <div class="plan-card bg-[#333333]/40 border border-[#a7c69f]/20 rounded-lg p-4 backdrop-blur-sm neon-glow-box-subtle">
+      <div class="plan-card bg-[#333333]/40 border border-[#a7c69f]/20 rounded-lg p-4 backdrop-blur-sm neon-glow-box-subtle relative">
         <div class="flex justify-between items-start mb-3">
           <div>
             <h3 class="text-white font-bold text-lg mb-1">${planName}</h3>
             <p class="text-white/60 text-sm">By ${username} • ${formattedDate}</p>
           </div>
+          <button onclick="openImageViewer('https://i.postimg.cc/bN7yT3h1/image.png')" class="ml-2 flex-shrink-0 text-white/60 hover:text-[#A7C69F] transition-colors" title="View details">
+            <span class="material-symbols-outlined" style="font-size: 24px;">info</span>
+          </button>
         </div>
         <div class="space-y-2 mb-4">
           <div class="flex justify-between text-sm">
@@ -649,12 +701,15 @@ function loadMySharedPlans() {
     const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
     
     return `
-      <div class="plan-card bg-[#333333]/40 border border-[#a7c69f]/20 rounded-lg p-4 backdrop-blur-sm neon-glow-box-subtle">
+      <div class="plan-card bg-[#333333]/40 border border-[#a7c69f]/20 rounded-lg p-4 backdrop-blur-sm neon-glow-box-subtle relative">
         <div class="flex justify-between items-start mb-3">
           <div>
             <h3 class="text-white font-bold text-lg mb-1">My Plan</h3>
             <p class="text-white/60 text-sm">Shared on ${formattedDate}</p>
           </div>
+          <button onclick="openImageViewer('https://i.postimg.cc/bN7yT3h1/image.png')" class="ml-2 flex-shrink-0 text-white/60 hover:text-[#A7C69F] transition-colors" title="View details">
+            <span class="material-symbols-outlined" style="font-size: 24px;">info</span>
+          </button>
         </div>
         <div class="space-y-2 mb-4">
           <div class="flex justify-between text-sm">
@@ -810,7 +865,54 @@ function removeSharedPlan(planId) {
     }
   }
 }
+
+// Image viewer modal functionality
+function openImageViewer(imageUrl) {
+  const modal = document.getElementById('imageViewerModal');
+  const modalImage = document.getElementById('modalImage');
+  modalImage.src = imageUrl;
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeImageViewer() {
+  const modal = document.getElementById('imageViewerModal');
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
+  document.body.style.overflow = 'auto';
+}
+
+// Close modal on backdrop click
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('imageViewerModal');
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeImageViewer();
+      }
+    });
+    
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeImageViewer();
+      }
+    });
+  }
+});
 </script>
+
+<!-- Image Viewer Modal -->
+<div id="imageViewerModal" class="hidden fixed inset-0 z-50 bg-black/80 flex items-center justify-center">
+  <div class="relative max-w-4xl max-h-96">
+    <img id="modalImage" src="" alt="Enlarged view" class="max-w-full max-h-96 rounded-lg">
+    <button onclick="closeImageViewer()" class="absolute -top-10 -right-10 text-white hover:text-[#A7C69F] transition-colors">
+      <span class="material-symbols-outlined" style="font-size: 32px;">close</span>
+    </button>
+  </div>
+</div>
+
 </body>
 </html>
 
